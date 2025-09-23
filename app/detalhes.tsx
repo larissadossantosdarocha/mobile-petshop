@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   imagem: {
     width: "100%",
-    height: 200,  // Adjusted to a fixed height for better control
+    height: 200, 
     resizeMode: 'cover',
     marginBottom: 10,
   },

@@ -6,14 +6,13 @@ export default function Layout() {
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: " rgb(180, 227, 241), rgb(75, 197, 235)", // azul do header
-        },
+          backgroundColor: " rgb(180, 227, 241), rgb(75, 197, 235)"},
         headerTitleStyle: {
           color: "rgb(6, 43, 255)",
           fontSize: 28,
           fontWeight: "bold",
         },
-        headerTitleAlign: "left", // agora o título fica no canto esquerdo
+        headerTitleAlign: "left",
       }}
     >
       <Stack.Screen
@@ -22,7 +21,6 @@ export default function Layout() {
           title: "𝓟𝓮𝓽 𝓖𝓪𝓽𝓸",
           headerRight: () => (
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              {/* Botão Início */}
               <TouchableOpacity
                 style={{ marginRight: 16 }}
                 onPress={() => router.push("/")}
@@ -31,8 +29,6 @@ export default function Layout() {
                   Início
                 </Text>
               </TouchableOpacity>
-
-              {/* Ícone Pessoa */}
               <TouchableOpacity
                 style={{ marginRight: 12 }}
                 onPress={() => router.push("/login")}

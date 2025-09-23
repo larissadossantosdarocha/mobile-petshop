@@ -6,7 +6,6 @@ export default function Consulta() {
   const router = useRouter();
   const navigation = useNavigation();
 
-  // Sobrescreve header apenas nesta tela
   useEffect(() => {
     navigation.setOptions({
       title: "Cadastrar",

@@ -1,19 +1,10 @@
 import { useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-  ScrollView,
-  Linking,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, Linking,} from "react-native";
 import { useRouter, useNavigation } from "expo-router";
 
 export default function Gato() {
   const router = useRouter();
   const navigation = useNavigation();
-
   const gatos = [
     { nome: "Mimi", peso: "300g", idade: "45 Dias", raca: "SRD", imagem: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYkLbw-tj2Vwz6Tnbw3F697M55rXK7w4CLMA&s" },
     { nome: "Sol", peso: "300g", idade: "45 Dias", raca: "SRD", imagem: "https://www.petz.com.br/blog/wp-content/uploads/2020/05/adocao-de-gatos-felinos.jpg" },

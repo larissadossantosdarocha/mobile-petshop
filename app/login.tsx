@@ -7,9 +7,8 @@ export default function Login() {
   const [senha, setSenha] = useState("");
 
   function handleLogin() {
-    // Aqui você pode adicionar lógica real de autenticação
     console.log("Email:", email, "Senha:", senha);
-    router.push("/"); // volta para a tela inicial após login
+    router.push("/"); 
   }
 
   return (

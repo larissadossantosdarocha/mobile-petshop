@@ -1,19 +1,11 @@
 import React, { useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet,} from "react-native";
 import { useRouter, useNavigation } from "expo-router";
 
 export default function Consulta() {
   const router = useRouter();
   const navigation = useNavigation();
 
-  // Sobrescreve header apenas nesta tela
   useEffect(() => {
     navigation.setOptions({
       title: "𝓟𝓮𝓽 𝓖𝓪𝓽𝓸",
@@ -40,7 +32,6 @@ export default function Consulta() {
 
   return (
     <ScrollView style={styles.container}>
-      {/* BANNER */}
       <View style={styles.banner}>
         <Text style={styles.bannerTitle}>
           Ajude nossos pets a terem uma vida melhor 💕
@@ -50,8 +41,6 @@ export default function Consulta() {
           ração, vacinas e cuidados veterinários para nossos pets resgatados.
         </Text>
       </View>
-
-      {/* PETS */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Pets que precisam da sua ajuda</Text>
         <View style={styles.cards}>
@@ -95,8 +84,6 @@ export default function Consulta() {
           </View>
         </View>
       </View>
-
-      {/* DOAÇÃO */}
       <View style={styles.section}>
         <View style={styles.doacaoCard}>
           <View style={styles.doacaoTexto}>
@@ -132,9 +119,7 @@ export default function Consulta() {
               {"\n"}evelynluiz.fernandes@gmail.com
             </Text>
            <Image style={styles.qrcode} source={require("../assets/images/i1.jpg")} />
-
-
-
+           
             <Text>Escaneie o QR Code com seu aplicativo bancário.</Text>
           </View>
         </View>

@@ -1,19 +1,11 @@
 import { useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-  ScrollView,
-  Linking,
+import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, Linking,
 } from "react-native";
 import { useRouter, useNavigation } from "expo-router";
 
 export default function Passaro() {
   const router = useRouter();
   const navigation = useNavigation();
-
   const passaros = [
     { nome: "Blu", raca: "Periquito azul", imagem: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpKhtzVNQnwg9zPbhB_RdQk14aHxo2KBUWnA&s" },
     { nome: "Jorginho", raca: "Calopsita", imagem: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVkhsSU35KzQ44ay_aVGwg8-80j3vJ7YSsuw&s" },

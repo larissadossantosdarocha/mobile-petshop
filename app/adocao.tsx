@@ -7,7 +7,6 @@ export default function Adocao() {
   const router = useRouter();
   const navigation = useNavigation();
 
-  // Configura o header
   useEffect(() => {
     navigation.setOptions({
       title: "𝓟𝓮𝓽 𝓖𝓪𝓽𝓸",
@@ -23,7 +22,7 @@ export default function Adocao() {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => router.push("/login")}
-            style={{ marginRight: 24 }} // empurra o ícone para o lado
+            style={{ marginRight: 24 }} 
           >
             <FontAwesome name="user" size={28} color="#1a1919ff" />
           </TouchableOpacity>
@@ -52,15 +51,13 @@ export default function Adocao() {
         <TouchableOpacity style={styles.card} onPress={() => router.push("/passaro")}>
           <Text style={styles.cardText}>Adotar Pássaro</Text>
         </TouchableOpacity>
-
-        {/* Botão Voltar centralizado */}
         <View style={styles.backButtonContainer}>
           <TouchableOpacity
             style={[
               styles.backButton,
               {
-                width: 200,   // largura personalizável
-                height: 60,   // altura personalizável
+                width: 200,  
+                height: 60,  
               },
             ]}
             onPress={() => router.push("/")}
@@ -104,7 +101,7 @@ const styles = StyleSheet.create({
   },
   backButtonContainer: {
     alignItems: "center",
-    marginTop: 12, // espaço acima do botão voltar
+    marginTop: 12,
   },
   backButton: {
     backgroundColor: "rgb(75, 197, 235)",
