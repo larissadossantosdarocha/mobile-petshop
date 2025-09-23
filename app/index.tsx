@@ -1,6 +1,5 @@
 import { router } from "expo-router";
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { posts } from "../assets/mockups/posts";
 
 const styles = StyleSheet.create({
   container: {
@@ -47,10 +46,6 @@ const styles = StyleSheet.create({
 });
 
 export default function Index() {
-  function irParaDetalhes(id: number) {
-    router.push(`/detalhes?id=${id}`);
-  }
-
   return (
     <View style={styles.container}>
       {/* SEGUNDO HEADER */}

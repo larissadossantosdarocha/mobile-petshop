@@ -1,77 +1,162 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import { router } from "expo-router";
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import {View,Text,TextInput,TouchableOpacity,StyleSheet,Alert,ScrollView,Image,
+} from 'react-native';
+import { useNavigation, useRouter } from 'expo-router';
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+export default function Cadastro() {
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const navigation = useNavigation();
+  const router = useRouter();
 
-  function handleLogin() {
-    console.log("Email:", email, "Senha:", senha);
-    router.push("/"); 
-  }
+  useEffect(() => {
+    navigation.setOptions({
+      title: 'Pet Gato',
+      headerStyle: { backgroundColor: '#42bff5' },
+      headerTintColor: '#fff',
+      headerTitleStyle: { fontWeight: 'bold' },
+      headerRight: () => (
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity
+            style={{ marginRight: 16 }}
+            onPress={() => router.push('/')}
+          >
+            <Text style={{ color: '#fff', fontSize: 18, fontWeight: '600' }}>
+              Início
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push('/login')}>
+            <Image
+              source={require('../assets/images/pessoa.png')}
+              style={{ width: 40, height: 28, resizeMode: 'contain' }}
+            />
+          </TouchableOpacity>
+        </View>
+      ),
+    });
+  }, []);
+
+  const handleCadastrar = async () => {
+    if (!email || !senha) {
+      Alert.alert('Erro', 'Por favor, preencha os campos.');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://SEU_BACKEND/cadastro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, senha }),
+      });
+
+      if (response.ok) {
+        Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
+        router.push('/');
+      } else {
+        const erro = await response.text();
+        Alert.alert('Erro ao cadastrar', erro);
+      }
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
+    }
+  };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.form}>
+        <Text style={styles.label}>Email</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Digite seu email"
+          value={email}
+          onChangeText={setEmail}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
+        <Text style={styles.label}>Senha</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Digite sua senha"
+          secureTextEntry
+          value={senha}
+          onChangeText={setSenha}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Senha"
-        value={senha}
-        onChangeText={setSenha}
-        secureTextEntry
-      />
+        <TouchableOpacity style={styles.button} onPress={handleCadastrar}>
+          <Text style={styles.buttonText}>Entrar</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Entrar</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#323172' }]}
+          onPress={() => router.push('/')}
+        >
+          <Text style={styles.buttonText}>Voltar</Text>
+        </TouchableOpacity>
+
+        {/* Texto abaixo do botão Voltar */}
+        <View style={styles.loginLinkBox}>
+          <Text style={styles.infoText}>Não tem uma conta?</Text>
+          <TouchableOpacity onPress={() => router.push('/cadastrar')}>
+            <Text style={styles.linkText}>Cadastre-se</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 24,
-    backgroundColor: "rgba(242, 246, 248, 1)",
+    flexGrow: 1,
+    backgroundColor: '#B4E3F1',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 40,
   },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginBottom: 24,
-    textAlign: "center",
-    color: "rgb(6, 43, 255)",
+  form: {
+    backgroundColor: '#fff',
+    padding: 20,
+    width: '85%',
+    borderRadius: 10,
+    elevation: 5,
+    alignItems: 'center',
+  },
+  label: {
+    fontWeight: 'bold',
+    color: '#333',
+    marginTop: 10,
+    alignSelf: 'flex-start',
   },
   input: {
-    height: 50,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    marginBottom: 16,
-    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderColor: '#333',
+    paddingVertical: 5,
+    marginBottom: 15,
+    width: '100%',
   },
   button: {
-    height: 50,
-    backgroundColor: "rgb(75, 197, 235)",
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#323172',
+    paddingVertical: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    alignItems: 'center',
+    width: '100%',
   },
   buttonText: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#fff",
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  loginLinkBox: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  infoText: {
+    color: '#555',
+    fontSize: 14,
+  },
+  linkText: {
+    color: '#42bff5',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 4,
   },
 });
