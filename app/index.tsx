@@ -1,109 +1,236 @@
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from "react-native";
-import axios from "axios"; // Importando axios para fazer requisições
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "rgba(242, 246, 248, 1)", // cor de fundo dos posts
-  },
-  secondHeader: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 12,
-    backgroundColor: "rgba(197, 218, 226, 0.623)", // cor opaca do header
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-  },
-  button: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "rgb(136, 132, 132)",
-  },
-  list: {
-    width: "100%",
-    paddingHorizontal: 6,
-    paddingTop: 10,
-  },
-  item: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 6,
-    padding: 20,
-    backgroundColor: "rgba(36, 248, 17, 1)",
-    borderRadius: 8,
-  },
-  titulo: {
-    fontWeight: "bold",
-    fontSize: 20,
-    color: "rgba(27, 143, 75, 1)",
-  },
-  text: {
-    fontSize: 16,
-    color: "rgba(224, 59, 59, 1)",
-  },
-});
+const { width } = Dimensions.get("window");
 
 export default function Index() {
-  // Estado para armazenar os dados da API e o estado de carregamento
-  const [data, setData] = useState<any[]>([]); 
-  const [loading, setLoading] = useState(true);  // Estado para controlar o carregamento
-
-  // Função para buscar os dados da API
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("https://back-end-tcc-gamma.vercel.app/api/posts"); // Substitua pelo seu endpoint
-      setData(response.data); // Atualiza o estado com os dados recebidos
-    } catch (error) {
-      console.error("Erro ao buscar dados:", error);
-    } finally {
-      setLoading(false); // Finaliza o carregamento
-    }
-  };
-
-  // Hook useEffect para chamar a função fetchData ao carregar o componente
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {/* SEGUNDO HEADER */}
       <View style={styles.secondHeader}>
-        <TouchableOpacity onPress={() => router.push("/consulta")}>
-          <Text style={styles.button}>Consulta</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/adocao")}>
-          <Text style={styles.button}>Adoção</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/doacao")}>
-          <Text style={styles.button}>Doação</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/cadastrar")}>
-          <Text style={styles.button}>Cadastrar</Text>
-        </TouchableOpacity>
+        <HeaderButton
+          label="Consulta"
+          image={require("../assets/images/veterinario.jpg")}
+          route="/consulta"
+        />
+        <HeaderButton
+          label="Adoção"
+          image={require("../assets/images/salveosanimais.jpg")}
+          route="/adocao"
+        />
+        <HeaderButton
+          label="Doações"
+          image={require("../assets/images/doacao.jpg")}
+          route="/doacao"
+        />
+        <HeaderButton
+          label="Cadastrar"
+          image={require("../assets/images/cadastro.jpg")}
+          route="/cadastrar"
+        />
       </View>
 
-      {/* Renderização da lista de posts */}
-      <View style={styles.list}>
-        {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" /> // Exibe um indicador de carregamento
-        ) : (
-          <FlatList
-            data={data} // Dados que virão do backend
-            keyExtractor={(item) => item.id.toString()} // Certifique-se de que cada item tenha um ID único
-            renderItem={({ item }) => (
-              <View style={styles.item}>
-                <Text style={styles.titulo}>{item.titulo}</Text>
-                <Text style={styles.text}>{item.descricao}</Text>
-              </View>
-            )}
-          />
-        )}
+      {/* ANÚNCIOS */}
+      <View style={styles.anuncios}>
+        <AnuncioCard
+          image={require("../assets/images/doacao.jpg")}
+          title="Brinquedos que fazem a diferença!"
+          text="Doe e ajude a levar felicidade para quem mais precisa."
+        />
+        <AnuncioCard
+          image={require("../assets/images/veterinario.jpg")}
+          title="Acupuntura para pets:"
+          text="Amor e saúde em cada ponto!"
+        />
+        <AnuncioCard
+          image={require("../assets/images/noticia.jpg")}
+          title="Amor e cuidado para seu pet!"
+          text="Confira nosso blog exclusivo."
+        />
+      </View>
+
+      {/* BANNER */}
+      <View style={styles.banner}>
+        <Text style={styles.bannerText}>
+          Compras acima de R$100,00 ganham um brinde
+        </Text>
+      </View>
+
+      {/* IMAGEM ÚNICA */}
+      <View style={styles.imageContainer}>
+        <Image
+          source={require("../assets/images/racao.jpg")}
+          style={styles.carouselImage}
+        />
+      </View>
+
+      {/* CARDS DE VANTAGENS */}
+      <View style={styles.juros}>
+        <CardInfo
+          image={require("../assets/images/relogio.jpg")}
+          title="Receba em algumas horas!"
+          text="Confira as regras ->"
+        />
+        <CardInfo
+          image={require("../assets/images/cartao.jpg")}
+          title="Parcele em 3x sem juros!"
+          text="Confira as regras ->"
+        />
+        <CardInfo
+          image={require("../assets/images/entrega.jpg")}
+          title="Frete Grátis!"
+          text="Confira as regras ->"
+        />
+        <CardInfo
+          image={require("../assets/images/petshop.jpg")}
+          title="Retire e troque na loja!"
+          text="Confira as regras ->"
+        />
+      </View>
+    </ScrollView>
+  );
+}
+
+/* COMPONENTES */
+function HeaderButton({ label, image, route }: any) {
+  return (
+    <TouchableOpacity onPress={() => router.push(route)} style={styles.headerBtn}>
+      <Image source={image} style={styles.headerBtnImage} />
+      <Text style={styles.headerBtnText}>{label}</Text>
+    </TouchableOpacity>
+  );
+}
+
+function AnuncioCard({ image, title, text }: any) {
+  return (
+    <View style={styles.anuncioCard}>
+      <Image source={image} style={styles.anuncioImg} />
+      <Text style={styles.anuncioTitle}>{title}</Text>
+      <Text style={styles.anuncioText}>{text}</Text>
+    </View>
+  );
+}
+
+function CardInfo({ image, title, text }: any) {
+  return (
+    <View style={styles.cardInfo}>
+      <Image source={image} style={{ width: 28, height: 28 }} />
+      <View>
+        <Text style={styles.cardInfoTitle}>{title}</Text>
+        <Text style={styles.cardInfoText}>{text}</Text>
       </View>
     </View>
   );
 }
+
+/* ESTILOS */
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: "#fff" },
+  secondHeader: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: "#C5DAE2", 
+    paddingVertical: 10,
+  },
+  headerBtn: { alignItems: "center", width: 60 },
+  headerBtnImage: {
+    width: 30,
+    height: 30,
+    marginBottom: 6,
+    borderRadius: 15, 
+  },
+  headerBtnText: { fontSize: 12, color: "#444", textAlign: "center" },
+  anuncios: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    flexWrap: "wrap",
+    marginVertical: 16,
+  },
+  anuncioCard: {
+    width: "30%",
+    minWidth: 100,
+    padding: 10,
+    margin: 6,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 10, 
+    alignItems: "center",
+    backgroundColor: "#fff",
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  anuncioImg: { width: 40, height: 40, marginBottom: 6 },
+  anuncioTitle: {
+    fontWeight: "bold",
+    color: "#4BC5EB",
+    fontSize: 14,
+    textAlign: "center",
+  },
+  anuncioText: { fontSize: 12, textAlign: "center", color: "#555" },
+  banner: {
+    backgroundColor: "#1E90FF", 
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+    marginHorizontal: 10,
+    marginVertical: 12,
+  },
+  bannerText: { fontSize: 16, fontWeight: "bold", color: "#fff" },
+  imageContainer: {
+    marginVertical: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 15, 
+  },
+  carouselImage: {
+    width: "100%", 
+    height: 200, 
+    borderRadius: 10, 
+    resizeMode: "cover", 
+  },
+  juros: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between", 
+    marginVertical: 24,
+    paddingHorizontal: 10,  
+  },
+  cardInfo: {
+    width: "45%", 
+    padding: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    marginVertical: 8,
+    backgroundColor: "#fff",
+    elevation: 2,
+    marginBottom: 16,
+  },
+  cardTextContainer: {
+    flex: 1, 
+    flexWrap: "wrap", 
+  },
+  cardInfoTitle: {
+    fontWeight: "bold",
+    color: "#444",
+    fontSize: 14, 
+  },
+  cardInfoText: {
+    color: "#555",
+    fontSize: 12, 
+  },
+});

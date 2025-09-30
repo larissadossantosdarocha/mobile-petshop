@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView, Image, ActivityIndicator } from 'react-native';
 import { useNavigation, useRouter } from 'expo-router';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [isLoading, setIsLoading] = useState(false);  // Controle de carregamento
   const navigation = useNavigation();
   const router = useRouter();
 
@@ -35,32 +36,51 @@ export default function Login() {
     });
   }, []);
 
- const handleLogin = async () => {
-  if (!email || !senha) {
-    Alert.alert('Erro', 'Por favor, preencha os campos.');
-    return;
-  }
+  // Validação do formato do email
+  const validateEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
 
-  try {
-    const response = await fetch('http://back-end-tcc-gamma.vercel.app/login', {  // URL correta do seu backend
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, senha }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      Alert.alert('Sucesso', data.message || 'Login realizado com sucesso!');
-      router.push('/_sitemap');  // Direciona para o dashboard ou tela inicial
-    } else {
-      const erro = await response.text();
-      Alert.alert('Erro ao fazer login', erro);
+  const handleLogin = async () => {
+    if (!email || !senha) {
+      Alert.alert('Erro', 'Por favor, preencha os campos.');
+      return;
     }
-  } catch (error) {
-    Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
-  }
-};
 
+    if (!validateEmail(email)) {
+      Alert.alert('Erro', 'Por favor, insira um e-mail válido.');
+      return;
+    }
+
+    setIsLoading(true); // Inicia o carregamento
+
+    try {
+      // Fazendo a requisição para o login
+      const response = await fetch('https://back-end-tcc-gamma.vercel.app/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, senha }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        
+        // Se o login for bem-sucedido, redireciona para a tela inicial
+        Alert.alert('Sucesso', data.message || 'Login realizado com sucesso!');
+        router.push('/login');  // Redireciona para a tela inicial ou página que você quiser
+      } else {
+        const erro = await response.json();  // Agora lido como JSON para obter mensagens detalhadas
+        Alert.alert('Erro ao fazer login', erro.message || 'Erro desconhecido. Tente novamente mais tarde.');
+      }
+    } catch (error: any) {
+      Alert.alert('Erro', `Não foi possível conectar ao servidor. Detalhes: ${error.message}`);
+    } finally {
+      setIsLoading(false); // Finaliza o carregamento
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -82,13 +102,17 @@ export default function Login() {
           onChangeText={setSenha}
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Entrar</Text>
+        {/* Botão de Login com carregamento */}
+        <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={isLoading}>
+          {isLoading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <Text style={styles.buttonText}>Entrar</Text>
+          )}
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: '#cccccc' }]}
-          onPress={() => router.push('/')}
+          style={[styles.button, { backgroundColor: '#cccccc' }]} onPress={() => router.push('/')}
         >
           <Text style={styles.buttonText}>Voltar</Text>
         </TouchableOpacity>
