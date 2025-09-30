@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, Image,} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, Image } from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -12,13 +12,8 @@ export default function Consulta() {
       title: "𝓟𝓮𝓽 𝓖𝓪𝓽𝓸",
       headerRight: () => (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <TouchableOpacity
-            style={{ marginRight: 16 }}
-            onPress={() => router.push("/")}
-          >
-            <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
-              Início
-            </Text>
+          <TouchableOpacity style={{ marginRight: 16 }} onPress={() => router.push("/")}>
+            <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>Início</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => router.push("/login")}>
             <Image
@@ -45,26 +40,68 @@ export default function Consulta() {
   const [email, setEmail] = useState("");
   const [dados, setDados] = useState("");
 
-  function cadastrar() {
-    if (
-      !nomePet ||
-      !especie ||
-      !raca ||
-      !nomeProprietario ||
-      !nascPet ||
-      !email
-    ) {
+  function validarEmail(email: string) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+
+  async function cadastrar() {
+    if (!nomePet || !especie || !raca || !nomeProprietario || !nascPet || !email) {
       Alert.alert("Erro", "Preencha todos os campos obrigatórios!");
       return;
     }
-    Alert.alert("Sucesso", "Pet cadastrado para consulta!");
-    setNomePet("");
-    setEspecie("");
-    setRaca("");
-    setNomeProprietario("");
-    setNascPet("");
-    setEmail("");
-    setDados("");
+
+    if (!validarEmail(email)) {
+      Alert.alert("Erro", "Digite um e-mail válido!");
+      return;
+    }
+
+    console.log("Dados enviados: ", {
+      nomePet,
+      especie,
+      raca,
+      nomeProprietario,
+      nascPet,
+      email,
+      dados,
+    });
+
+    try {
+      const response = await fetch("https://back-end-tcc-gamma.vercel.app/consultas", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nomePet,
+          especiePet: especie,
+          racaPet: raca,
+          nomeProprietario,
+          nascpet: nascPet,
+          emailProprietario: email,
+          dados,
+        }),
+      });
+
+      const responseBody = await response.json();
+
+      if (response.ok) {
+        Alert.alert("Sucesso", "Pet cadastrado para consulta!");
+        setNomePet("");
+        setEspecie("");
+        setRaca("");
+        setNomeProprietario("");
+        setNascPet("");
+        setEmail("");
+        setDados("");
+        router.push("/"); // Navega para a página inicial após sucesso
+      } else {
+        Alert.alert("Erro ao cadastrar", responseBody.message || "Erro desconhecido");
+      }
+    } catch (error) {
+      console.error("Erro ao cadastrar:", error);
+      Alert.alert("Erro", "Erro ao conectar ao servidor.");
+    }
   }
 
   return (
@@ -126,6 +163,7 @@ export default function Consulta() {
             onChangeText={setEmail}
             placeholder="Digite o email"
             keyboardType="email-address"
+            autoCapitalize="none"
           />
           <Text style={styles.label}>
             Possui algum problema de saúde ou alergias:
@@ -157,6 +195,7 @@ export default function Consulta() {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   background: {
     flex: 1,

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView, Image,} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView, Image } from 'react-native';
 import { useNavigation, useRouter } from 'expo-router';
 
-export default function Login() {
+export default function Cadastro() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const navigation = useNavigation();
@@ -10,24 +10,19 @@ export default function Login() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: 'Pet Gato',
+      title: 'Cadastro',
       headerStyle: { backgroundColor: '#42bff5' },
       headerTintColor: '#fff',
       headerTitleStyle: { fontWeight: 'bold' },
       headerRight: () => (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <TouchableOpacity
-            style={{ marginRight: 16 }}
-            onPress={() => router.push('/')}
-          >
-            <Text style={{ color: '#fff', fontSize: 18, fontWeight: '600' }}>
-              Início
-            </Text>
+          <TouchableOpacity style={{ marginRight: 16 }} onPress={() => router.push('/')}>
+            <Text style={{ color: '#fff', fontSize: 20, fontWeight: '600' }}>Início</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push('/login')}>
+          <TouchableOpacity style={{ marginRight: 12 }} onPress={() => router.push('/login')}>
             <Image
               source={require('../assets/images/pessoa.png')}
-              style={{ width: 40, height: 28, resizeMode: 'contain' }}
+              style={{ width: 30, height: 28, resizeMode: 'contain' }}
             />
           </TouchableOpacity>
         </View>
@@ -35,25 +30,25 @@ export default function Login() {
     });
   }, []);
 
-  const handleLogin = async () => {
+  const handleCadastro = async () => {
     if (!email || !senha) {
       Alert.alert('Erro', 'Por favor, preencha os campos.');
       return;
     }
 
     try {
-      const response = await fetch('https://SEU_BACKEND/login', {
+      const response = await fetch('https://back-end-tcc-gamma.vercel.app/cadastro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, senha }),
       });
 
       if (response.ok) {
-        Alert.alert('Sucesso', 'Login realizado!');
-        router.push('/');
+        Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
+        router.push('/login');  // Redireciona para a tela de login após cadastro
       } else {
         const erro = await response.text();
-        Alert.alert('Erro ao fazer login', erro);
+        Alert.alert('Erro ao cadastrar', erro);
       }
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
@@ -80,7 +75,7 @@ export default function Login() {
           onChangeText={setSenha}
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <TouchableOpacity style={styles.button} onPress={handleCadastro}>
           <Text style={styles.buttonText}>Cadastrar</Text>
         </TouchableOpacity>
 
@@ -91,11 +86,10 @@ export default function Login() {
           <Text style={styles.buttonText}>Voltar</Text>
         </TouchableOpacity>
 
-        {/* Texto abaixo do botão Voltar */}
         <View style={styles.loginLinkBox}>
-          <Text style={styles.infoText}>Não tem uma conta?</Text>
+          <Text style={styles.infoText}>Já tem uma conta?</Text>
           <TouchableOpacity onPress={() => router.push('/login')}>
-            <Text style={styles.linkText}>Faca login</Text>
+            <Text style={styles.linkText}>Faça login</Text>
           </TouchableOpacity>
         </View>
       </View>

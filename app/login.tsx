@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {View,Text,TextInput,TouchableOpacity,StyleSheet,Alert,ScrollView,Image,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView, Image } from 'react-native';
 import { useNavigation, useRouter } from 'expo-router';
 
-export default function Cadastro() {
+export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const navigation = useNavigation();
@@ -25,7 +24,7 @@ export default function Cadastro() {
               Início
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push('/login')}>
+          <TouchableOpacity onPress={() => router.push('/cadastrar')}>
             <Image
               source={require('../assets/images/pessoa.png')}
               style={{ width: 40, height: 28, resizeMode: 'contain' }}
@@ -36,35 +35,38 @@ export default function Cadastro() {
     });
   }, []);
 
-  const handleCadastrar = async () => {
-    if (!email || !senha) {
-      Alert.alert('Erro', 'Por favor, preencha os campos.');
-      return;
-    }
+ const handleLogin = async () => {
+  if (!email || !senha) {
+    Alert.alert('Erro', 'Por favor, preencha os campos.');
+    return;
+  }
 
-    try {
-      const response = await fetch('https://SEU_BACKEND/cadastro', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, senha }),
-      });
+  try {
+    const response = await fetch('http://back-end-tcc-gamma.vercel.app/login', {  // URL correta do seu backend
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, senha }),
+    });
 
-      if (response.ok) {
-        Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
-        router.push('/');
-      } else {
-        const erro = await response.text();
-        Alert.alert('Erro ao cadastrar', erro);
-      }
-    } catch (error) {
-      Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
+    if (response.ok) {
+      const data = await response.json();
+      Alert.alert('Sucesso', data.message || 'Login realizado com sucesso!');
+      router.push('/_sitemap');  // Direciona para o dashboard ou tela inicial
+    } else {
+      const erro = await response.text();
+      Alert.alert('Erro ao fazer login', erro);
     }
-  };
+  } catch (error) {
+    Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
+  }
+};
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.form}>
-        <Text style={styles.label}>Email</Text>
+        <Text style={styles.title}>Login</Text>
+
         <TextInput
           style={styles.input}
           placeholder="Digite seu email"
@@ -72,7 +74,6 @@ export default function Cadastro() {
           onChangeText={setEmail}
         />
 
-        <Text style={styles.label}>Senha</Text>
         <TextInput
           style={styles.input}
           placeholder="Digite sua senha"
@@ -81,18 +82,17 @@ export default function Cadastro() {
           onChangeText={setSenha}
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleCadastrar}>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: '#323172' }]}
+          style={[styles.button, { backgroundColor: '#cccccc' }]}
           onPress={() => router.push('/')}
         >
           <Text style={styles.buttonText}>Voltar</Text>
         </TouchableOpacity>
 
-        {/* Texto abaixo do botão Voltar */}
         <View style={styles.loginLinkBox}>
           <Text style={styles.infoText}>Não tem uma conta?</Text>
           <TouchableOpacity onPress={() => router.push('/cadastrar')}>
@@ -107,43 +107,50 @@ export default function Cadastro() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#B4E3F1',
+    backgroundColor: '#f8f9fa',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 40,
   },
   form: {
     backgroundColor: '#fff',
-    padding: 20,
+    padding: 25,
     width: '85%',
-    borderRadius: 10,
+    borderRadius: 15,
     elevation: 5,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
   },
-  label: {
+  title: {
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
-    marginTop: 10,
-    alignSelf: 'flex-start',
+    marginBottom: 20,
   },
   input: {
-    borderBottomWidth: 1,
-    borderColor: '#333',
-    paddingVertical: 5,
-    marginBottom: 15,
     width: '100%',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 15,
+    marginBottom: 15,
+    fontSize: 16,
+    backgroundColor: '#f9f9f9',
   },
   button: {
-    backgroundColor: '#323172',
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginTop: 10,
-    alignItems: 'center',
+    backgroundColor: '#42bff5',
+    paddingVertical: 12,
+    borderRadius: 25,
+    marginTop: 15,
     width: '100%',
+    alignItems: 'center',
   },
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize: 16,
   },
   loginLinkBox: {
     marginTop: 20,

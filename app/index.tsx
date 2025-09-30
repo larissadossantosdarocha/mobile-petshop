@@ -1,5 +1,7 @@
 import { router } from "expo-router";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useEffect, useState } from "react";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from "react-native";
+import axios from "axios"; // Importando axios para fazer requisições
 
 const styles = StyleSheet.create({
   container: {
@@ -46,6 +48,27 @@ const styles = StyleSheet.create({
 });
 
 export default function Index() {
+  // Estado para armazenar os dados da API e o estado de carregamento
+  const [data, setData] = useState<any[]>([]); 
+  const [loading, setLoading] = useState(true);  // Estado para controlar o carregamento
+
+  // Função para buscar os dados da API
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://back-end-tcc-gamma.vercel.app/api/posts"); // Substitua pelo seu endpoint
+      setData(response.data); // Atualiza o estado com os dados recebidos
+    } catch (error) {
+      console.error("Erro ao buscar dados:", error);
+    } finally {
+      setLoading(false); // Finaliza o carregamento
+    }
+  };
+
+  // Hook useEffect para chamar a função fetchData ao carregar o componente
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <View style={styles.container}>
       {/* SEGUNDO HEADER */}
@@ -62,6 +85,24 @@ export default function Index() {
         <TouchableOpacity onPress={() => router.push("/cadastrar")}>
           <Text style={styles.button}>Cadastrar</Text>
         </TouchableOpacity>
+      </View>
+
+      {/* Renderização da lista de posts */}
+      <View style={styles.list}>
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" /> // Exibe um indicador de carregamento
+        ) : (
+          <FlatList
+            data={data} // Dados que virão do backend
+            keyExtractor={(item) => item.id.toString()} // Certifique-se de que cada item tenha um ID único
+            renderItem={({ item }) => (
+              <View style={styles.item}>
+                <Text style={styles.titulo}>{item.titulo}</Text>
+                <Text style={styles.text}>{item.descricao}</Text>
+              </View>
+            )}
+          />
+        )}
       </View>
     </View>
   );
