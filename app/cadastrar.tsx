@@ -10,7 +10,7 @@ export default function Cadastro() {
 
   useEffect(() => {
     navigation.setOptions({
-         title: "𝓒𝓪𝓭𝓪𝓼𝓽𝓻𝓸",
+         title: "𝓒𝓪𝓭𝓪𝓼𝓽𝓻𝓪𝓻",
          headerRight: () => (
            <View style={{ flexDirection: "row", alignItems: "center" }}>
              <TouchableOpacity

@@ -28,7 +28,7 @@ export default function Consulta() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: "Consulta",
+      title: "𝓒𝓸𝓷𝓼𝓾𝓵𝓽𝓪",
       headerRight: () => (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity style={{ marginRight: 14 }} onPress={() => router.push("/")}>
