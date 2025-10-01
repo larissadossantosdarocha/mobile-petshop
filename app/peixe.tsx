@@ -1,12 +1,10 @@
 import { useEffect } from "react";
-import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, Linking,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, Linking,} from "react-native";
 import { useRouter, useNavigation } from "expo-router";
 
 export default function Peixe() {
   const router = useRouter();
   const navigation = useNavigation();
-
   const peixes = [
     { nome: "Nemo", raca: "Peixe Palhaço", imagem: "https://cdn.awsli.com.br/1845/1845715/produto/223193791/img_5837-jjkmghdktx.jpeg" },
     { nome: "Vivi", raca: "Baiacú", imagem: "https://img.odcdn.com.br/wp-content/uploads/2022/12/baiacu.jpg" },

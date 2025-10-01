@@ -1,33 +1,21 @@
 import { router } from "expo-router";
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  useWindowDimensions,
-} from "react-native";
+import {  View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Dimensions, useWindowDimensions,} from "react-native";
 
-// Usando hook para largura dinâmica
 export default function Index() {
   const [bannerIndex, setBannerIndex] = useState(0);
   const [carouselIndex, setCarouselIndex] = useState(0);
-  const { width } = useWindowDimensions(); // largura dinâmica para web e mobile
+  const { width } = useWindowDimensions(); 
 
   const banners = [
     { text: "Frete fixo de R$10,00 para todo o Brasil", color: "#1E90FF" },
     { text: "Compras acima de R$100,00 ganham um brinde", color: "#4538f8ff" },
   ];
-
   const carouselImages = [
     require("../assets/images/racao.gif"),
     require("../assets/images/petisco.gif"),
     require("../assets/images/tosa.gif"),
   ];
-
   const produtos = [
     { id: 1, nome: "Ração Premium", imagem: require("../assets/images/premium.jpeg") },
     { id: 2, nome: "Petisco Saudável", imagem: require("../assets/images/petiscos.jpeg") },

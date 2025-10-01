@@ -8,7 +8,7 @@ export default function Consulta() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: "Doações",
+      title: "𝓓𝓸𝓪𝓬̧𝓪̃𝓸",
       headerRight: () => (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity

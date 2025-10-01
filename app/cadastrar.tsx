@@ -10,22 +10,24 @@ export default function Cadastro() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: 'Cadastrar',
-      headerStyle: { backgroundColor: 'rgb(180, 227, 241)' },
-      headerTintColor: '#000000ff',
-      headerTitleStyle: { fontWeight: 'bold' },
-      headerRight: () => (
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <TouchableOpacity style={{ marginRight: 16 }} onPress={() => router.push('/')}>
-            <Text style={{ color: '#ffffffff', fontSize: 20, fontWeight: '600' }}>Início</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{ marginRight: 12 }} onPress={() => router.push('/login')}>
-            <Image
-              source={require('../assets/images/pessoa.png')}
-              style={{ width: 30, height: 28, resizeMode: 'contain' }}
-            />
-          </TouchableOpacity>
-        </View>
+         title: "𝓒𝓪𝓭𝓪𝓼𝓽𝓻𝓸",
+         headerRight: () => (
+           <View style={{ flexDirection: "row", alignItems: "center" }}>
+             <TouchableOpacity
+               style={{ marginRight: 10 }}
+               onPress={() => router.push("/")}
+             >
+               <Text style={{ color: "#ffffffff", fontSize: 20, fontWeight: "600" }}>
+                 Início
+               </Text>
+             </TouchableOpacity>
+             <TouchableOpacity onPress={() => router.push("/login")}>
+               <Image
+                 source={require("../assets/images/pessoa.png")}
+                 style={{ width: 40, height: 28, resizeMode: "contain"}}
+               />
+             </TouchableOpacity>
+           </View>
       ),
     });
   }, []);
@@ -45,7 +47,7 @@ export default function Cadastro() {
 
       if (response.ok) {
         Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
-        router.push('/login');  // Redireciona para a tela de login após cadastro
+        router.push('/login'); 
       } else {
         const erro = await response.text();
         Alert.alert('Erro ao cadastrar', erro);
@@ -80,7 +82,7 @@ export default function Cadastro() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: '#323172' }]}
+          style={[styles.button, { backgroundColor: 'rgba(29, 172, 255, 1)' }]}
           onPress={() => router.push('/')}
         >
           <Text style={styles.buttonText}>Voltar</Text>
@@ -103,9 +105,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffffff',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 40,
+    paddingVertical: 10,
   },
   form: {
+    borderColor: "rgba(29, 172, 255, 1)",
+    borderWidth: 1,
     backgroundColor: '#fff',
     padding: 20,
     width: '85%',
@@ -116,7 +120,7 @@ const styles = StyleSheet.create({
   label: {
     fontWeight: 'bold',
     color: '#333',
-    marginTop: 10,
+    marginTop: 13,
     alignSelf: 'flex-start',
   },
   input: {
@@ -127,7 +131,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   button: {
-    backgroundColor: '#323172',
+    backgroundColor: 'rgba(29, 172, 255, 1)',
     paddingVertical: 10,
     borderRadius: 5,
     marginTop: 10,

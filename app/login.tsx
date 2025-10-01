@@ -5,7 +5,7 @@ import { useNavigation, useRouter } from 'expo-router';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [isLoading, setIsLoading] = useState(false);  // Controle de carregamento
+  const [isLoading, setIsLoading] = useState(false); 
   const navigation = useNavigation();
   const router = useRouter();
 
@@ -36,7 +36,6 @@ export default function Login() {
     });
   }, []);
 
-  // Validação do formato do email
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
@@ -53,10 +52,9 @@ export default function Login() {
       return;
     }
 
-    setIsLoading(true); // Inicia o carregamento
+    setIsLoading(true); 
 
     try {
-      // Fazendo a requisição para o login
       const response = await fetch('https://back-end-tcc-gamma.vercel.app/login', {
         method: 'POST',
         headers: {
@@ -67,18 +65,17 @@ export default function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        
-        // Se o login for bem-sucedido, redireciona para a tela inicial
+ 
         Alert.alert('Sucesso', data.message || 'Login realizado com sucesso!');
-        router.push('/login');  // Redireciona para a tela inicial ou página que você quiser
+        router.push('/login'); 
       } else {
-        const erro = await response.json();  // Agora lido como JSON para obter mensagens detalhadas
+        const erro = await response.json();  
         Alert.alert('Erro ao fazer login', erro.message || 'Erro desconhecido. Tente novamente mais tarde.');
       }
     } catch (error: any) {
       Alert.alert('Erro', `Não foi possível conectar ao servidor. Detalhes: ${error.message}`);
     } finally {
-      setIsLoading(false); // Finaliza o carregamento
+      setIsLoading(false); 
     }
   };
 
@@ -102,7 +99,6 @@ export default function Login() {
           onChangeText={setSenha}
         />
 
-        {/* Botão de Login com carregamento */}
         <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={isLoading}>
           {isLoading ? (
             <ActivityIndicator size="small" color="#fff" />
@@ -112,7 +108,7 @@ export default function Login() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: '#cccccc' }]} onPress={() => router.push('/')}
+          style={[styles.button, { backgroundColor: 'rgba(29, 172, 255, 1)' }]} onPress={() => router.push('/')}
         >
           <Text style={styles.buttonText}>Voltar</Text>
         </TouchableOpacity>
@@ -137,6 +133,8 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
   },
   form: {
+    borderColor: "rgba(29, 172, 255, 1)",
+    borderWidth: 1,
     backgroundColor: '#fff',
     padding: 25,
     width: '85%',
@@ -164,7 +162,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
   },
   button: {
-    backgroundColor: '#42bff5',
+    backgroundColor: 'rgba(29, 172, 255, 1)',
     paddingVertical: 12,
     borderRadius: 25,
     marginTop: 15,

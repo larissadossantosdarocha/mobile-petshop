@@ -3,7 +3,6 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert,
 import { useNavigation, useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 
-// Interface para os dados do pet
 interface PetData {
   nomePet: string;
   especiePet: string;
@@ -18,7 +17,6 @@ export default function Consulta() {
   const router = useRouter();
   const navigation = useNavigation();
 
-  // Definindo os estados
   const [nomePet, setNomePet] = useState("");
   const [especie, setEspecie] = useState("");
   const [raca, setRaca] = useState("");
@@ -33,7 +31,7 @@ export default function Consulta() {
       title: "Consulta",
       headerRight: () => (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <TouchableOpacity style={{ marginRight: 16 }} onPress={() => router.push("/")}>
+          <TouchableOpacity style={{ marginRight: 14 }} onPress={() => router.push("/")}>
             <Text style={{ color: "#ffffffff", fontSize: 20, fontWeight: "600"}}>Início</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => router.push("/login")}>
@@ -51,31 +49,26 @@ export default function Consulta() {
     });
   }, []);
 
-  // Validação de E-mail
   function validarEmail(email: string) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   }
 
-  // Função de Validação de Data
   function validarData(nascPet: string) {
     const dataAtual = new Date();
     const dataNasc = new Date(nascPet);
     return dataNasc <= dataAtual;
   }
 
-  // Função de Cadastro
   async function cadastrar() {
     if (!nomePet || !especie || !raca || !nomeProprietario || !nascPet || !email) {
       Alert.alert("Erro", "Preencha todos os campos obrigatórios!");
       return;
     }
-
     if (!validarEmail(email)) {
       Alert.alert("Erro", "Digite um e-mail válido!");
       return;
     }
-
     if (!validarData(nascPet)) {
       Alert.alert("Erro", "A data de nascimento não pode ser no futuro!");
       return;
@@ -91,7 +84,7 @@ export default function Consulta() {
       dados,
     };
 
-    console.log("Dados enviados para o backend:", petData); // Verificando os dados enviados
+    console.log("Dados enviados para o backend:", petData); 
 
     try {
       const response = await fetch("https://back-end-tcc-gamma.vercel.app/consultas", {
@@ -99,13 +92,13 @@ export default function Consulta() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(petData), // Corpo da requisição
+        body: JSON.stringify(petData), 
       });
 
-      console.log("Resposta do backend:", response); // Verificando a resposta da requisição
+      console.log("Resposta do backend:", response); 
 
       const responseBody = await response.json();
-      console.log("Resposta do backend (JSON):", responseBody); // Verificando o corpo da resposta
+      console.log("Resposta do backend (JSON):", responseBody); 
 
       if (response.ok) {
         setIsSuccess(true);
@@ -117,7 +110,7 @@ export default function Consulta() {
         setNascPet("");
         setEmail("");
         setDados("");
-        router.push("/"); // Navega para a página inicial após sucesso
+        router.push("/");
       } else {
         Alert.alert("Erro ao cadastrar", responseBody.message || "Erro desconhecido");
       }
@@ -192,9 +185,10 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   containerForm: {
-    width: "100%",
+    borderColor: "rgba(0, 0, 0, 1)",
+    borderWidth: 1,
     maxWidth: 600,
-    backgroundColor: "rgb(23,140,175)",
+    backgroundColor: "rgba(255, 255, 255, 1)",
     padding: 20,
     borderRadius: 15,
     shadowColor: "#000",
@@ -204,16 +198,18 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#fff",
+    color: "rgba(29, 172, 255, 1)",
     textAlign: "center",
     marginBottom: 20,
   },
   label: {
-    color: "#fff",
+    color: "rgba(29, 172, 255, 1)",
     fontSize: 16,
     marginBottom: 5,
   },
   input: {
+    borderColor: "rgba(0, 0, 0, 1)",
+    borderWidth: 1,
     height: 40,
     backgroundColor: "#fff",
     borderRadius: 5,
@@ -235,17 +231,20 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 2,
     marginRight: 8,
-    borderColor: "#fff",
+    borderColor: "rgba(0, 0, 0, 1)",
   },
   radioSelected: {
-    backgroundColor: "#fff",
+    backgroundColor: "rgba(29, 172, 255, 1)",
   },
   radioLabel: {
-    color: "#ffffffff",
+    color: "rgba(29, 172, 255, 1)",
     fontSize: 16,
   },
   button: {
-    backgroundColor: "#000000ff",
+    borderColor: "rgba(0, 0, 0, 1)",
+    borderWidth: 1,
+    marginTop: 10,
+    backgroundColor: "rgba(29, 172, 255, 1)",
     paddingVertical: 15,
     borderRadius: 10,
     alignItems: "center",
@@ -257,7 +256,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   backButton: {
-    backgroundColor: "#000000ff",
+    backgroundColor: "rgba(29, 172, 255, 1)",
   },
   whatsappButton: {
     position: "absolute",

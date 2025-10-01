@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, Linking,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, Linking,} from "react-native";
 import { useRouter, useNavigation } from "expo-router";
 
 export default function Passaro() {
