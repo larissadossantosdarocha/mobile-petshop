@@ -8,21 +8,21 @@ export default function Consulta() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: "𝓟𝓮𝓽 𝓖𝓪𝓽𝓸",
+      title: "Doações",
       headerRight: () => (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity
             style={{ marginRight: 16 }}
             onPress={() => router.push("/")}
           >
-            <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
+            <Text style={{ color: "#ffffffff", fontSize: 20, fontWeight: "600" }}>
               Início
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => router.push("/login")}>
             <Image
               source={require("../assets/images/pessoa.png")}
-              style={{ width: 40, height: 28, resizeMode: "contain" }}
+              style={{ width: 40, height: 28, resizeMode: "contain"}}
             />
           </TouchableOpacity>
         </View>
@@ -131,21 +131,21 @@ export default function Consulta() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5fbff",
+    backgroundColor: "#ffffffff",
     paddingHorizontal: 10,
   },
   banner: {
     padding: 25,
     alignItems: "center",
-    backgroundColor: "#e6f7ff",
+    backgroundColor: "#edf5f8ff",
     borderBottomWidth: 1,
-    borderBottomColor: "#b3e5fc",
+    borderBottomColor: " rgb(180, 227, 241)",
   },
   bannerTitle: {
     fontSize: 22,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "#333",
+    color: "#000000ff",
     textAlign: "center",
   },
   bannerSubtitle: {

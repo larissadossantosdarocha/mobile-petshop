@@ -8,99 +8,214 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  useWindowDimensions,
 } from "react-native";
 
-const { width } = Dimensions.get("window");
-
+// Usando hook para largura dinâmica
 export default function Index() {
+  const [bannerIndex, setBannerIndex] = useState(0);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const { width } = useWindowDimensions(); // largura dinâmica para web e mobile
+
+  const banners = [
+    { text: "Frete fixo de R$10,00 para todo o Brasil", color: "#1E90FF" },
+    { text: "Compras acima de R$100,00 ganham um brinde", color: "#4538f8ff" },
+  ];
+
+  const carouselImages = [
+    require("../assets/images/racao.gif"),
+    require("../assets/images/petisco.gif"),
+    require("../assets/images/tosa.gif"),
+  ];
+
+  const produtos = [
+    { id: 1, nome: "Ração Premium", imagem: require("../assets/images/premium.jpeg") },
+    { id: 2, nome: "Petisco Saudável", imagem: require("../assets/images/petiscos.jpeg") },
+    { id: 3, nome: "Kit Higiene", imagem: require("../assets/images/banho.jpeg") },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBannerIndex((prev) => (prev + 1) % banners.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <ScrollView style={styles.container}>
-      {/* SEGUNDO HEADER */}
-      <View style={styles.secondHeader}>
-        <HeaderButton
-          label="Consulta"
-          image={require("../assets/images/veterinario.jpg")}
-          route="/consulta"
-        />
-        <HeaderButton
-          label="Adoção"
-          image={require("../assets/images/salveosanimais.jpg")}
-          route="/adocao"
-        />
-        <HeaderButton
-          label="Doações"
-          image={require("../assets/images/doacao.jpg")}
-          route="/doacao"
-        />
-        <HeaderButton
-          label="Cadastrar"
-          image={require("../assets/images/cadastro.jpg")}
-          route="/cadastrar"
-        />
-      </View>
+    <View style={{ flex: 1 }}>
+      <ScrollView style={styles.container}>
+        <View style={styles.secondHeader}>
+          <HeaderButton
+            label="Consulta"
+            image={require("../assets/images/veterinario.gif")}
+            route="/consulta"
+          />
+          <HeaderButton
+            label="Adoção"
+            image={require("../assets/images/salve-os-animais.gif")}
+            route="/adocao"
+          />
+          <HeaderButton
+            label="Doações"
+            image={require("../assets/images/doacao.gif")}
+            route="/doacao"
+          />
+          <HeaderButton
+            label="Cadastrar"
+            image={require("../assets/images/cadastro.gif")}
+            route="/cadastrar"
+          />
+        </View>
 
-      {/* ANÚNCIOS */}
-      <View style={styles.anuncios}>
-        <AnuncioCard
-          image={require("../assets/images/doacao.jpg")}
-          title="Brinquedos que fazem a diferença!"
-          text="Doe e ajude a levar felicidade para quem mais precisa."
-        />
-        <AnuncioCard
-          image={require("../assets/images/veterinario.jpg")}
-          title="Acupuntura para pets:"
-          text="Amor e saúde em cada ponto!"
-        />
-        <AnuncioCard
-          image={require("../assets/images/noticia.jpg")}
-          title="Amor e cuidado para seu pet!"
-          text="Confira nosso blog exclusivo."
-        />
-      </View>
+        <View style={styles.anuncios}>
+          <AnuncioCard
+            image={require("../assets/images/doacao.gif")}
+            title="Brinquedos que fazem a diferença!"
+            text="Doe e ajude a levar felicidade para quem mais precisa."
+          />
+          <AnuncioCard
+            image={require("../assets/images/veterinario.gif")}
+            title="Consulta para pets:"
+            text="Amor e saúde em cada ponto!"
+          />
+          <AnuncioCard
+            image={require("../assets/images/noticias.gif")}
+            title="Amor e cuidado para seu pet!"
+            text="Faça a vida de um animalzinho feliz hoje! Adote um pet!"
+          />
+        </View>
 
-      {/* BANNER */}
-      <View style={styles.banner}>
-        <Text style={styles.bannerText}>
-          Compras acima de R$100,00 ganham um brinde
-        </Text>
-      </View>
+        <View style={[styles.banner, { backgroundColor: banners[bannerIndex].color }]}>
+          <Text style={styles.bannerText}>{banners[bannerIndex].text}</Text>
+        </View>
+        <View style={styles.carouselWrapper}>
+          <Image
+            source={carouselImages[carouselIndex]}
+            style={[styles.carouselImage, { width: width * 0.8 }]} // adapta largura automaticamente
+          />
 
-      {/* IMAGEM ÚNICA */}
-      <View style={styles.imageContainer}>
-        <Image
-          source={require("../assets/images/racao.jpg")}
-          style={styles.carouselImage}
-        />
-      </View>
+          <View style={styles.dotsContainer}>
+            {carouselImages.map((_, i) => (
+              <TouchableOpacity
+                key={i}
+                style={[styles.dot, carouselIndex === i && styles.activeDot]}
+                onPress={() => setCarouselIndex(i)}
+              />
+            ))}
+          </View>
+        </View>
 
-      {/* CARDS DE VANTAGENS */}
-      <View style={styles.juros}>
-        <CardInfo
-          image={require("../assets/images/relogio.jpg")}
-          title="Receba em algumas horas!"
-          text="Confira as regras ->"
-        />
-        <CardInfo
-          image={require("../assets/images/cartao.jpg")}
-          title="Parcele em 3x sem juros!"
-          text="Confira as regras ->"
-        />
-        <CardInfo
-          image={require("../assets/images/entrega.jpg")}
-          title="Frete Grátis!"
-          text="Confira as regras ->"
-        />
-        <CardInfo
-          image={require("../assets/images/petshop.jpg")}
-          title="Retire e troque na loja!"
-          text="Confira as regras ->"
-        />
-      </View>
-    </ScrollView>
+        <View style={styles.juros}>
+          <CardInfo
+            image={require("../assets/images/relogio.png")}
+            title="Receba em algumas horas!"
+            text="Confira as regras ->"
+          />
+          <CardInfo
+            image={require("../assets/images/cartao.png")}
+            title="Parcele em 3x sem juros!"
+            text="Confira as regras ->"
+          />
+          <CardInfo
+            image={require("../assets/images/entrega-rapida.png")}
+            title="Frete Grátis!"
+            text="Confira as regras ->"
+          />
+          <CardInfo
+            image={require("../assets/images/petshop.png")}
+            title="Retire e troque na loja!"
+            text="Confira as regras ->"
+          />
+        </View>
+    
+        <View style={styles.produtosSection}>
+          <Text style={styles.produtosTitle}>Produtos Recomendados:</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.produtosScroll}
+          >
+            {produtos.map((p) => (
+              <View key={p.id} style={[styles.produtoCard, { width: width > 500 ? 160 : 140 }]}>
+                <Image source={p.imagem} style={styles.produtoImg} />
+                <Text style={styles.produtoNome}>{p.nome}</Text>
+                <TouchableOpacity style={styles.produtoBtn}>
+                  <Text style={styles.produtoBtnText}>Ver Detalhes</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+
+        <View style={styles.categoriasSection}>
+          <Text style={styles.sectionTitle}>Tudo para Pets:</Text>
+          <View style={styles.categoriasRow}>
+            <CategoriaButton
+              label="Cachorros"
+              image={require("../assets/images/cachorro.gif")}
+            />
+            <CategoriaButton
+              label="Gatos"
+              image={require("../assets/images/gato.gif")}
+            />
+            <CategoriaButton
+              label="Outros Pets"
+              image={require("../assets/images/peixe-palhaco.gif")}
+            />
+          </View>
+
+          <Text style={styles.sectionTitle}>Outros:</Text>
+          <View style={styles.categoriasRow}>
+            <CategoriaButton
+              label="Ração, Petisco e Biscoito"
+              image={require("../assets/images/cachorro.gif")}
+            />
+            <CategoriaButton
+              label="Higiene e Limpeza"
+              image={require("../assets/images/gato.gif")}
+            />
+            <CategoriaButton
+              label="Farmácia"
+              image={require("../assets/images/peixe-palhaco.gif")}
+            />
+            <CategoriaButton
+              label="Casas e Aquários"
+              image={require("../assets/images/animais.gif")}
+            />
+            <CategoriaButton
+              label="Coleiras, Guias e Peitoral"
+              image={require("../assets/images/animais.gif")}
+            />
+          </View>
+        </View>
+
+        <View style={styles.cuidados}>
+          <View style={styles.cuidadoCard}>
+            <Text style={styles.cuidadoTitle}>Banho & Tosa</Text>
+            <Text style={styles.cuidadoText}>
+              Higiene e Conforto para o seu melhor amigo!
+            </Text>
+            <Image
+              source={require("../assets/images/banho-tosa-pet-shop.jpg")}
+              style={styles.cuidadoImg}
+            />
+          </View>
+          <View style={styles.cuidadoCard}>
+            <Text style={styles.cuidadoTitle}>Veterinário</Text>
+            <Text style={styles.cuidadoText}>
+              A saúde de seu pet, a sua prioridade
+            </Text>
+            <Image
+              source={require("../assets/images/veterinario.png")}
+              style={styles.cuidadoImg}
+            />
+          </View>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
-/* COMPONENTES */
 function HeaderButton({ label, image, route }: any) {
   return (
     <TouchableOpacity onPress={() => router.push(route)} style={styles.headerBtn}>
@@ -124,7 +239,7 @@ function CardInfo({ image, title, text }: any) {
   return (
     <View style={styles.cardInfo}>
       <Image source={image} style={{ width: 28, height: 28 }} />
-      <View>
+      <View style={styles.cardTextContainer}>
         <Text style={styles.cardInfoTitle}>{title}</Text>
         <Text style={styles.cardInfoText}>{text}</Text>
       </View>
@@ -132,13 +247,21 @@ function CardInfo({ image, title, text }: any) {
   );
 }
 
-/* ESTILOS */
+function CategoriaButton({ label, image }: any) {
+  return (
+    <TouchableOpacity style={styles.categoriaBtn}>
+      <Image source={image} style={styles.categoriaImg} />
+      <Text style={styles.categoriaText}>{label}</Text>
+    </TouchableOpacity>
+  );
+}
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
   secondHeader: {
     flexDirection: "row",
     justifyContent: "space-around",
-    backgroundColor: "#C5DAE2", 
+    backgroundColor: "#C5DAE2",
     paddingVertical: 10,
   },
   headerBtn: { alignItems: "center", width: 60 },
@@ -146,7 +269,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginBottom: 6,
-    borderRadius: 15, 
+    borderRadius: 15,
   },
   headerBtnText: { fontSize: 12, color: "#444", textAlign: "center" },
   anuncios: {
@@ -162,7 +285,7 @@ const styles = StyleSheet.create({
     margin: 6,
     borderWidth: 1,
     borderColor: "#ddd",
-    borderRadius: 10, 
+    borderRadius: 10,
     alignItems: "center",
     backgroundColor: "#fff",
     elevation: 3,
@@ -179,35 +302,116 @@ const styles = StyleSheet.create({
   },
   anuncioText: { fontSize: 12, textAlign: "center", color: "#555" },
   banner: {
-    backgroundColor: "#1E90FF", 
-    padding: 20,
+    padding: 15,
     borderRadius: 10,
     alignItems: "center",
     marginHorizontal: 10,
     marginVertical: 12,
   },
   bannerText: { fontSize: 16, fontWeight: "bold", color: "#fff" },
-  imageContainer: {
-    marginVertical: 20,
+  carouselWrapper: {
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 15, 
+    marginVertical: 20,
+    width: "100%",
   },
   carouselImage: {
-    width: "100%", 
-    height: 200, 
-    borderRadius: 10, 
-    resizeMode: "cover", 
+    height: 200,
+    borderRadius: 10,
+    resizeMode: "cover",
+    width: "100%",
   },
+  dotsContainer: {
+    flexDirection: "row",
+    marginTop: 10,
+    justifyContent: "center",
+  },
+  dot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: "#ccc",
+    marginHorizontal: 5,
+  },
+  activeDot: {
+    backgroundColor: "#1E90FF",
+  },
+  produtosSection: { marginVertical: 20, paddingHorizontal: 10 },
+  produtosTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#0011ff",
+    marginBottom: 10,
+  },
+  produtosScroll: { flexDirection: "row" },
+  produtoCard: {
+    marginRight: 12,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    alignItems: "center",
+  },
+  produtoImg: { width: 100, height: 100, borderRadius: 8, marginBottom: 8 },
+  produtoNome: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 6,
+    textAlign: "center",
+  },
+  produtoBtn: {
+    backgroundColor: "#1E90FF",
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+  },
+  produtoBtnText: { color: "#fff", fontSize: 12, fontWeight: "bold" },
+  categoriasSection: { marginVertical: 20, paddingHorizontal: 10 },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginVertical: 10,
+    color: "#0000ff",
+  },
+  categoriasRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-evenly", 
+    gap: 12, 
+    marginVertical: 10,
+  },
+  categoriaBtn: {
+    width: "30%",
+    minWidth: 100,
+    margin: 6,
+    padding: 10,
+    alignItems: "center",
+    borderRadius: 8,
+    backgroundColor: "#f5f5f5",
+  },
+  categoriaImg: { width: 40, height: 40, marginBottom: 6 },
+  categoriaText: { fontSize: 12, fontWeight: "600", textAlign: "center" },
+  cuidados: { marginVertical: 20, paddingHorizontal: 10 },
+  cuidadoCard: {
+    marginBottom: 20,
+    padding: 15,
+    borderRadius: 10,
+    backgroundColor: "#eef7fb",
+    alignItems: "center",
+  },
+  cuidadoTitle: { fontSize: 22, fontWeight: "bold", marginBottom: 8 },
+  cuidadoText: { fontSize: 14, marginBottom: 10, textAlign: "center" },
+  cuidadoImg: { width: "100%", height: 180, borderRadius: 10 },
   juros: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between", 
+    justifyContent: "space-between",
     marginVertical: 24,
-    paddingHorizontal: 10,  
+    paddingHorizontal: 10,
   },
   cardInfo: {
-    width: "45%", 
+    width: "45%",
     padding: 12,
     borderRadius: 10,
     borderWidth: 1,
@@ -220,17 +424,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     marginBottom: 16,
   },
-  cardTextContainer: {
-    flex: 1, 
-    flexWrap: "wrap", 
-  },
-  cardInfoTitle: {
-    fontWeight: "bold",
-    color: "#444",
-    fontSize: 14, 
-  },
-  cardInfoText: {
-    color: "#555",
-    fontSize: 12, 
-  },
+  cardTextContainer: { flex: 1, flexWrap: "wrap" },
+  cardInfoTitle: { fontWeight: "bold", color: "#444", fontSize: 14 },
+  cardInfoText: { color: "#555", fontSize: 12 },
 });

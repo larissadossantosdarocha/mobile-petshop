@@ -16,7 +16,7 @@ export default function Passaro() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: "𝓟𝓮𝓽 𝓖𝓪𝓽𝓸",
+      title: "Passaros",
       headerRight: () => (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity style={{ marginRight: 20 }} onPress={() => router.push("/")}>
@@ -31,7 +31,7 @@ export default function Passaro() {
         </View>
       ),
       headerStyle: { backgroundColor: "rgb(75,197,235)" },
-      headerTitleStyle: { color: "rgb(6,43,255)", fontSize: 28, fontWeight: "bold" },
+      headerTitleStyle: { color: "rgba(255, 255, 255, 1)", fontSize: 28, fontWeight: "bold" },
       headerTitleAlign: "left",
     });
   }, []);
@@ -73,12 +73,12 @@ export default function Passaro() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "rgba(242,246,248,1)", padding: 16 },
-  titulo: { fontSize: 24, fontWeight: "bold", textAlign: "center", marginBottom: 16, color: "rgb(6,43,255)" },
-  card: { backgroundColor: "#fff", borderRadius: 10, padding: 16, marginBottom: 16, alignItems: "center", shadowColor: "#000", shadowOpacity: 0.1, shadowRadius: 5 },
+  titulo: { fontSize: 24, fontWeight: "bold", textAlign: "center", marginBottom: 16, color: "rgba(14, 179, 230, 1)" },
+  card: { backgroundColor: "#fff", borderRadius: 10, padding: 16, marginBottom: 16, alignItems: "center", shadowColor: "#000", shadowOpacity: 0.1, shadowRadius: 5, borderColor: "rgb(75, 197, 235)", borderWidth: 1  },
   imagem: { width: 200, height: 200, borderRadius: 10, marginBottom: 8 },
   nome: { fontSize: 20, fontWeight: "bold", marginBottom: 4 },
   botoesContainer: { flexDirection: "row", marginTop: 8, gap: 10 },
   botao: { backgroundColor: "rgb(75,197,235)", paddingVertical: 8, paddingHorizontal: 16, borderRadius: 6 },
-  botaoVoltar: { backgroundColor: "gray" },
+  botaoVoltar: { backgroundColor: "rgb(75,197,235)" },
   botaoTexto: { color: "#fff", fontWeight: "bold" },
 });

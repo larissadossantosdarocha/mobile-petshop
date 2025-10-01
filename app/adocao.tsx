@@ -9,7 +9,7 @@ export default function Adocao() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: "𝓟𝓮𝓽 𝓖𝓪𝓽𝓸",
+      title: "Adoção",
       headerRight: () => (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity
@@ -24,12 +24,13 @@ export default function Adocao() {
             onPress={() => router.push("/login")}
             style={{ marginRight: 24 }} 
           >
-            <FontAwesome name="user" size={28} color="#1a1919ff" />
+            <FontAwesome name="user" size={28} color="#000000ff" />
           </TouchableOpacity>
         </View>
       ),
-      headerStyle: { backgroundColor: "rgb(75, 197, 235)" },
-      headerTitleStyle: { color: "rgb(6, 43, 255)", fontSize: 28, fontWeight: "bold" },
+      headerStyle: { backgroundColor: " rgb(180, 227, 241)" },
+      headerTitleStyle: { color: "rgba(0, 0, 0, 1)", fontSize: 28, fontWeight: "bold", fontFamily: 'Garamond'
+ },
       headerTitleAlign: "left",
     });
   }, []);
@@ -78,17 +79,24 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   titulo: {
+    borderColor: "rgba(29, 172, 255, 1)",
+    borderWidth: 1,
+    backgroundColor: "rgba(255, 255, 255, 1)",
+    padding: 10,
+    borderRadius: 10,
     fontSize: 22,
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
-    color: "rgb(6, 43, 255)",
+    color: "rgba(14, 179, 230, 1)",
   },
   cardsContainer: {
     width: "90%",
   },
   card: {
-    backgroundColor: "rgb(75, 197, 235)",
+    borderColor: "rgba(0, 0, 0, 1)",
+    borderWidth: 1,
+    backgroundColor: "rgba(14, 179, 230, 1)",
     padding: 20,
     borderRadius: 10,
     marginBottom: 12,
@@ -97,14 +105,16 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#fff",
+    color: "rgba(255, 255, 255, 1)",
   },
   backButtonContainer: {
     alignItems: "center",
     marginTop: 12,
   },
   backButton: {
-    backgroundColor: "rgb(75, 197, 235)",
+    borderColor: "rgba(0, 0, 0, 1)",
+    borderWidth: 1,
+    backgroundColor: "rgba(14, 179, 230, 1)",
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",

@@ -10,14 +10,14 @@ export default function Cadastro() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: 'Cadastro',
-      headerStyle: { backgroundColor: '#42bff5' },
-      headerTintColor: '#fff',
+      title: 'Cadastrar',
+      headerStyle: { backgroundColor: 'rgb(180, 227, 241)' },
+      headerTintColor: '#000000ff',
       headerTitleStyle: { fontWeight: 'bold' },
       headerRight: () => (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <TouchableOpacity style={{ marginRight: 16 }} onPress={() => router.push('/')}>
-            <Text style={{ color: '#fff', fontSize: 20, fontWeight: '600' }}>Início</Text>
+            <Text style={{ color: '#ffffffff', fontSize: 20, fontWeight: '600' }}>Início</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{ marginRight: 12 }} onPress={() => router.push('/login')}>
             <Image
@@ -100,7 +100,7 @@ export default function Cadastro() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#B4E3F1',
+    backgroundColor: '#ffffffff',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 40,

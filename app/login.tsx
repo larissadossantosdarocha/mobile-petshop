@@ -11,9 +11,9 @@ export default function Login() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: 'Pet Gato',
-      headerStyle: { backgroundColor: '#42bff5' },
-      headerTintColor: '#fff',
+      title: 'Login',
+      headerStyle: { backgroundColor: 'rgb(180, 227, 241)' },
+      headerTintColor: '#000000ff',
       headerTitleStyle: { fontWeight: 'bold' },
       headerRight: () => (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -25,7 +25,7 @@ export default function Login() {
               Início
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push('/cadastrar')}>
+          <TouchableOpacity onPress={() => router.push('/login')}>
             <Image
               source={require('../assets/images/pessoa.png')}
               style={{ width: 40, height: 28, resizeMode: 'contain' }}

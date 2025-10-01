@@ -30,20 +30,21 @@ export default function Consulta() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: "𝓟𝓮𝓽 𝓖𝓪𝓽𝓸",
+      title: "Consulta",
       headerRight: () => (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity style={{ marginRight: 16 }} onPress={() => router.push("/")}>
-            <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>Início</Text>
+            <Text style={{ color: "#ffffffff", fontSize: 20, fontWeight: "600"}}>Início</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => router.push("/login")}>
             <Image source={require("../assets/images/pessoa.png")} style={{ width: 40, height: 28, resizeMode: "contain" }} />
           </TouchableOpacity>
         </View>
       ),
-      headerStyle: { backgroundColor: "rgb(75,197,235)" },
+      headerStyle: { backgroundColor: " rgb(180, 227, 241)" },
       headerTitleStyle: {
-        color: "rgb(6,43,255)",
+        color: "rgba(0, 0, 0, 1)",
+        fontFamily: 'Garamond',
         fontSize: 28,
         fontWeight: "bold",
       },
@@ -98,7 +99,7 @@ export default function Consulta() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(petData),
+        body: JSON.stringify(petData), // Corpo da requisição
       });
 
       console.log("Resposta do backend:", response); // Verificando a resposta da requisição
@@ -134,7 +135,7 @@ export default function Consulta() {
 
           <Text style={styles.label}>Nome do Pet:</Text>
           <TextInput style={styles.input} value={nomePet} onChangeText={setNomePet} placeholder="Digite o nome do pet" />
-          
+
           <Text style={styles.label}>Espécie:</Text>
           <View style={styles.radioContainer}>
             {["Cachorro", "Gato", "Peixe", "Pássaro"].map((item) => (
@@ -203,67 +204,60 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    marginBottom: 20,
     color: "#fff",
     textAlign: "center",
+    marginBottom: 20,
   },
   label: {
-    fontSize: 16,
-    marginTop: 10,
-    marginBottom: 5,
     color: "#fff",
-    fontWeight: "600",
+    fontSize: 16,
+    marginBottom: 5,
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 6,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    height: 40,
     backgroundColor: "#fff",
+    borderRadius: 5,
+    marginBottom: 15,
+    paddingLeft: 10,
   },
   radioContainer: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    marginBottom: 10,
+    justifyContent: "space-around",
+    marginBottom: 15,
   },
   radioButton: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 16,
-    marginBottom: 10,
   },
   radioCircle: {
-    width: 18,
-    height: 18,
-    borderRadius: 9,
+    width: 20,
+    height: 20,
+    borderRadius: 50,
     borderWidth: 2,
-    borderColor: "#fff",
     marginRight: 8,
+    borderColor: "#fff",
   },
   radioSelected: {
-    backgroundColor: "rgb(75,197,235)",
+    backgroundColor: "#fff",
   },
   radioLabel: {
-    color: "#fff",
-    fontSize: 14,
+    color: "#ffffffff",
+    fontSize: 16,
   },
   button: {
-    backgroundColor: "rgb(75,197,235)",
-    paddingVertical: 12,
-    paddingHorizontal: 30,
+    backgroundColor: "#000000ff",
+    paddingVertical: 15,
     borderRadius: 10,
-    marginTop: 20,
     alignItems: "center",
-  },
-  backButton: {
-    backgroundColor: "#ff4c4c",
-    marginTop: 10,
+    marginBottom: 10,
   },
   buttonText: {
+    color: "#ffffffff",
     fontSize: 18,
-    color: "#fff",
     fontWeight: "bold",
+  },
+  backButton: {
+    backgroundColor: "#000000ff",
   },
   whatsappButton: {
     position: "absolute",
@@ -272,19 +266,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#25D366",
     padding: 10,
     borderRadius: 50,
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
   },
   successMessage: {
-    marginTop: 20,
-    backgroundColor: "#28a745",
+    backgroundColor: "#4CAF50",
     padding: 10,
-    borderRadius: 6,
-    alignItems: "center",
+    marginTop: 10,
+    borderRadius: 5,
   },
   successText: {
     color: "#fff",
-    fontSize: 16,
+    textAlign: "center",
   },
 });
