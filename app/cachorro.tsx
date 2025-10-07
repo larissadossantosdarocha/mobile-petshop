@@ -29,7 +29,7 @@ export default function Cachorro() {
           </TouchableOpacity>
         </View>
       ),
-      headerStyle: { backgroundColor: "rgb(75, 197, 235)" },
+      headerStyle: { backgroundColor: "#7bb9bbff" },
       headerTitleStyle: { color: "rgba(255, 255, 255, 1)", fontSize: 28, fontWeight: "bold" },
       headerTitleAlign: "left",
     });
@@ -74,12 +74,12 @@ export default function Cachorro() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "rgba(242,246,248,1)", padding: 16 },
-  titulo: { fontSize: 24, fontWeight: "bold", textAlign: "center", marginBottom: 16, color: "rgba(14, 179, 230, 1)" },
-  card: { backgroundColor: "#fff", borderRadius: 10, padding: 16, marginBottom: 16, alignItems: "center", shadowColor: "#000000ff", shadowOpacity: 0.1, shadowRadius: 5, borderColor: "rgb(75, 197, 235)", borderWidth: 1 },
+  titulo: { fontSize: 24, fontWeight: "bold", textAlign: "center", marginBottom: 16, color: "#7bb9bbff" },
+  card: { backgroundColor: "#fff", borderRadius: 10, padding: 16, marginBottom: 16, alignItems: "center", shadowColor: "#000000ff", shadowOpacity: 0.1, shadowRadius: 5, borderColor: "#7bb9bbff", borderWidth: 1 },
   imagem: { width: 200, height: 200, borderRadius: 10, marginBottom: 8 },
   nome: { fontSize: 20, fontWeight: "bold", marginBottom: 4 },
   botoesContainer: { flexDirection: "row", marginTop: 8, gap: 10 },
-  botao: { backgroundColor: "rgb(75, 197, 235)", paddingVertical: 8, paddingHorizontal: 16, borderRadius: 6 },
-  botaoVoltar: { backgroundColor: "rgb(75, 197, 235)" },
+  botao: { backgroundColor: "#7bb9bbff", paddingVertical: 8, paddingHorizontal: 16, borderRadius: 6 },
+  botaoVoltar: { backgroundColor: "#7bb9bbff" },
   botaoTexto: { color: "rgba(255, 255, 255, 1)", fontWeight: "bold" },
 });

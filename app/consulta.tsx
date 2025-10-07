@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, Image, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, Image, KeyboardAvoidingView, Platform,} from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -32,17 +32,21 @@ export default function Consulta() {
       headerRight: () => (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity style={{ marginRight: 14 }} onPress={() => router.push("/")}>
-            <Text style={{ color: "#ffffffff", fontSize: 20, fontWeight: "600"}}>Início</Text>
+            <Text style={{ color: "#ffffffff", fontSize: 20, fontWeight: "600" }}>Início</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => router.push("/login")}>
-            <Image source={require("../assets/images/pessoa.png")} style={{ width: 40, height: 28, resizeMode: "contain" }} />
+            <Image
+              source={require("../assets/images/pessoa.png")}
+              style={{ width: 40, height: 28 }}
+              resizeMode="contain" // ✅ CORRIGIDO
+            />
           </TouchableOpacity>
         </View>
       ),
-      headerStyle: { backgroundColor: " rgb(180, 227, 241)" },
+      headerStyle: { backgroundColor: "rgb(180, 227, 241)" },
       headerTitleStyle: {
         color: "rgba(0, 0, 0, 1)",
-        fontFamily: 'Garamond',
+        fontFamily: "Garamond",
         fontSize: 28,
         fontWeight: "bold",
       },
@@ -60,65 +64,68 @@ export default function Consulta() {
     return dataNasc <= dataAtual;
   }
 
-  async function cadastrar() {
-    if (!nomePet || !especie || !raca || !nomeProprietario || !nascPet || !email) {
-      Alert.alert("Erro", "Preencha todos os campos obrigatórios!");
-      return;
-    }
-    if (!validarEmail(email)) {
-      Alert.alert("Erro", "Digite um e-mail válido!");
-      return;
-    }
-    if (!validarData(nascPet)) {
-      Alert.alert("Erro", "A data de nascimento não pode ser no futuro!");
-      return;
-    }
-
-    const petData: PetData = {
-      nomePet,
-      especiePet: especie,
-      racaPet: raca,
-      nomeProprietario,
-      nascpet: nascPet,
-      emailProprietario: email,
-      dados,
-    };
-
-    console.log("Dados enviados para o backend:", petData); 
-
-    try {
-      const response = await fetch("https://back-end-tcc-gamma.vercel.app/consultas", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(petData), 
-      });
-
-      console.log("Resposta do backend:", response); 
-
-      const responseBody = await response.json();
-      console.log("Resposta do backend (JSON):", responseBody); 
-
-      if (response.ok) {
-        setIsSuccess(true);
-        Alert.alert("Sucesso", "Pet cadastrado para consulta!");
-        setNomePet("");
-        setEspecie("");
-        setRaca("");
-        setNomeProprietario("");
-        setNascPet("");
-        setEmail("");
-        setDados("");
-        router.push("/");
-      } else {
-        Alert.alert("Erro ao cadastrar", responseBody.message || "Erro desconhecido");
-      }
-    } catch (error) {
-      console.error("Erro ao conectar ao servidor:", error);
-      Alert.alert("Erro", "Erro ao conectar ao servidor.");
-    }
+ async function cadastrar() {
+  if (!nomePet || !especie || !raca || !nomeProprietario || !nascPet || !email) {
+    Alert.alert("Erro", "Preencha todos os campos obrigatórios!");
+    return;
   }
+  if (!validarEmail(email)) {
+    Alert.alert("Erro", "Digite um e-mail válido!");
+    return;
+  }
+  if (!validarData(nascPet)) {
+    Alert.alert("Erro", "A data de nascimento não pode ser no futuro!");
+    return;
+  }
+
+  const petData: PetData = {
+    nomePet,
+    especiePet: especie,
+    racaPet: raca,
+    nomeProprietario,
+    nascpet: nascPet,
+    emailProprietario: email,
+    dados,
+  };
+
+  console.log("Dados a serem enviados:", petData);
+
+  try {
+    const response = await fetch("https://back-end-tcc-gamma.vercel.app/consultas", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(petData),
+    });
+
+    console.log("Código HTTP de resposta:", response.status);
+
+    const responseBody = await response.json();
+    console.log("Resposta do backend:", responseBody);
+
+    if (response.ok) {
+      setIsSuccess(true);
+      Alert.alert("Sucesso", "Pet cadastrado para consulta!");
+
+      // Limpar campos
+      setNomePet("");
+      setEspecie("");
+      setRaca("");
+      setNomeProprietario("");
+      setNascPet("");
+      setEmail("");
+      setDados("");
+
+      router.push("/");
+    } else {
+      Alert.alert("Erro ao cadastrar", responseBody.message || `Erro ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Erro ao conectar ao servidor:", error);
+    Alert.alert("Erro", "Erro ao conectar ao servidor.");
+  }
+}
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -149,7 +156,14 @@ export default function Consulta() {
           <TextInput style={styles.input} value={nascPet} onChangeText={setNascPet} placeholder="AAAA-MM-DD" />
 
           <Text style={styles.label}>E-mail:</Text>
-          <TextInput style={styles.input} value={email} onChangeText={setEmail} placeholder="Digite o email" keyboardType="email-address" autoCapitalize="none" />
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            placeholder="Digite o email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
 
           <Text style={styles.label}>Possui algum problema de saúde ou alergias:</Text>
           <TextInput style={styles.input} value={dados} onChangeText={setDados} placeholder="Informe se houver" />
@@ -191,9 +205,14 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 255, 255, 1)",
     padding: 20,
     borderRadius: 15,
-    shadowColor: "#000",
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
+    ...(Platform.OS === "web"
+      ? { boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.3)" } // ✅ substitui shadow* no web
+      : {
+          shadowColor: "#000",
+          shadowOpacity: 0.3,
+          shadowRadius: 8,
+          shadowOffset: { width: 0, height: 2 },
+        }),
   },
   title: {
     fontSize: 22,
