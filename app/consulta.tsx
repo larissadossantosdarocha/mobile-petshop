@@ -11,8 +11,7 @@ export default function Consulta() {
   const [nascPet, setNascPet] = useState('');
   const [email, setEmail] = useState('');
   const [dados, setDados] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false);
-
+  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para controlar se o formulário está sendo enviado
   const navigation = useNavigation();
   const router = useRouter();
 
@@ -28,7 +27,7 @@ export default function Consulta() {
             <Image
               source={require("../assets/images/pessoa.png")}
               style={{ width: 40, height: 28 }}
-              resizeMode="contain" 
+              resizeMode="contain"
             />
           </TouchableOpacity>
         </View>
@@ -49,9 +48,12 @@ export default function Consulta() {
       return;
     }
 
+    setIsSubmitting(true);  // Desabilitar botão ao iniciar requisição
+
     const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(nascPet);
     if (!isValidDate) {
       Alert.alert('Erro', 'Data de nascimento inválida. Use o formato YYYY-MM-DD.');
+      setIsSubmitting(false);  // Reabilita o botão em caso de erro
       return;
     }
 
@@ -63,8 +65,6 @@ export default function Consulta() {
       racaPet: raca,
     };
 
-    console.log("Enviando dados do pet:", petData);
-
     try {
       const response = await fetch('https://back-end-tcc-gamma.vercel.app/consultas', {
         method: 'POST',
@@ -72,10 +72,22 @@ export default function Consulta() {
         body: JSON.stringify(petData),
       });
 
+      console.log("Status da resposta:", response.status); // Log de status da resposta
+
       if (response.ok) {
         const result = await response.json();
         console.log("Resposta do backend:", result);
         Alert.alert('Sucesso', 'Consulta agendada com sucesso!');
+        
+        // Resetar os campos após o sucesso
+        setNomePet('');
+        setEspecie('');
+        setRaca('');
+        setNomeProprietario('');
+        setNascPet('');
+        setEmail('');
+        setDados('');
+
         router.push('/consulta');
       } else {
         const erro = await response.json();
@@ -85,6 +97,8 @@ export default function Consulta() {
     } catch (error) {
       console.error("Erro de rede:", error);
       Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
+    } finally {
+      setIsSubmitting(false); // Habilitar novamente o botão
     }
   };
 
@@ -154,8 +168,8 @@ export default function Consulta() {
             placeholder="Informe se houver"
           />
 
-          <TouchableOpacity style={styles.button} onPress={handleConsulta}>
-            <Text style={styles.buttonText}>Cadastrar</Text>
+          <TouchableOpacity style={styles.button} onPress={handleConsulta} disabled={isSubmitting}>
+            <Text style={styles.buttonText}>{isSubmitting ? "Cadastrando..." : "Cadastrar"}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={[styles.button, styles.backButton]} onPress={() => router.push("/")}>

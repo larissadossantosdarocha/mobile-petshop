@@ -1,11 +1,20 @@
 import { router } from "expo-router";
 import React, { useState, useEffect } from "react";
-import {  View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Dimensions, useWindowDimensions,} from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+  useWindowDimensions,
+} from "react-native";
 
 export default function Index() {
   const [bannerIndex, setBannerIndex] = useState(0);
   const [carouselIndex, setCarouselIndex] = useState(0);
-  const { width } = useWindowDimensions(); 
+  const { width } = useWindowDimensions();
 
   const banners = [
     { text: "Frete fixo de R$10,00 para todo o Brasil", color: "#1E90FF" },
@@ -76,10 +85,12 @@ export default function Index() {
         <View style={[styles.banner, { backgroundColor: banners[bannerIndex].color }]}>
           <Text style={styles.bannerText}>{banners[bannerIndex].text}</Text>
         </View>
+
         <View style={styles.carouselWrapper}>
           <Image
             source={carouselImages[carouselIndex]}
-            style={[styles.carouselImage, { width: width * 0.8 }]} // adapta largura automaticamente
+            resizeMode="cover" // Alteração feita aqui
+            style={[styles.carouselImage, { width: width * 0.8 }]} // adaptação da largura automaticamente
           />
 
           <View style={styles.dotsContainer}>
@@ -115,7 +126,7 @@ export default function Index() {
             text="Confira as regras ->"
           />
         </View>
-    
+
         <View style={styles.produtosSection}>
           <Text style={styles.produtosTitle}>Produtos Recomendados:</Text>
           <ScrollView
@@ -306,7 +317,6 @@ const styles = StyleSheet.create({
   carouselImage: {
     height: 200,
     borderRadius: 10,
-    resizeMode: "cover",
     width: "100%",
   },
   dotsContainer: {
