@@ -1,30 +1,20 @@
-import { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, Image, KeyboardAvoidingView, Platform,} from "react-native";
-import { useNavigation, useRouter } from "expo-router";
-import { FontAwesome } from "@expo/vector-icons";
-
-interface PetData {
-  nomePet: string;
-  especiePet: string;
-  racaPet: string;
-  nomeProprietario: string;
-  nascpet: string;
-  emailProprietario: string;
-  dados: string;
-}
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView, Image, KeyboardAvoidingView, Platform } from 'react-native';
+import { useNavigation, useRouter } from 'expo-router';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function Consulta() {
-  const router = useRouter();
-  const navigation = useNavigation();
-
-  const [nomePet, setNomePet] = useState("");
-  const [especie, setEspecie] = useState("");
-  const [raca, setRaca] = useState("");
-  const [nomeProprietario, setNomeProprietario] = useState("");
-  const [nascPet, setNascPet] = useState("");
-  const [email, setEmail] = useState("");
-  const [dados, setDados] = useState("");
+  const [nomePet, setNomePet] = useState('');
+  const [especie, setEspecie] = useState('');
+  const [raca, setRaca] = useState('');
+  const [nomeProprietario, setNomeProprietario] = useState('');
+  const [nascPet, setNascPet] = useState('');
+  const [email, setEmail] = useState('');
+  const [dados, setDados] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const navigation = useNavigation();
+  const router = useRouter();
 
   useEffect(() => {
     navigation.setOptions({
@@ -38,7 +28,7 @@ export default function Consulta() {
             <Image
               source={require("../assets/images/pessoa.png")}
               style={{ width: 40, height: 28 }}
-              resizeMode="contain" // ✅ CORRIGIDO
+              resizeMode="contain" 
             />
           </TouchableOpacity>
         </View>
@@ -53,79 +43,50 @@ export default function Consulta() {
     });
   }, []);
 
-  function validarEmail(email: string) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  }
-
-  function validarData(nascPet: string) {
-    const dataAtual = new Date();
-    const dataNasc = new Date(nascPet);
-    return dataNasc <= dataAtual;
-  }
-
- async function cadastrar() {
-  if (!nomePet || !especie || !raca || !nomeProprietario || !nascPet || !email) {
-    Alert.alert("Erro", "Preencha todos os campos obrigatórios!");
-    return;
-  }
-  if (!validarEmail(email)) {
-    Alert.alert("Erro", "Digite um e-mail válido!");
-    return;
-  }
-  if (!validarData(nascPet)) {
-    Alert.alert("Erro", "A data de nascimento não pode ser no futuro!");
-    return;
-  }
-
-  const petData: PetData = {
-    nomePet,
-    especiePet: especie,
-    racaPet: raca,
-    nomeProprietario,
-    nascpet: nascPet,
-    emailProprietario: email,
-    dados,
-  };
-
-  console.log("Dados a serem enviados:", petData);
-
-  try {
-    const response = await fetch("https://back-end-tcc-gamma.vercel.app/consultas", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(petData),
-    });
-
-    console.log("Código HTTP de resposta:", response.status);
-
-    const responseBody = await response.json();
-    console.log("Resposta do backend:", responseBody);
-
-    if (response.ok) {
-      setIsSuccess(true);
-      Alert.alert("Sucesso", "Pet cadastrado para consulta!");
-
-      // Limpar campos
-      setNomePet("");
-      setEspecie("");
-      setRaca("");
-      setNomeProprietario("");
-      setNascPet("");
-      setEmail("");
-      setDados("");
-
-      router.push("/");
-    } else {
-      Alert.alert("Erro ao cadastrar", responseBody.message || `Erro ${response.status}`);
+  const handleConsulta = async () => {
+    if (!nomePet || !email || !nascPet || !especie || !raca) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+      return;
     }
-  } catch (error) {
-    console.error("Erro ao conectar ao servidor:", error);
-    Alert.alert("Erro", "Erro ao conectar ao servidor.");
-  }
-}
+
+    const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(nascPet);
+    if (!isValidDate) {
+      Alert.alert('Erro', 'Data de nascimento inválida. Use o formato YYYY-MM-DD.');
+      return;
+    }
+
+    const petData = {
+      nomePet,
+      emailProprietario: email,
+      nascpet: nascPet,
+      especiePet: especie,
+      racaPet: raca,
+    };
+
+    console.log("Enviando dados do pet:", petData);
+
+    try {
+      const response = await fetch('https://back-end-tcc-gamma.vercel.app/consultas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(petData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Resposta do backend:", result);
+        Alert.alert('Sucesso', 'Consulta agendada com sucesso!');
+        router.push('/consulta');
+      } else {
+        const erro = await response.json();
+        console.error("Erro ao enviar para o backend:", erro);
+        Alert.alert('Erro ao agendar consulta', erro.message || erro);
+      }
+    } catch (error) {
+      console.error("Erro de rede:", error);
+      Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
+    }
+  };
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -134,7 +95,12 @@ export default function Consulta() {
           <Text style={styles.title}>Cadastro do Pet para Consulta</Text>
 
           <Text style={styles.label}>Nome do Pet:</Text>
-          <TextInput style={styles.input} value={nomePet} onChangeText={setNomePet} placeholder="Digite o nome do pet" />
+          <TextInput
+            style={styles.input}
+            value={nomePet}
+            onChangeText={setNomePet}
+            placeholder="Digite o nome do pet"
+          />
 
           <Text style={styles.label}>Espécie:</Text>
           <View style={styles.radioContainer}>
@@ -147,13 +113,28 @@ export default function Consulta() {
           </View>
 
           <Text style={styles.label}>Raça:</Text>
-          <TextInput style={styles.input} value={raca} onChangeText={setRaca} placeholder="Digite a raça" />
+          <TextInput
+            style={styles.input}
+            value={raca}
+            onChangeText={setRaca}
+            placeholder="Digite a raça"
+          />
 
           <Text style={styles.label}>Nome do Proprietário:</Text>
-          <TextInput style={styles.input} value={nomeProprietario} onChangeText={setNomeProprietario} placeholder="Nome do dono" />
+          <TextInput
+            style={styles.input}
+            value={nomeProprietario}
+            onChangeText={setNomeProprietario}
+            placeholder="Nome do dono"
+          />
 
           <Text style={styles.label}>Data de Nascimento do Pet:</Text>
-          <TextInput style={styles.input} value={nascPet} onChangeText={setNascPet} placeholder="AAAA-MM-DD" />
+          <TextInput
+            style={styles.input}
+            value={nascPet}
+            onChangeText={setNascPet}
+            placeholder="AAAA-MM-DD"
+          />
 
           <Text style={styles.label}>E-mail:</Text>
           <TextInput
@@ -166,21 +147,20 @@ export default function Consulta() {
           />
 
           <Text style={styles.label}>Possui algum problema de saúde ou alergias:</Text>
-          <TextInput style={styles.input} value={dados} onChangeText={setDados} placeholder="Informe se houver" />
+          <TextInput
+            style={styles.input}
+            value={dados}
+            onChangeText={setDados}
+            placeholder="Informe se houver"
+          />
 
-          <TouchableOpacity style={styles.button} onPress={cadastrar}>
+          <TouchableOpacity style={styles.button} onPress={handleConsulta}>
             <Text style={styles.buttonText}>Cadastrar</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={[styles.button, styles.backButton]} onPress={() => router.push("/")}>
             <Text style={styles.buttonText}>Voltar</Text>
           </TouchableOpacity>
-
-          {isSuccess && (
-            <View style={styles.successMessage}>
-              <Text style={styles.successText}>Pet cadastrado com sucesso!</Text>
-            </View>
-          )}
         </View>
       </ScrollView>
 
@@ -206,7 +186,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 15,
     ...(Platform.OS === "web"
-      ? { boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.3)" } // ✅ substitui shadow* no web
+      ? { boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.3)" }
       : {
           shadowColor: "#000",
           shadowOpacity: 0.3,
@@ -230,15 +210,31 @@ const styles = StyleSheet.create({
     borderColor: "rgba(0, 0, 0, 1)",
     borderWidth: 1,
     height: 40,
-    backgroundColor: "#fff",
-    borderRadius: 5,
-    marginBottom: 15,
-    paddingLeft: 10,
+    backgroundColor: "rgba(255, 255, 255, 1)",
+    borderRadius: 10,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+  button: {
+    backgroundColor: "rgba(29, 172, 255, 1)",
+    borderRadius: 8,
+    paddingVertical: 15,
+    marginVertical: 10,
+    width: "100%",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  backButton: {
+    backgroundColor: "#FF6347",  // Cor de fundo para o botão de voltar
   },
   radioContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    marginBottom: 15,
+    justifyContent: "space-evenly",
+    marginBottom: 20,
   },
   radioButton: {
     flexDirection: "row",
@@ -247,52 +243,24 @@ const styles = StyleSheet.create({
   radioCircle: {
     width: 20,
     height: 20,
-    borderRadius: 50,
+    borderRadius: 10,
     borderWidth: 2,
-    marginRight: 8,
-    borderColor: "rgba(0, 0, 0, 1)",
+    borderColor: "#29acff",
+    marginRight: 10,
   },
   radioSelected: {
-    backgroundColor: "rgba(29, 172, 255, 1)",
+    backgroundColor: "#29acff",
   },
   radioLabel: {
-    color: "rgba(29, 172, 255, 1)",
     fontSize: 16,
-  },
-  button: {
-    borderColor: "rgba(0, 0, 0, 1)",
-    borderWidth: 1,
-    marginTop: 10,
-    backgroundColor: "rgba(29, 172, 255, 1)",
-    paddingVertical: 15,
-    borderRadius: 10,
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  buttonText: {
-    color: "#ffffffff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  backButton: {
-    backgroundColor: "rgba(29, 172, 255, 1)",
+    color: "#000",
   },
   whatsappButton: {
     position: "absolute",
     bottom: 20,
     right: 20,
     backgroundColor: "#25D366",
-    padding: 10,
     borderRadius: 50,
-  },
-  successMessage: {
-    backgroundColor: "#4CAF50",
-    padding: 10,
-    marginTop: 10,
-    borderRadius: 5,
-  },
-  successText: {
-    color: "#fff",
-    textAlign: "center",
+    padding: 15,
   },
 });
