@@ -1,6 +1,15 @@
 import { router } from "expo-router";
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Dimensions, useWindowDimensions,} from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+  useWindowDimensions,
+} from "react-native";
 
 export default function Index() {
   const [bannerIndex, setBannerIndex] = useState(0);
@@ -24,6 +33,7 @@ export default function Index() {
     { id: 3, nome: "Kit Higiene", imagem: require("../assets/images/banho.jpeg") },
   ];
 
+  // alterna o banner automaticamente
   useEffect(() => {
     const interval = setInterval(() => {
       setBannerIndex((prev) => (prev + 1) % banners.length);
@@ -31,6 +41,7 @@ export default function Index() {
     return () => clearInterval(interval);
   }, []);
 
+  // alterna o carrossel automaticamente
   useEffect(() => {
     const interval = setInterval(() => {
       setCarouselIndex((prev) => (prev + 1) % carouselImages.length);
@@ -86,6 +97,7 @@ export default function Index() {
           <Text style={styles.bannerText}>{banners[bannerIndex].text}</Text>
         </View>
 
+        {/* 🔹 Carrossel com autoplay */}
         <View style={styles.carouselWrapper}>
           <Image
             source={carouselImages[carouselIndex]}
@@ -103,6 +115,7 @@ export default function Index() {
           </View>
         </View>
 
+        {/* 🔹 Seção com redirecionamento para confira.tsx */}
         <View style={styles.juros}>
           <CardInfo
             image={require("../assets/images/relogio.png")}
@@ -187,6 +200,7 @@ export default function Index() {
           </View>
         </View>
 
+        {/* 🔹 Cuidados básicos lado a lado */}
         <View style={styles.cuidados}>
           <View style={styles.cuidadoCard}>
             <Text style={styles.cuidadoTitle}>Banho & Tosa</Text>
@@ -215,6 +229,7 @@ export default function Index() {
   );
 }
 
+// -------- COMPONENTES AUXILIARES ----------
 function HeaderButton({ label, image, route }: any) {
   return (
     <TouchableOpacity onPress={() => router.push(route)} style={styles.headerBtn}>
@@ -241,6 +256,7 @@ function CardInfo({ image, title, text }: any) {
       <View style={styles.cardTextContainer}>
         <Text style={styles.cardInfoTitle}>{title}</Text>
 
+        {/* 🔹 Botão azul que leva para confira.tsx */}
         <TouchableOpacity onPress={() => router.push("/confira")}>
           <Text style={styles.cardInfoTextLink}>{text}</Text>
         </TouchableOpacity>
@@ -258,6 +274,7 @@ function CategoriaButton({ label, image }: any) {
   );
 }
 
+// -------- ESTILOS ----------
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
   secondHeader: {
@@ -378,6 +395,7 @@ const styles = StyleSheet.create({
   categoriaImg: { width: 40, height: 40, marginBottom: 6 },
   categoriaText: { fontSize: 12, fontWeight: "600", textAlign: "center" },
 
+  // 🔹 Cuidados básicos lado a lado
   cuidados: {
     marginVertical: 20,
     paddingHorizontal: 10,
