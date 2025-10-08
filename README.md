@@ -7,15 +7,11 @@ Aplicativo de Pet Shop desenvolvido em Expo + React Native. Para aulas de React 
 ```bash
  git clone <https://github.com/larissadossantosdarocha/tcc.git>
 ```
-2. Navegue até o diretório do projeto:
-```bash
-cd tcc
-```
-3. Instale as dependências:
+2. Instale as dependências:
 ```bash
 npm install
 ```
-4. Execute o aplicativo:
+3. Execute o aplicativo:
 ```bash
 npm start
 
