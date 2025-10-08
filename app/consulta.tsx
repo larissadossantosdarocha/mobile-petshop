@@ -11,7 +11,7 @@ export default function Consulta() {
   const [nascPet, setNascPet] = useState('');
   const [email, setEmail] = useState('');
   const [dados, setDados] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para controlar se o formulário está sendo enviado
+  const [isSubmitting, setIsSubmitting] = useState(false); 
   const navigation = useNavigation();
   const router = useRouter();
 
@@ -47,13 +47,12 @@ export default function Consulta() {
       Alert.alert('Erro', 'Por favor, preencha todos os campos.');
       return;
     }
-
-    setIsSubmitting(true);  // Desabilitar botão ao iniciar requisição
+    setIsSubmitting(true); 
 
     const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(nascPet);
     if (!isValidDate) {
       Alert.alert('Erro', 'Data de nascimento inválida. Use o formato YYYY-MM-DD.');
-      setIsSubmitting(false);  // Reabilita o botão em caso de erro
+      setIsSubmitting(false); 
       return;
     }
 
@@ -71,15 +70,13 @@ export default function Consulta() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(petData),
       });
-
-      console.log("Status da resposta:", response.status); // Log de status da resposta
+      console.log("Status da resposta:", response.status); 
 
       if (response.ok) {
         const result = await response.json();
         console.log("Resposta do backend:", result);
         Alert.alert('Sucesso', 'Consulta agendada com sucesso!');
-        
-        // Resetar os campos após o sucesso
+      
         setNomePet('');
         setEspecie('');
         setRaca('');
@@ -98,7 +95,7 @@ export default function Consulta() {
       console.error("Erro de rede:", error);
       Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
     } finally {
-      setIsSubmitting(false); // Habilitar novamente o botão
+      setIsSubmitting(false); 
     }
   };
 
@@ -115,7 +112,6 @@ export default function Consulta() {
             onChangeText={setNomePet}
             placeholder="Digite o nome do pet"
           />
-
           <Text style={styles.label}>Espécie:</Text>
           <View style={styles.radioContainer}>
             {["Cachorro", "Gato", "Peixe", "Pássaro"].map((item) => (
@@ -133,7 +129,6 @@ export default function Consulta() {
             onChangeText={setRaca}
             placeholder="Digite a raça"
           />
-
           <Text style={styles.label}>Nome do Proprietário:</Text>
           <TextInput
             style={styles.input}
@@ -141,7 +136,6 @@ export default function Consulta() {
             onChangeText={setNomeProprietario}
             placeholder="Nome do dono"
           />
-
           <Text style={styles.label}>Data de Nascimento do Pet:</Text>
           <TextInput
             style={styles.input}
@@ -149,7 +143,6 @@ export default function Consulta() {
             onChangeText={setNascPet}
             placeholder="AAAA-MM-DD"
           />
-
           <Text style={styles.label}>E-mail:</Text>
           <TextInput
             style={styles.input}
@@ -159,7 +152,6 @@ export default function Consulta() {
             keyboardType="email-address"
             autoCapitalize="none"
           />
-
           <Text style={styles.label}>Possui algum problema de saúde ou alergias:</Text>
           <TextInput
             style={styles.input}
@@ -243,7 +235,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   backButton: {
-    backgroundColor: "#FF6347",  // Cor de fundo para o botão de voltar
+    backgroundColor: "rgba(29, 172, 255, 1)", 
   },
   radioContainer: {
     flexDirection: "row",

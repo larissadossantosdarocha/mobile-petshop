@@ -1,15 +1,6 @@
 import { router } from "expo-router";
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  useWindowDimensions,
-} from "react-native";
+import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Dimensions, useWindowDimensions,} from "react-native";
 
 export default function Index() {
   const [bannerIndex, setBannerIndex] = useState(0);
@@ -20,11 +11,13 @@ export default function Index() {
     { text: "Frete fixo de R$10,00 para todo o Brasil", color: "#1E90FF" },
     { text: "Compras acima de R$100,00 ganham um brinde", color: "#4538f8ff" },
   ];
+
   const carouselImages = [
     require("../assets/images/racao.gif"),
     require("../assets/images/petisco.gif"),
     require("../assets/images/tosa.gif"),
   ];
+
   const produtos = [
     { id: 1, nome: "Ração Premium", imagem: require("../assets/images/premium.jpeg") },
     { id: 2, nome: "Petisco Saudável", imagem: require("../assets/images/petiscos.jpeg") },
@@ -37,6 +30,13 @@ export default function Index() {
     }, 4000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCarouselIndex((prev) => (prev + 1) % carouselImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [carouselImages.length]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -89,8 +89,7 @@ export default function Index() {
         <View style={styles.carouselWrapper}>
           <Image
             source={carouselImages[carouselIndex]}
-            resizeMode="cover" // Alteração feita aqui
-            style={[styles.carouselImage, { width: width * 0.8 }]} // adaptação da largura automaticamente
+            style={[styles.carouselImage, { width: width * 0.8 }]}
           />
 
           <View style={styles.dotsContainer}>
@@ -199,6 +198,7 @@ export default function Index() {
               style={styles.cuidadoImg}
             />
           </View>
+
           <View style={styles.cuidadoCard}>
             <Text style={styles.cuidadoTitle}>Veterinário</Text>
             <Text style={styles.cuidadoText}>
@@ -240,7 +240,10 @@ function CardInfo({ image, title, text }: any) {
       <Image source={image} style={{ width: 28, height: 28 }} />
       <View style={styles.cardTextContainer}>
         <Text style={styles.cardInfoTitle}>{title}</Text>
-        <Text style={styles.cardInfoText}>{text}</Text>
+
+        <TouchableOpacity onPress={() => router.push("/confira")}>
+          <Text style={styles.cardInfoTextLink}>{text}</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -264,12 +267,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   headerBtn: { alignItems: "center", width: 60 },
-  headerBtnImage: {
-    width: 30,
-    height: 30,
-    marginBottom: 6,
-    borderRadius: 15,
-  },
+  headerBtnImage: { width: 30, height: 30, marginBottom: 6, borderRadius: 15 },
   headerBtnText: { fontSize: 12, color: "#444", textAlign: "center" },
   anuncios: {
     flexDirection: "row",
@@ -317,6 +315,7 @@ const styles = StyleSheet.create({
   carouselImage: {
     height: 200,
     borderRadius: 10,
+    resizeMode: "cover",
     width: "100%",
   },
   dotsContainer: {
@@ -331,9 +330,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ccc",
     marginHorizontal: 5,
   },
-  activeDot: {
-    backgroundColor: "#1E90FF",
-  },
+  activeDot: { backgroundColor: "#1E90FF" },
   produtosSection: { marginVertical: 20, paddingHorizontal: 10 },
   produtosTitle: {
     fontSize: 18,
@@ -352,12 +349,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   produtoImg: { width: 100, height: 100, borderRadius: 8, marginBottom: 8 },
-  produtoNome: {
-    fontSize: 14,
-    fontWeight: "600",
-    marginBottom: 6,
-    textAlign: "center",
-  },
+  produtoNome: { fontSize: 14, fontWeight: "600", marginBottom: 6, textAlign: "center" },
   produtoBtn: {
     backgroundColor: "#1E90FF",
     paddingVertical: 6,
@@ -366,17 +358,12 @@ const styles = StyleSheet.create({
   },
   produtoBtnText: { color: "#fff", fontSize: 12, fontWeight: "bold" },
   categoriasSection: { marginVertical: 20, paddingHorizontal: 10 },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginVertical: 10,
-    color: "#0000ff",
-  },
+  sectionTitle: { fontSize: 20, fontWeight: "bold", marginVertical: 10, color: "#0000ff" },
   categoriasRow: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-evenly", 
-    gap: 12, 
+    justifyContent: "space-evenly",
+    gap: 12,
     marginVertical: 10,
   },
   categoriaBtn: {
@@ -390,9 +377,17 @@ const styles = StyleSheet.create({
   },
   categoriaImg: { width: 40, height: 40, marginBottom: 6 },
   categoriaText: { fontSize: 12, fontWeight: "600", textAlign: "center" },
-  cuidados: { marginVertical: 20, paddingHorizontal: 10 },
+
+  cuidados: {
+    marginVertical: 20,
+    paddingHorizontal: 10,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    flexWrap: "wrap",
+    gap: 12,
+  },
   cuidadoCard: {
-    marginBottom: 20,
+    width: 180,
     padding: 15,
     borderRadius: 10,
     backgroundColor: "#eef7fb",
@@ -400,7 +395,7 @@ const styles = StyleSheet.create({
   },
   cuidadoTitle: { fontSize: 22, fontWeight: "bold", marginBottom: 8 },
   cuidadoText: { fontSize: 14, marginBottom: 10, textAlign: "center" },
-  cuidadoImg: { width: "100%", height: 180, borderRadius: 10 },
+  cuidadoImg: { width: "100%", height: 160, borderRadius: 10 },
   juros: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -424,5 +419,10 @@ const styles = StyleSheet.create({
   },
   cardTextContainer: { flex: 1, flexWrap: "wrap" },
   cardInfoTitle: { fontWeight: "bold", color: "#444", fontSize: 14 },
-  cardInfoText: { color: "#555", fontSize: 12 },
+  cardInfoTextLink: {
+    color: "#1E90FF",
+    fontSize: 12,
+    fontWeight: "bold",
+    marginTop: 2,
+  },
 });
