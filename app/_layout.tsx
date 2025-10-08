@@ -31,7 +31,7 @@ export default function Layout() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={{ marginRight: 12 }}
-                onPress={() => router.push("/login")}
+                onPress={() => router.push("/auth/login")}
               >
                 <Image
                   source={require("../assets/images/pessoa.png")}

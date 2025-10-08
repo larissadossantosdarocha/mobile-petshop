@@ -1,15 +1,6 @@
 import { router } from "expo-router";
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  useWindowDimensions,
-} from "react-native";
+import { View,Text,Image,ScrollView,StyleSheet,TouchableOpacity,Dimensions,useWindowDimensions,} from "react-native";
 
 export default function Index() {
   const [bannerIndex, setBannerIndex] = useState(0);
@@ -18,7 +9,7 @@ export default function Index() {
 
   const banners = [
     { text: "Frete fixo de R$10,00 para todo o Brasil", color: "#1E90FF" },
-    { text: "Compras acima de R$100,00 ganham um brinde", color: "#4538f8ff" },
+    { text: "Compras acima de R$100,00 ganham um brinde", color: "#5e6effff" },
   ];
 
   const carouselImages = [
@@ -33,7 +24,6 @@ export default function Index() {
     { id: 3, nome: "Kit Higiene", imagem: require("../assets/images/banho.jpeg") },
   ];
 
-  // alterna o banner automaticamente
   useEffect(() => {
     const interval = setInterval(() => {
       setBannerIndex((prev) => (prev + 1) % banners.length);
@@ -41,7 +31,6 @@ export default function Index() {
     return () => clearInterval(interval);
   }, []);
 
-  // alterna o carrossel automaticamente
   useEffect(() => {
     const interval = setInterval(() => {
       setCarouselIndex((prev) => (prev + 1) % carouselImages.length);
@@ -87,7 +76,7 @@ export default function Index() {
             text="Amor e saúde em cada ponto!"
           />
           <AnuncioCard
-            image={require("../assets/images/noticias.gif")}
+            image={require("../assets/images/salve-os-animais.gif")}
             title="Amor e cuidado para seu pet!"
             text="Faça a vida de um animalzinho feliz hoje! Adote um pet!"
           />
@@ -115,7 +104,7 @@ export default function Index() {
           </View>
         </View>
 
-        {/* 🔹 Seção com redirecionamento para confira.tsx */}
+
         <View style={styles.juros}>
           <CardInfo
             image={require("../assets/images/relogio.png")}
@@ -159,46 +148,30 @@ export default function Index() {
         </View>
 
         <View style={styles.categoriasSection}>
-          <Text style={styles.sectionTitle}>Tudo para Pets:</Text>
-          <View style={styles.categoriasRow}>
-            <CategoriaButton
-              label="Cachorros"
-              image={require("../assets/images/cachorro.gif")}
-            />
-            <CategoriaButton
-              label="Gatos"
-              image={require("../assets/images/gato.gif")}
-            />
-            <CategoriaButton
-              label="Outros Pets"
-              image={require("../assets/images/peixe-palhaco.gif")}
-            />
-          </View>
-
-          <Text style={styles.sectionTitle}>Outros:</Text>
-          <View style={styles.categoriasRow}>
-            <CategoriaButton
-              label="Ração, Petisco e Biscoito"
-              image={require("../assets/images/cachorro.gif")}
-            />
-            <CategoriaButton
-              label="Higiene e Limpeza"
-              image={require("../assets/images/gato.gif")}
-            />
-            <CategoriaButton
-              label="Farmácia"
-              image={require("../assets/images/peixe-palhaco.gif")}
-            />
-            <CategoriaButton
-              label="Casas e Aquários"
-              image={require("../assets/images/animais.gif")}
-            />
-            <CategoriaButton
-              label="Coleiras, Guias e Peitoral"
-              image={require("../assets/images/animais.gif")}
-            />
-          </View>
-        </View>
+  <Text style={styles.sectionTitle}>Categorias:</Text>
+  <View style={styles.categoriasRow}>
+    <CategoriaButton
+      label="Cachorros"
+      image={require("../assets/images/cachorro.gif")}
+      route="/cachorros"
+    />
+    <CategoriaButton
+      label="Gatos"
+      image={require("../assets/images/gato.gif")}
+      route="/gatos"
+    />
+    <CategoriaButton
+      label="Outros Pets"
+      image={require("../assets/images/peixe-palhaco.gif")}
+      route="/outros"
+    />
+    <CategoriaButton
+      label="Farmacia"
+      image={require("../assets/images/farmacia.gif")}
+      route="/farmacia"
+    />
+  </View>
+</View>
 
         {/* 🔹 Cuidados básicos lado a lado */}
         <View style={styles.cuidados}>
@@ -256,31 +229,33 @@ function CardInfo({ image, title, text }: any) {
       <View style={styles.cardTextContainer}>
         <Text style={styles.cardInfoTitle}>{title}</Text>
 
-        {/* 🔹 Botão azul que leva para confira.tsx */}
-        <TouchableOpacity onPress={() => router.push("/confira")}>
+        <TouchableOpacity onPress={() => router.push("/consulta/confira")}>
           <Text style={styles.cardInfoTextLink}>{text}</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
-
-function CategoriaButton({ label, image }: any) {
+function CategoriaButton({ label, image, route }: any) {
   return (
-    <TouchableOpacity style={styles.categoriaBtn}>
+    <TouchableOpacity
+      style={styles.categoriaBtn}
+      onPress={() => router.push(route)} // redirecionamento aqui
+    >
       <Image source={image} style={styles.categoriaImg} />
       <Text style={styles.categoriaText}>{label}</Text>
     </TouchableOpacity>
   );
 }
 
-// -------- ESTILOS ----------
+
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
   secondHeader: {
     flexDirection: "row",
     justifyContent: "space-around",
-    backgroundColor: "#C5DAE2",
+    backgroundColor: "#b0e9ffff",
     paddingVertical: 10,
   },
   headerBtn: { alignItems: "center", width: 60 },
@@ -352,7 +327,7 @@ const styles = StyleSheet.create({
   produtosTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#0011ff",
+    color: "#2c80ffff",
     marginBottom: 10,
   },
   produtosScroll: { flexDirection: "row" },
@@ -368,14 +343,14 @@ const styles = StyleSheet.create({
   produtoImg: { width: 100, height: 100, borderRadius: 8, marginBottom: 8 },
   produtoNome: { fontSize: 14, fontWeight: "600", marginBottom: 6, textAlign: "center" },
   produtoBtn: {
-    backgroundColor: "#1E90FF",
+    backgroundColor: "#2c80ffff",
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 6,
   },
   produtoBtnText: { color: "#fff", fontSize: 12, fontWeight: "bold" },
   categoriasSection: { marginVertical: 20, paddingHorizontal: 10 },
-  sectionTitle: { fontSize: 20, fontWeight: "bold", marginVertical: 10, color: "#0000ff" },
+  sectionTitle: { fontSize: 20, fontWeight: "bold", marginVertical: 10, color: "#2c80ffff" },
   categoriasRow: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -390,7 +365,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: "center",
     borderRadius: 8,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#4BC5EB",
   },
   categoriaImg: { width: 40, height: 40, marginBottom: 6 },
   categoriaText: { fontSize: 12, fontWeight: "600", textAlign: "center" },
@@ -438,7 +413,7 @@ const styles = StyleSheet.create({
   cardTextContainer: { flex: 1, flexWrap: "wrap" },
   cardInfoTitle: { fontWeight: "bold", color: "#444", fontSize: 14 },
   cardInfoTextLink: {
-    color: "#1E90FF",
+    color: "#4BC5EB",
     fontSize: 12,
     fontWeight: "bold",
     marginTop: 2,

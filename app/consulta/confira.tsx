@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
+import { icon, receba, parcele, frete, petshopdois, troca } from "../../assets";
 
 export default function Index() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function Index() {
         </Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => router.push("/consulta")}
+          onPress={() => router.push("/consulta/consulta")}
         >
           <Text style={styles.buttonText}>Agendar Consulta</Text>
         </TouchableOpacity>
@@ -26,7 +27,7 @@ export default function Index() {
 
       <View style={styles.section}>
         <Image
-          source={require("../assets/images/icon.jpg")}
+          source={icon}
           style={styles.imageIcon}
         />
         <Text style={styles.title}>Confira nossas vantagens!</Text>
@@ -52,14 +53,14 @@ export default function Index() {
           </Text>
         </View>
         <Image
-          source={require("../assets/images/receba.jpg")}
+          source={receba}
           style={styles.sideImage}
         />
       </View>
 
       <View style={styles.sectionRow}>
         <Image
-          source={require("../assets/images/parcele.jpg")}
+          source={parcele}
           style={styles.sideImage}
         />
         <View style={styles.textBlock}>
@@ -81,14 +82,14 @@ export default function Index() {
           </Text>
         </View>
         <Image
-          source={require("../assets/images/frete.jpg")}
+          source={frete}
           style={styles.sideImage}
         />
       </View>
 
       <View style={styles.sectionRow}>
         <Image
-          source={require("../assets/images/petshopdois.png")}
+          source={petshopdois}
           style={styles.sideImage}
         />
         <View style={styles.textBlock}>
@@ -118,7 +119,7 @@ export default function Index() {
           </Text>
         </View>
         <Image
-          source={require("../assets/images/troca.png")}
+          source={troca}
           style={styles.sideImage}
         />
       </View>
@@ -130,19 +131,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-  },
-  header: {
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    backgroundColor: "#fce4ec",
-    borderBottomWidth: 1,
-    borderBottomColor: "#f8bbd0",
-    alignItems: "center",
-  },
-  logo: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#e91e63",
   },
   section: {
     alignItems: "center",

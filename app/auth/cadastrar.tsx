@@ -21,9 +21,9 @@ export default function Cadastro() {
                  Início
                </Text>
              </TouchableOpacity>
-             <TouchableOpacity onPress={() => router.push("/login")}>
+             <TouchableOpacity onPress={() => router.push("/auth/login")}>
                <Image
-                 source={require("../assets/images/pessoa.png")}
+                 source={require("../../assets/images/pessoa.png")}
                  style={{ width: 40, height: 28, resizeMode: "contain"}}
                />
              </TouchableOpacity>
@@ -47,7 +47,7 @@ export default function Cadastro() {
 
       if (response.ok) {
         Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
-        router.push('/login'); 
+        router.push('/auth/login'); 
       } else {
         const erro = await response.text();
         Alert.alert('Erro ao cadastrar', erro);
@@ -90,7 +90,7 @@ export default function Cadastro() {
 
         <View style={styles.loginLinkBox}>
           <Text style={styles.infoText}>Já tem uma conta?</Text>
-          <TouchableOpacity onPress={() => router.push('/login')}>
+          <TouchableOpacity onPress={() => router.push('/auth/login')}>
             <Text style={styles.linkText}>Faça login</Text>
           </TouchableOpacity>
         </View>

@@ -23,9 +23,9 @@ export default function Consulta() {
           <TouchableOpacity style={{ marginRight: 14 }} onPress={() => router.push("/")}>
             <Text style={{ color: "#ffffffff", fontSize: 20, fontWeight: "600" }}>Início</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push("/login")}>
+          <TouchableOpacity onPress={() => router.push("/auth/login")}>
             <Image
-              source={require("../assets/images/pessoa.png")}
+              source={require("../../assets/images/pessoa.png")}
               style={{ width: 40, height: 28 }}
               resizeMode="contain"
             />
@@ -85,7 +85,7 @@ export default function Consulta() {
         setEmail('');
         setDados('');
 
-        router.push('/consulta');
+        router.push('/consulta/consulta');
       } else {
         const erro = await response.json();
         console.error("Erro ao enviar para o backend:", erro);

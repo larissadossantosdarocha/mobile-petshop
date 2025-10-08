@@ -21,12 +21,13 @@ export default function Adocao() {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => router.push("/login")}
+            onPress={() => router.push("/auth/login")}
             style={{ marginRight: 24 }}
           >
             <Image
-                source={require("../assets/images/pessoa.png")}
-              style={{ width: 30, height: 28, resizeMode: "contain" }}
+              source={require("../../assets/images/pessoa.png")}
+              style={{ width: 30, height: 28 }}
+              resizeMode="contain"
             />
           </TouchableOpacity>
         </View>
@@ -36,7 +37,7 @@ export default function Adocao() {
         color: "rgba(0, 0, 0, 1)",
         fontSize: 26,
         fontWeight: "bold",
-        fontFamily: "Garamond", 
+        fontFamily: "Garamond",
       },
       headerTitleAlign: "left",
     });
@@ -45,14 +46,17 @@ export default function Adocao() {
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: "https://img.freepik.com/vetores-premium/adocao-de-animais-de-estimacao-maos-segurando-caes-gatos-bandeira-de-abrigo-animais-fofos-isolados-adotar-o-fundo-do-vetor_81894-4962.jpg" }}
+        source={{
+          uri: "https://img.freepik.com/vetores-premium/adocao-de-animais-de-estimacao-maos-segurando-caes-gatos-bandeira-de-abrigo-animais-fofos-isolados-adotar-o-fundo-do-vetor_81894-4962.jpg"
+        }}
         style={styles.banner}
+        resizeMode="cover"
       />
 
       <View style={styles.cardsContainer}>
         <TouchableOpacity
           style={[styles.card, { backgroundColor: "#7bb9bbff" }]}
-          onPress={() => router.push("/cachorro")}
+          onPress={() => router.push("/adocao/cachorro")}
         >
           <FontAwesome5 name="dog" size={28} color="#fff" />
           <Text style={styles.cardText}>Adotar Cachorro</Text>
@@ -60,7 +64,7 @@ export default function Adocao() {
 
         <TouchableOpacity
           style={[styles.card, { backgroundColor: "#e9bfc3ff" }]}
-          onPress={() => router.push("/gato")}
+          onPress={() => router.push("/adocao/gato")}
         >
           <FontAwesome5 name="cat" size={28} color="#fff" />
           <Text style={styles.cardText}>Adotar Gato</Text>
@@ -68,7 +72,7 @@ export default function Adocao() {
 
         <TouchableOpacity
           style={[styles.card, { backgroundColor: "#8fbde6ff" }]}
-          onPress={() => router.push("/peixe")}
+          onPress={() => router.push("/adocao/peixe")}
         >
           <MaterialCommunityIcons name="fish" size={28} color="#fff" />
           <Text style={styles.cardText}>Adotar Peixe</Text>
@@ -76,7 +80,7 @@ export default function Adocao() {
 
         <TouchableOpacity
           style={[styles.card, { backgroundColor: "#fac98dff" }]}
-          onPress={() => router.push("/passaro")}
+          onPress={() => router.push("/adocao/passaro")}
         >
           <MaterialCommunityIcons name="bird" size={28} color="#fff" />
           <Text style={styles.cardText}>Adotar Pássaro</Text>
@@ -109,7 +113,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   titulo: {
-    borderColor: "rgba(29, 172, 255, 1)", 
+    borderColor: "rgba(29, 172, 255, 1)",
     borderWidth: 1,
     backgroundColor: "rgba(255, 255, 255, 1)",
     padding: 10,

@@ -21,9 +21,9 @@ export default function Peixe() {
           <TouchableOpacity style={{ marginRight: 20 }} onPress={() => router.push("/")}>
             <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>Início</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push("/login")}>
+          <TouchableOpacity onPress={() => router.push("/auth/login")}>
             <Image
-              source={require("../assets/images/pessoa.png")}
+              source={require("../../assets/images/pessoa.png")}
               style={{ width: 50, height: 28, resizeMode: "contain" }}
             />
           </TouchableOpacity>
@@ -66,12 +66,51 @@ export default function Peixe() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "rgba(242,246,248,1)", padding: 16 },
-  titulo: { fontSize: 24, fontWeight: "bold", textAlign: "center", marginBottom: 16, color: "#8fbde6ff" },
-  card: { backgroundColor: "#fff", borderRadius: 10, padding: 16, marginBottom: 16, alignItems: "center", shadowColor: "#000", shadowOpacity: 0.1, shadowRadius: 5,  borderColor: "#8fbde6ff", borderWidth: 1 },
-  imagem: { width: 200, height: 200, borderRadius: 10, marginBottom: 8 },
-  nome: { fontSize: 20, fontWeight: "bold", marginBottom: 4 },
-  botao: { backgroundColor: "#8fbde6ff", paddingVertical: 8, paddingHorizontal: 16, borderRadius: 6, marginHorizontal: 5 },
-  botaoVoltar: { backgroundColor: "#8fbde6ff" },
-  botaoTexto: { color: "#fff", fontWeight: "bold" },
+  container: { 
+    flex: 1, 
+    backgroundColor: "rgba(242,246,248,1)", 
+    padding: 16 },
+  titulo: { 
+    fontSize: 24, 
+    fontWeight: "bold", 
+    textAlign: "center", 
+    marginBottom: 16, 
+    color: "#8fbde6ff" 
+  },
+  card: { 
+    backgroundColor: "#fff",
+    borderRadius: 10, 
+    padding: 16, 
+    marginBottom: 16, 
+    alignItems: "center", 
+    shadowColor: "#000", 
+    shadowOpacity: 0.1, 
+    shadowRadius: 5,  
+    borderColor: "#8fbde6ff", 
+    borderWidth: 1 
+  },
+  imagem: { 
+    width: 200, 
+    height: 200, 
+    borderRadius: 10,
+    marginBottom: 8 
+    },
+  nome: { 
+    fontSize: 20, 
+    fontWeight: "bold",
+    marginBottom: 4 
+  },
+  botao: { 
+    backgroundColor: "#8fbde6ff",
+     paddingVertical: 8, paddingHorizontal: 16, 
+     borderRadius: 6, 
+     marginHorizontal: 5 
+    },
+  botaoVoltar: { 
+    backgroundColor: "#8fbde6ff" 
+  },
+  botaoTexto: { 
+    color: "#fff", 
+    fontWeight: "bold" 
+  },
 });

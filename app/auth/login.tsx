@@ -25,9 +25,9 @@ export default function Login() {
               Início
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push('/login')}>
+          <TouchableOpacity onPress={() => router.push('/auth/login')}>
             <Image
-              source={require('../assets/images/pessoa.png')}
+              source={require('../../assets/images/pessoa.png')}
               style={{ width: 40, height: 28, resizeMode: 'contain' }}
             />
           </TouchableOpacity>
@@ -67,7 +67,7 @@ export default function Login() {
         const data = await response.json();
  
         Alert.alert('Sucesso', data.message || 'Login realizado com sucesso!');
-        router.push('/login'); 
+        router.push('/auth/login'); 
       } else {
         const erro = await response.json();  
         Alert.alert('Erro ao fazer login', erro.message || 'Erro desconhecido. Tente novamente mais tarde.');
@@ -115,7 +115,7 @@ export default function Login() {
 
         <View style={styles.loginLinkBox}>
           <Text style={styles.infoText}>Não tem uma conta?</Text>
-          <TouchableOpacity onPress={() => router.push('/cadastrar')}>
+          <TouchableOpacity onPress={() => router.push('/auth/cadastrar')}>
             <Text style={styles.linkText}>Cadastre-se</Text>
           </TouchableOpacity>
         </View>

@@ -24,9 +24,9 @@ export default function Gato() {
           <TouchableOpacity style={{ marginRight: 20 }} onPress={() => router.push("/")}>
             <Text style={{ color: "#ffffffff", fontSize: 20, fontWeight: "600" }}>Início</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push("/login")}>
+          <TouchableOpacity onPress={() => router.push("/auth/login")}>
             <Image
-              source={require("../assets/images/pessoa.png")}
+              source={require("../../assets/images/pessoa.png")}
               style={{ width: 50, height: 28, resizeMode: "contain" }}
             />
           </TouchableOpacity>
@@ -64,7 +64,7 @@ export default function Gato() {
 
             <TouchableOpacity
               style={[styles.botao, styles.botaoVoltar]}
-              onPress={() => router.push("/adocao")}
+              onPress={() => router.push("/adocao/adocao")}
             >
               <Text style={styles.botaoTexto}>Voltar</Text>
             </TouchableOpacity>
@@ -76,13 +76,65 @@ export default function Gato() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "rgba(242,246,248,1)", padding: 16 },
-  titulo: { fontSize: 24, fontWeight: "bold", textAlign: "center", marginBottom: 16, color: "#e9bfc3ff" },
-  card: { backgroundColor: "#fff", borderRadius: 10, padding: 16, marginBottom: 16, alignItems: "center", shadowColor: "#000", shadowOpacity: 0.1, shadowRadius: 5, borderColor: "#e9bfc3ff", borderWidth: 1 },
-  imagem: { width: 200, height: 200, borderRadius: 10, marginBottom: 8 },
-  nome: { fontSize: 20, fontWeight: "bold", marginBottom: 4 },
-  botoesContainer: { flexDirection: "row", marginTop: 8, gap: 10 },
-  botao: { backgroundColor: "#e9bfc3ff", paddingVertical: 8, paddingHorizontal: 16, borderRadius: 6 },
-  botaoVoltar: { backgroundColor: "#e9bfc3ff" },
-  botaoTexto: { color: "#fff", fontWeight: "bold" },
+  container: { 
+    flex: 1, 
+    backgroundColor: "rgba(242,246,248,1)", 
+    padding: 16 
+  },
+
+  titulo: { 
+    fontSize: 24, 
+    fontWeight: "bold", 
+    textAlign: "center", 
+    marginBottom: 16, 
+    color: "#e9bfc3ff" 
+  },
+
+  card: { 
+    backgroundColor: "#fff", 
+    borderRadius: 10,
+    padding: 16, 
+    marginBottom: 16, 
+    alignItems: "center", 
+    shadowColor: "#000", 
+    shadowOpacity: 0.1, 
+    shadowRadius: 5, 
+    borderColor: "#e9bfc3ff", 
+    borderWidth: 1 
+  },
+
+  imagem: { 
+    width: 200, 
+    height: 200, 
+    borderRadius: 10,
+    marginBottom: 8
+   },
+
+  nome: { 
+    fontSize: 20, 
+    fontWeight: "bold", 
+    marginBottom: 4
+   },
+
+  botoesContainer: { 
+    flexDirection: "row", 
+    marginTop: 8, 
+    gap: 10 
+  },
+
+  botao: { 
+    backgroundColor: "#e9bfc3ff", 
+    paddingVertical: 8, 
+    paddingHorizontal: 16, 
+    borderRadius: 6 
+  },
+
+  botaoVoltar: {
+     backgroundColor: "#e9bfc3ff" 
+    },
+
+  botaoTexto: { 
+    color: "#fff", 
+    fontWeight: "bold"
+   },
 });
