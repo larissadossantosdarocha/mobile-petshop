@@ -37,7 +37,6 @@ export default function Confira() {
   return (
     <ScrollView style={styles.container}>
 
-      {/* CONSULTA */}
       <View style={styles.section}>
         <Text style={styles.title}>Conheça também a parte de consulta!</Text>
         <Text style={styles.paragraph}>
@@ -54,7 +53,6 @@ export default function Confira() {
         </TouchableOpacity>
       </View>
 
-      {/* VANTAGENS */}
       <View style={styles.section}>
         <Image
           source={require("../../assets/images/icon.jpg")}
@@ -66,7 +64,6 @@ export default function Confira() {
         </Text>
       </View>
 
-      {/* RECEBA */}
       <View style={styles.sectionRow}>
         <View style={styles.textBlock}>
           <Text style={styles.title}>Receba em algumas horas!</Text>
@@ -89,7 +86,6 @@ export default function Confira() {
         />
       </View>
 
-      {/* PARCELE */}
       <View style={styles.sectionRow}>
         <Image
           source={require("../../assets/images/parcele.jpg")}
@@ -105,7 +101,6 @@ export default function Confira() {
         </View>
       </View>
 
-      {/* FRETE */}
       <View style={styles.sectionRow}>
         <View style={styles.textBlock}>
           <Text style={styles.title}>Frete Grátis!</Text>
@@ -120,7 +115,6 @@ export default function Confira() {
         />
       </View>
 
-      {/* RETIRE */}
       <View style={styles.sectionRow}>
         <Image
           source={require("../../assets/images/petshopdois.png")}
@@ -139,7 +133,6 @@ export default function Confira() {
         </View>
       </View>
 
-      {/* TROQUE */}
       <View style={styles.sectionRow}>
         <View style={styles.textBlock}>
           <Text style={styles.title}>Troque em até 30 dias!</Text>

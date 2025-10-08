@@ -86,7 +86,6 @@ export default function Index() {
           <Text style={styles.bannerText}>{banners[bannerIndex].text}</Text>
         </View>
 
-        {/* 🔹 Carrossel com autoplay */}
         <View style={styles.carouselWrapper}>
           <Image
             source={carouselImages[carouselIndex]}
@@ -173,7 +172,6 @@ export default function Index() {
   </View>
 </View>
 
-        {/* 🔹 Cuidados básicos lado a lado */}
         <View style={styles.cuidados}>
           <View style={styles.cuidadoCard}>
             <Text style={styles.cuidadoTitle}>Banho & Tosa</Text>
@@ -202,7 +200,6 @@ export default function Index() {
   );
 }
 
-// -------- COMPONENTES AUXILIARES ----------
 function HeaderButton({ label, image, route }: any) {
   return (
     <TouchableOpacity onPress={() => router.push(route)} style={styles.headerBtn}>
@@ -240,7 +237,7 @@ function CategoriaButton({ label, image, route }: any) {
   return (
     <TouchableOpacity
       style={styles.categoriaBtn}
-      onPress={() => router.push(route)} // redirecionamento aqui
+      onPress={() => router.push(route)} 
     >
       <Image source={image} style={styles.categoriaImg} />
       <Text style={styles.categoriaText}>{label}</Text>
@@ -370,7 +367,6 @@ const styles = StyleSheet.create({
   categoriaImg: { width: 40, height: 40, marginBottom: 6 },
   categoriaText: { fontSize: 12, fontWeight: "600", textAlign: "center" },
 
-  // 🔹 Cuidados básicos lado a lado
   cuidados: {
     marginVertical: 20,
     paddingHorizontal: 10,
