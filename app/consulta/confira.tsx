@@ -1,14 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
-import { icon, receba, parcele, frete, petshopdois, troca } from "../../assets";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Index() {
+export default function Confira() {
   const router = useRouter();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: "𝓒𝓸𝓷𝓯𝓲𝓻𝓪",
+      headerRight: () => (
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <TouchableOpacity style={{ marginRight: 14 }} onPress={() => router.push("/")}>
+            <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>Início</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push("/auth/login")}>
+            <Image
+              source={require("../../assets/images/pessoa.png")}
+              style={{ width: 40, height: 28 }}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </View>
+      ),
+      headerStyle: { backgroundColor: "rgb(180, 227, 241)" },
+      headerTitleStyle: {
+        color: "rgba(0, 0, 0, 1)",
+        fontFamily: "Garamond",
+        fontSize: 28,
+        fontWeight: "bold",
+      },
+    });
+  }, []);
 
   return (
     <ScrollView style={styles.container}>
 
+      {/* CONSULTA */}
       <View style={styles.section}>
         <Text style={styles.title}>Conheça também a parte de consulta!</Text>
         <Text style={styles.paragraph}>
@@ -25,9 +54,10 @@ export default function Index() {
         </TouchableOpacity>
       </View>
 
+      {/* VANTAGENS */}
       <View style={styles.section}>
         <Image
-          source={icon}
+          source={require("../../assets/images/icon.jpg")}
           style={styles.imageIcon}
         />
         <Text style={styles.title}>Confira nossas vantagens!</Text>
@@ -36,6 +66,7 @@ export default function Index() {
         </Text>
       </View>
 
+      {/* RECEBA */}
       <View style={styles.sectionRow}>
         <View style={styles.textBlock}>
           <Text style={styles.title}>Receba em algumas horas!</Text>
@@ -53,14 +84,15 @@ export default function Index() {
           </Text>
         </View>
         <Image
-          source={receba}
+          source={require("../../assets/images/receba.jpg")}
           style={styles.sideImage}
         />
       </View>
 
+      {/* PARCELE */}
       <View style={styles.sectionRow}>
         <Image
-          source={parcele}
+          source={require("../../assets/images/parcele.jpg")}
           style={styles.sideImage}
         />
         <View style={styles.textBlock}>
@@ -73,6 +105,7 @@ export default function Index() {
         </View>
       </View>
 
+      {/* FRETE */}
       <View style={styles.sectionRow}>
         <View style={styles.textBlock}>
           <Text style={styles.title}>Frete Grátis!</Text>
@@ -82,14 +115,15 @@ export default function Index() {
           </Text>
         </View>
         <Image
-          source={frete}
+          source={require("../../assets/images/frete.jpg")}
           style={styles.sideImage}
         />
       </View>
 
+      {/* RETIRE */}
       <View style={styles.sectionRow}>
         <Image
-          source={petshopdois}
+          source={require("../../assets/images/petshopdois.png")}
           style={styles.sideImage}
         />
         <View style={styles.textBlock}>
@@ -105,6 +139,7 @@ export default function Index() {
         </View>
       </View>
 
+      {/* TROQUE */}
       <View style={styles.sectionRow}>
         <View style={styles.textBlock}>
           <Text style={styles.title}>Troque em até 30 dias!</Text>
@@ -119,7 +154,7 @@ export default function Index() {
           </Text>
         </View>
         <Image
-          source={troca}
+          source={require("../../assets/images/troca.png")}
           style={styles.sideImage}
         />
       </View>
@@ -149,11 +184,10 @@ const styles = StyleSheet.create({
   imageIcon: {
     width: 100,
     height: 100,
-    borderRadius: 50,
     marginBottom: 10,
   },
   sideImage: {
-    width: 150,
+    width: 170,
     height: 150,
     borderRadius: 15,
   },

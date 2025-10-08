@@ -45,22 +45,22 @@ export default function Index() {
           <HeaderButton
             label="Consulta"
             image={require("../assets/images/veterinario.gif")}
-            route="/consulta"
+            route="/consulta/consulta"
           />
           <HeaderButton
             label="Adoção"
             image={require("../assets/images/salve-os-animais.gif")}
-            route="/adocao"
+            route="/adocao/adocao"
           />
           <HeaderButton
             label="Doações"
             image={require("../assets/images/doacao.gif")}
-            route="/doacao"
+            route="/doacao/doacao"
           />
           <HeaderButton
             label="Cadastrar"
             image={require("../assets/images/cadastro.gif")}
-            route="/cadastrar"
+            route="/auth/cadastrar"
           />
         </View>
 
