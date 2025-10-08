@@ -12,6 +12,7 @@ export default function Consulta() {
   const [email, setEmail] = useState('');
   const [dados, setDados] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false); 
+
   const navigation = useNavigation();
   const router = useRouter();
 
@@ -43,26 +44,32 @@ export default function Consulta() {
   }, []);
 
   const handleConsulta = async () => {
-    if (!nomePet || !email || !nascPet || !especie || !raca) {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+    console.log("🚀 Botão Cadastrar clicado!");
+
+    if (!nomePet || !email || !nascPet || !especie || !raca || !nomeProprietario) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
       return;
     }
-    setIsSubmitting(true); 
 
     const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(nascPet);
     if (!isValidDate) {
       Alert.alert('Erro', 'Data de nascimento inválida. Use o formato YYYY-MM-DD.');
-      setIsSubmitting(false); 
       return;
     }
 
+    setIsSubmitting(true);
+
     const petData = {
       nomePet,
-      emailProprietario: email,
-      nascpet: nascPet,
       especiePet: especie,
       racaPet: raca,
+      nomeProprietario,
+      nascpet: nascPet,
+      emailProprietario: email,
+      dados,
     };
+
+    console.log("📤 Dados que serão enviados:", petData);
 
     try {
       const response = await fetch('https://back-end-tcc-gamma.vercel.app/consultas', {
@@ -70,13 +77,12 @@ export default function Consulta() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(petData),
       });
-      console.log("Status da resposta:", response.status); 
+
+      const result = await response.json();
+      console.log("📡 Resposta do servidor:", response.status, result);
 
       if (response.ok) {
-        const result = await response.json();
-        console.log("Resposta do backend:", result);
         Alert.alert('Sucesso', 'Consulta agendada com sucesso!');
-      
         setNomePet('');
         setEspecie('');
         setRaca('');
@@ -84,18 +90,14 @@ export default function Consulta() {
         setNascPet('');
         setEmail('');
         setDados('');
-
-        router.push('/consulta/consulta');
       } else {
-        const erro = await response.json();
-        console.error("Erro ao enviar para o backend:", erro);
-        Alert.alert('Erro ao agendar consulta', erro.message || erro);
+        Alert.alert('Erro ao agendar consulta', result.message || 'Erro desconhecido.');
       }
     } catch (error) {
-      console.error("Erro de rede:", error);
+      console.error("🚨 Erro de rede:", error);
       Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
     } finally {
-      setIsSubmitting(false); 
+      setIsSubmitting(false);
     }
   };
 
@@ -106,12 +108,8 @@ export default function Consulta() {
           <Text style={styles.title}>Cadastro do Pet para Consulta</Text>
 
           <Text style={styles.label}>Nome do Pet:</Text>
-          <TextInput
-            style={styles.input}
-            value={nomePet}
-            onChangeText={setNomePet}
-            placeholder="Digite o nome do pet"
-          />
+          <TextInput style={styles.input} value={nomePet} onChangeText={setNomePet} placeholder="Digite o nome do pet" />
+
           <Text style={styles.label}>Espécie:</Text>
           <View style={styles.radioContainer}>
             {["Cachorro", "Gato", "Peixe", "Pássaro"].map((item) => (
@@ -123,42 +121,19 @@ export default function Consulta() {
           </View>
 
           <Text style={styles.label}>Raça:</Text>
-          <TextInput
-            style={styles.input}
-            value={raca}
-            onChangeText={setRaca}
-            placeholder="Digite a raça"
-          />
+          <TextInput style={styles.input} value={raca} onChangeText={setRaca} placeholder="Digite a raça" />
+
           <Text style={styles.label}>Nome do Proprietário:</Text>
-          <TextInput
-            style={styles.input}
-            value={nomeProprietario}
-            onChangeText={setNomeProprietario}
-            placeholder="Nome do dono"
-          />
+          <TextInput style={styles.input} value={nomeProprietario} onChangeText={setNomeProprietario} placeholder="Nome do dono" />
+
           <Text style={styles.label}>Data de Nascimento do Pet:</Text>
-          <TextInput
-            style={styles.input}
-            value={nascPet}
-            onChangeText={setNascPet}
-            placeholder="AAAA-MM-DD"
-          />
+          <TextInput style={styles.input} value={nascPet} onChangeText={setNascPet} placeholder="AAAA-MM-DD" />
+
           <Text style={styles.label}>E-mail:</Text>
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-            placeholder="Digite o email"
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-          <Text style={styles.label}>Possui algum problema de saúde ou alergias:</Text>
-          <TextInput
-            style={styles.input}
-            value={dados}
-            onChangeText={setDados}
-            placeholder="Informe se houver"
-          />
+          <TextInput style={styles.input} value={email} onChangeText={setEmail} placeholder="Digite o email" keyboardType="email-address" autoCapitalize="none" />
+
+          <Text style={styles.label}>Problemas de saúde ou alergias:</Text>
+          <TextInput style={styles.input} value={dados} onChangeText={setDados} placeholder="Informe se houver" />
 
           <TouchableOpacity style={styles.button} onPress={handleConsulta} disabled={isSubmitting}>
             <Text style={styles.buttonText}>{isSubmitting ? "Cadastrando..." : "Cadastrar"}</Text>
@@ -178,17 +153,12 @@ export default function Consulta() {
 }
 
 const styles = StyleSheet.create({
-  scroll: {
-    flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
+  scroll: { flexGrow: 1, justifyContent: "center", alignItems: "center", padding: 20 },
   containerForm: {
-    borderColor: "rgba(0, 0, 0, 1)",
+    borderColor: "rgba(0,0,0,1)",
     borderWidth: 1,
     maxWidth: 600,
-    backgroundColor: "rgba(255, 255, 255, 1)",
+    backgroundColor: "#fff",
     padding: 20,
     borderRadius: 15,
     ...(Platform.OS === "web"
@@ -200,73 +170,73 @@ const styles = StyleSheet.create({
           shadowOffset: { width: 0, height: 2 },
         }),
   },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "rgba(29, 172, 255, 1)",
-    textAlign: "center",
-    marginBottom: 20,
+  title: { 
+    fontSize: 22, 
+    fontWeight: "bold", 
+    color: "#1dacff", 
+    textAlign: "center", 
+    marginBottom: 20 
   },
-  label: {
-    color: "rgba(29, 172, 255, 1)",
-    fontSize: 16,
-    marginBottom: 5,
+  label: { 
+    color: "#1dacff", 
+    fontSize: 16, 
+    marginBottom: 5 
   },
-  input: {
-    borderColor: "rgba(0, 0, 0, 1)",
-    borderWidth: 1,
-    height: 40,
-    backgroundColor: "rgba(255, 255, 255, 1)",
-    borderRadius: 10,
-    marginBottom: 20,
-    paddingHorizontal: 10,
+  input: { 
+    borderColor: "#000", 
+    borderWidth: 1, 
+    height: 40, 
+    backgroundColor: "#fff", 
+    borderRadius: 10, 
+    marginBottom: 20, 
+    paddingHorizontal: 10 
   },
-  button: {
-    backgroundColor: "rgba(29, 172, 255, 1)",
-    borderRadius: 8,
-    paddingVertical: 15,
-    marginVertical: 10,
-    width: "100%",
-    alignItems: "center",
+  button: { 
+    backgroundColor: "#1dacff", 
+    borderRadius: 8, 
+    paddingVertical: 15, 
+    marginVertical: 10, 
+    width: "100%", 
+    alignItems: "center"
+   },
+  buttonText: { 
+    color: "#fff", 
+    fontSize: 18, 
+    fontWeight: "600" 
   },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "600",
+  backButton: { 
+    backgroundColor: "#1dacff" 
   },
-  backButton: {
-    backgroundColor: "rgba(29, 172, 255, 1)", 
+  radioContainer: { 
+    flexDirection: "row", 
+    justifyContent: "space-evenly", 
+    marginBottom: 20 
   },
-  radioContainer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginBottom: 20,
-  },
-  radioButton: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  radioCircle: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
+  radioButton: { 
+    flexDirection: "row", 
+    alignItems: "center"
+   },
+  radioCircle: { 
+    width: 20, 
+    height: 20, 
+    borderRadius: 10, 
+    borderWidth: 2, 
     borderColor: "#29acff",
-    marginRight: 10,
+     marginRight: 10 
+    },
+  radioSelected: { 
+    backgroundColor: "#29acff" 
   },
-  radioSelected: {
-    backgroundColor: "#29acff",
+  radioLabel: { 
+    fontSize: 16, 
+    color: "#000" 
   },
-  radioLabel: {
-    fontSize: 16,
-    color: "#000",
-  },
-  whatsappButton: {
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    backgroundColor: "#25D366",
-    borderRadius: 50,
-    padding: 15,
+  whatsappButton: { 
+    position: "absolute", 
+    bottom: 20, 
+    right: 20, 
+    backgroundColor: "#25D366", 
+    borderRadius: 50, 
+    padding: 15 
   },
 });
