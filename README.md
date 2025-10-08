@@ -132,6 +132,6 @@ O app oferece uma experiência completa para tutores e amantes de animais, com f
 ---
 
 
-## 🐾 **Autores e Créditos**
-Desenvolvido com carinho por **Evelyn Fernandes, Larissa dos santos da Rocha** e equipe.  
-Projeto acadêmico voltado ao **cuidado, amor e bem-estar dos pets.** ❤️
+## **Autores e Créditos**
+Mobile desenvolvido por **Evelyn Fernandes e Larissa dos santos da Rocha** .  
+Projeto acadêmico voltado ao **cuidado, amor e bem-estar dos pets.** 
