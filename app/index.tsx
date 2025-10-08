@@ -152,22 +152,18 @@ export default function Index() {
     <CategoriaButton
       label="Cachorros"
       image={require("../assets/images/cachorro.gif")}
-      route="/cachorros"
     />
     <CategoriaButton
       label="Gatos"
       image={require("../assets/images/gato.gif")}
-      route="/gatos"
     />
     <CategoriaButton
       label="Outros Pets"
       image={require("../assets/images/peixe-palhaco.gif")}
-      route="/outros"
     />
     <CategoriaButton
       label="Farmacia"
       image={require("../assets/images/farmacia.gif")}
-      route="/farmacia"
     />
   </View>
 </View>
@@ -237,7 +233,6 @@ function CategoriaButton({ label, image, route }: any) {
   return (
     <TouchableOpacity
       style={styles.categoriaBtn}
-      onPress={() => router.push(route)} 
     >
       <Image source={image} style={styles.categoriaImg} />
       <Text style={styles.categoriaText}>{label}</Text>
