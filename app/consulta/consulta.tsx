@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { useNavigation, useRouter } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function Consulta() {
   const [nomePet, setNomePet] = useState('');
@@ -11,7 +12,8 @@ export default function Consulta() {
   const [nascPet, setNascPet] = useState('');
   const [email, setEmail] = useState('');
   const [dados, setDados] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false); 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const navigation = useNavigation();
   const router = useRouter();
@@ -44,8 +46,6 @@ export default function Consulta() {
   }, []);
 
   const handleConsulta = async () => {
-    console.log("🚀 Botão Cadastrar clicado!");
-
     if (!nomePet || !email || !nascPet || !especie || !raca || !nomeProprietario) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
       return;
@@ -60,16 +60,14 @@ export default function Consulta() {
     setIsSubmitting(true);
 
     const petData = {
-      nomePet,
-      especiePet: especie,
-      racaPet: raca,
-      nomeProprietario,
-      nascpet: nascPet,
-      emailProprietario: email,
-      dados,
+      nomePet: nomePet.trim(),
+      especiePet: especie.toLowerCase(),
+      racaPet: raca.trim(),
+      nomeProprietario: nomeProprietario.trim(),
+      nascpet: new Date(nascPet).toISOString(),
+      emailProprietario: email.trim(),
+      dados: dados.trim(),
     };
-
-    console.log("📤 Dados que serão enviados:", petData);
 
     try {
       const response = await fetch('https://back-end-tcc-gamma.vercel.app/consultas', {
@@ -78,8 +76,8 @@ export default function Consulta() {
         body: JSON.stringify(petData),
       });
 
-      const result = await response.json();
-      console.log("📡 Resposta do servidor:", response.status, result);
+      const resultText = await response.text();
+      console.log("📡 Resposta do servidor:", response.status, resultText);
 
       if (response.ok) {
         Alert.alert('Sucesso', 'Consulta agendada com sucesso!');
@@ -91,7 +89,7 @@ export default function Consulta() {
         setEmail('');
         setDados('');
       } else {
-        Alert.alert('Erro ao agendar consulta', result.message || 'Erro desconhecido.');
+        Alert.alert('Erro', `Falha ao enviar consulta. Código: ${response.status}`);
       }
     } catch (error) {
       console.error("🚨 Erro de rede:", error);
@@ -126,8 +124,51 @@ export default function Consulta() {
           <Text style={styles.label}>Nome do Proprietário:</Text>
           <TextInput style={styles.input} value={nomeProprietario} onChangeText={setNomeProprietario} placeholder="Nome do dono" />
 
+          {/* 🗓️ CAMPO DE DATA (compatível com web e mobile) */}
           <Text style={styles.label}>Data de Nascimento do Pet:</Text>
-          <TextInput style={styles.input} value={nascPet} onChangeText={setNascPet} placeholder="AAAA-MM-DD" />
+
+          {Platform.OS === "web" ? (
+            <input
+              type="date"
+              value={nascPet}
+              onChange={(e) => setNascPet(e.target.value)}
+              style={{
+                width: "93%",
+                height: 40,
+                borderRadius: 10,
+                borderColor: "rgba(0,0,0,1)",
+               borderWidth: 1,
+                padding: "0 10px",
+                marginBottom: 20,
+              }}
+            />
+          ) : (
+            <>
+              <TouchableOpacity
+                style={[styles.input, { justifyContent: "center" }]}
+                onPress={() => setShowDatePicker(true)}
+              >
+                <Text style={{ color: nascPet ? "#000" : "#888" }}>
+                  {nascPet ? nascPet : "Selecionar data"}
+                </Text>
+              </TouchableOpacity>
+
+              {showDatePicker && (
+                <DateTimePicker
+                  value={nascPet ? new Date(nascPet) : new Date()}
+                  mode="date"
+                  display="default"
+                  onChange={(event, selectedDate) => {
+                    setShowDatePicker(false);
+                    if (selectedDate) {
+                      const formatted = selectedDate.toISOString().split("T")[0];
+                      setNascPet(formatted);
+                    }
+                  }}
+                />
+              )}
+            </>
+          )}
 
           <Text style={styles.label}>E-mail:</Text>
           <TextInput style={styles.input} value={email} onChangeText={setEmail} placeholder="Digite o email" keyboardType="email-address" autoCapitalize="none" />
@@ -183,7 +224,7 @@ const styles = StyleSheet.create({
     marginBottom: 5 
   },
   input: { 
-    borderColor: "#000", 
+    borderColor: "#000000ff", 
     borderWidth: 1, 
     height: 40, 
     backgroundColor: "#fff", 
@@ -229,7 +270,7 @@ const styles = StyleSheet.create({
   },
   radioLabel: { 
     fontSize: 16, 
-    color: "#000" 
+    color: "#000000ff" 
   },
   whatsappButton: { 
     position: "absolute", 
