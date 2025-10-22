@@ -103,7 +103,6 @@ export default function Index() {
           </View>
         </View>
 
-
         <View style={styles.juros}>
           <CardInfo
             image={require("../assets/images/relogio.png")}
