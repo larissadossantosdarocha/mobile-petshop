@@ -42,42 +42,43 @@ export default function Login() {
   };
 
   const handleLogin = async () => {
-    if (!email || !senha) {
-      Alert.alert('Erro', 'Por favor, preencha os campos.');
-      return;
-    }
+  if (!email || !senha) {
+    Alert.alert('Erro', 'Por favor, preencha os campos.');
+    return;
+  }
 
-    if (!validateEmail(email)) {
-      Alert.alert('Erro', 'Por favor, insira um e-mail válido.');
-      return;
-    }
+  if (!validateEmail(email)) {
+    Alert.alert('Erro', 'Por favor, insira um e-mail válido.');
+    return;
+  }
 
-    setIsLoading(true); 
+  setIsLoading(true); 
 
-    try {
-      const response = await fetch('https://back-end-tcc-gamma.vercel.app/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, senha }),
-      });
+  try {
+    const response = await fetch('https://back-end-tcc-gamma.vercel.app/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, senha }),
+    });
 
-      if (response.ok) {
-        const data = await response.json();
+    if (response.ok) {
+      const data = await response.json();
  
-        Alert.alert('Sucesso', data.message || 'Login realizado com sucesso!');
-        router.push('/auth/login'); 
-      } else {
-        const erro = await response.json();  
-        Alert.alert('Erro ao fazer login', erro.message || 'Erro desconhecido. Tente novamente mais tarde.');
-      }
-    } catch (error: any) {
-      Alert.alert('Erro', `Não foi possível conectar ao servidor. Detalhes: ${error.message}`);
-    } finally {
-      setIsLoading(false); 
+      Alert.alert('Sucesso', data.message || 'Login realizado com sucesso!');
+      router.push('/'); 
+    } else {
+      const erro = await response.json();  
+      Alert.alert('Erro ao fazer login', erro.message || 'Erro desconhecido. Tente novamente mais tarde.');
     }
-  };
+  } catch (error: any) {
+    Alert.alert('Erro', `Não foi possível conectar ao servidor. Detalhes: ${error.message}`);
+  } finally {
+    setIsLoading(false); 
+  }
+};
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
