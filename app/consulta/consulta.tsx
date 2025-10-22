@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView,
 import { useNavigation, useRouter } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Linking } from 'react-native';
 
 export default function Consulta() {
   const [nomePet, setNomePet] = useState('');
@@ -124,7 +125,6 @@ export default function Consulta() {
           <Text style={styles.label}>Nome do Proprietário:</Text>
           <TextInput style={styles.input} value={nomeProprietario} onChangeText={setNomeProprietario} placeholder="Nome do dono" />
 
-          {/* 🗓️ CAMPO DE DATA (compatível com web e mobile) */}
           <Text style={styles.label}>Data de Nascimento do Pet:</Text>
 
           {Platform.OS === "web" ? (
@@ -186,9 +186,9 @@ export default function Consulta() {
         </View>
       </ScrollView>
 
-      <TouchableOpacity style={styles.whatsappButton} onPress={() => router.push("https://wa.me/19995601381")}>
-        <FontAwesome name="whatsapp" size={32} color="#fff" />
-      </TouchableOpacity>
+      <TouchableOpacity style={styles.whatsappButton} onPress={() => Linking.openURL("https://wa.me/19995601381")}>
+    <FontAwesome name="whatsapp" size={32} color="#fff" />
+  </TouchableOpacity>
     </KeyboardAvoidingView>
   );
 }
