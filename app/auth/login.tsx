@@ -60,7 +60,7 @@ export default function Login() {
     setIsLoading(true); 
 
     try {
-      const response = await fetch('https://back-end-tcc-gamma.vercel.app/login', {
+      const response = await fetch('https://backend-tcc-petshop-petgato-2025.vercel.app/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
