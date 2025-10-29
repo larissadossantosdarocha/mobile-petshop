@@ -24,9 +24,9 @@ export default function Confira() {
           </TouchableOpacity>
         </View>
       ),
-      headerStyle: { backgroundColor: "rgb(180, 227, 241)" },
+      headerStyle: { backgroundColor: "#1B02A8" },
       headerTitleStyle: {
-        color: "rgba(0, 0, 0, 1)",
+        color: "#fff", 
         fontFamily: "Garamond",
         fontSize: 28,
         fontWeight: "bold",
@@ -36,7 +36,6 @@ export default function Confira() {
 
   return (
     <ScrollView style={styles.container}>
-
       <View style={styles.section}>
         <Text style={styles.title}>Conheça também a parte de consulta!</Text>
         <Text style={styles.paragraph}>

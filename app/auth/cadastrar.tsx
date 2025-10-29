@@ -10,25 +10,27 @@ export default function Cadastro() {
 
   useEffect(() => {
     navigation.setOptions({
-         title: "𝓒𝓪𝓭𝓪𝓼𝓽𝓻𝓪𝓻",
-         headerRight: () => (
-           <View style={{ flexDirection: "row", alignItems: "center" }}>
-             <TouchableOpacity
-               style={{ marginRight: 10 }}
-               onPress={() => router.push("/")}
-             >
-               <Text style={{ color: "#ffffffff", fontSize: 20, fontWeight: "600" }}>
-                 Início
-               </Text>
-             </TouchableOpacity>
-             <TouchableOpacity onPress={() => router.push("/auth/login")}>
-               <Image
-                 source={require("../../assets/images/pessoa.png")}
-                 style={{ width: 40, height: 28, resizeMode: "contain"}}
-               />
-             </TouchableOpacity>
-           </View>
+      title: "𝓒𝓪𝓭𝓪𝓼𝓽𝓻𝓪𝓻",
+      headerRight: () => (
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <TouchableOpacity
+            style={{ marginRight: 10 }}
+            onPress={() => router.push("/")}
+          >
+            <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
+              Início
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push("/auth/login")}>
+            <Image
+              source={require("../../assets/images/pessoa.png")}
+              style={{ width: 40, height: 28, resizeMode: "contain"}}
+            />
+          </TouchableOpacity>
+        </View>
       ),
+      headerStyle: { backgroundColor: "#1B02A8" },
+      headerTitleStyle: { color: "#fff", fontFamily: "Garamond", fontSize: 28, fontWeight: "bold" },
     });
   }, []);
 
@@ -82,7 +84,7 @@ export default function Cadastro() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: 'rgba(29, 172, 255, 1)' }]}
+          style={[styles.button, { backgroundColor: 'rgba(66, 113, 184, 1)' }]}
           onPress={() => router.push('/')}
         >
           <Text style={styles.buttonText}>Voltar</Text>
@@ -102,13 +104,13 @@ export default function Cadastro() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#ffffffff',
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 10,
   },
   form: {
-    borderColor: "rgba(29, 172, 255, 1)",
+    borderColor: "rgba(5, 12, 41, 1)",
     borderWidth: 1,
     backgroundColor: '#fff',
     padding: 20,
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   button: {
-    backgroundColor: 'rgba(29, 172, 255, 1)',
+    backgroundColor: 'rgba(66, 113, 184, 1)',
     paddingVertical: 10,
     borderRadius: 5,
     marginTop: 10,
@@ -147,11 +149,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   infoText: {
-    color: '#555',
+    color: '#45a1dfff',
     fontSize: 14,
   },
   linkText: {
-    color: '#42bff5',
+    color: '#4d6ac9ff',
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 4,
