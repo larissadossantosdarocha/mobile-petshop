@@ -6,11 +6,10 @@ export default function Layout() {
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: " rgb(180, 227, 241)"},
+          backgroundColor: "#1B02A8", 
+        },
         headerTitleStyle: {
-          color: "rgba(0, 0, 0, 1)",
-          fontSize: 28,
-          fontWeight: "bold",
+          color: "#fff",
         },
         headerTitleAlign: "left",
       }}
@@ -25,17 +24,28 @@ export default function Layout() {
                 style={{ marginRight: 16 }}
                 onPress={() => router.push("/")}
               >
-                <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 20,
+                    fontWeight: "600",
+                  }}
+                >
                   Início
                 </Text>
               </TouchableOpacity>
+
               <TouchableOpacity
                 style={{ marginRight: 12 }}
                 onPress={() => router.push("/auth/login")}
               >
                 <Image
                   source={require("../assets/images/pessoa.png")}
-                  style={{ width: 30, height: 28, resizeMode: "contain" }}
+                  style={{
+                    width: 30,
+                    height: 28,
+                    resizeMode: "contain",
+                  }}
                 />
               </TouchableOpacity>
             </View>

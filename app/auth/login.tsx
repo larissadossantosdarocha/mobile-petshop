@@ -11,10 +11,15 @@ export default function Login() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: 'Login',
-      headerStyle: { backgroundColor: 'rgb(180, 227, 241)' },
-      headerTintColor: '#000000ff',
-      headerTitleStyle: { fontWeight: 'bold' },
+      title: "𝓛𝓸𝓰𝓲𝓷", 
+      headerStyle: { backgroundColor: '#1B02A8' },
+      headerTintColor: '#fff', 
+      headerTitleStyle: {
+        color: '#fff', 
+        fontSize: 28,
+        fontWeight: 'bold',
+        fontFamily: 'Garamond',
+      },
       headerRight: () => (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <TouchableOpacity
@@ -42,43 +47,41 @@ export default function Login() {
   };
 
   const handleLogin = async () => {
-  if (!email || !senha) {
-    Alert.alert('Erro', 'Por favor, preencha os campos.');
-    return;
-  }
-
-  if (!validateEmail(email)) {
-    Alert.alert('Erro', 'Por favor, insira um e-mail válido.');
-    return;
-  }
-
-  setIsLoading(true); 
-
-  try {
-    const response = await fetch('https://back-end-tcc-gamma.vercel.app/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, senha }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
- 
-      Alert.alert('Sucesso', data.message || 'Login realizado com sucesso!');
-      router.push('/'); 
-    } else {
-      const erro = await response.json();  
-      Alert.alert('Erro ao fazer login', erro.message || 'Erro desconhecido. Tente novamente mais tarde.');
+    if (!email || !senha) {
+      Alert.alert('Erro', 'Por favor, preencha os campos.');
+      return;
     }
-  } catch (error: any) {
-    Alert.alert('Erro', `Não foi possível conectar ao servidor. Detalhes: ${error.message}`);
-  } finally {
-    setIsLoading(false); 
-  }
-};
 
+    if (!validateEmail(email)) {
+      Alert.alert('Erro', 'Por favor, insira um e-mail válido.');
+      return;
+    }
+
+    setIsLoading(true); 
+
+    try {
+      const response = await fetch('https://back-end-tcc-gamma.vercel.app/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, senha }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        Alert.alert('Sucesso', data.message || 'Login realizado com sucesso!');
+        router.push('/'); 
+      } else {
+        const erro = await response.json();  
+        Alert.alert('Erro ao fazer login', erro.message || 'Erro desconhecido. Tente novamente mais tarde.');
+      }
+    } catch (error: any) {
+      Alert.alert('Erro', `Não foi possível conectar ao servidor. Detalhes: ${error.message}`);
+    } finally {
+      setIsLoading(false); 
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -109,7 +112,8 @@ export default function Login() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: 'rgba(29, 172, 255, 1)' }]} onPress={() => router.push('/')}
+          style={[styles.button, { backgroundColor: '#1B02A8' }]}
+          onPress={() => router.push('/')}
         >
           <Text style={styles.buttonText}>Voltar</Text>
         </TouchableOpacity>
@@ -134,7 +138,7 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
   },
   form: {
-    borderColor: "rgba(29, 172, 255, 1)",
+    borderColor: '#1B02A8',
     borderWidth: 1,
     backgroundColor: '#fff',
     padding: 25,
@@ -149,7 +153,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#1B02A8', 
     marginBottom: 20,
   },
   input: {
@@ -163,7 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
   },
   button: {
-    backgroundColor: 'rgba(29, 172, 255, 1)',
+    backgroundColor: '#1B02A8', 
     paddingVertical: 12,
     borderRadius: 25,
     marginTop: 15,
@@ -184,7 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   linkText: {
-    color: '#42bff5',
+    color: '#1B02A8',
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 4,

@@ -16,10 +16,11 @@ export default function Adocao() {
             style={{ marginRight: 16 }}
             onPress={() => router.push("/")}
           >
-            <Text style={{ color: "#ffffffff", fontSize: 20, fontWeight: "600" }}>
+            <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
               Início
             </Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             onPress={() => router.push("/auth/login")}
             style={{ marginRight: 24 }}
@@ -32,13 +33,16 @@ export default function Adocao() {
           </TouchableOpacity>
         </View>
       ),
-      headerStyle: { backgroundColor: "#4bc6eb85" },
+
+      headerStyle: { backgroundColor: "#1B02A8" },
+
       headerTitleStyle: {
-        color: "rgba(0, 0, 0, 1)",
+        color: "#fff", 
         fontSize: 26,
         fontWeight: "bold",
         fontFamily: "Garamond",
       },
+
       headerTitleAlign: "left",
     });
   }, []);
@@ -47,7 +51,7 @@ export default function Adocao() {
     <View style={styles.container}>
       <Image
         source={{
-          uri: "https://img.freepik.com/vetores-premium/adocao-de-animais-de-estimacao-maos-segurando-caes-gatos-bandeira-de-abrigo-animais-fofos-isolados-adotar-o-fundo-do-vetor_81894-4962.jpg"
+          uri: "https://img.freepik.com/vetores-premium/adocao-de-animais-de-estimacao-maos-segurando-caes-gatos-bandeira-de-abrigo-animais-fofos-isolados-adotar-o-fundo-do-vetor_81894-4962.jpg",
         }}
         style={styles.banner}
         resizeMode="cover"
@@ -111,19 +115,6 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 15,
     marginBottom: 15,
-  },
-  titulo: {
-    borderColor: "rgba(29, 172, 255, 1)",
-    borderWidth: 1,
-    backgroundColor: "rgba(255, 255, 255, 1)",
-    padding: 10,
-    borderRadius: 10,
-    fontSize: 22,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "rgba(14, 179, 230, 1)",
-    marginBottom: 20,
-    fontFamily: "Garamond",
   },
   cardsContainer: {
     width: "90%",
