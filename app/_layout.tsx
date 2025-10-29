@@ -6,10 +6,13 @@ export default function Layout() {
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#1B02A8", 
+          backgroundColor: "#1B02A8",
         },
         headerTitleStyle: {
-          color: "#fff",
+          color: "#fff",       
+          fontSize: 30,        
+          fontWeight: "bold",
+          fontFamily: "Garamond", 
         },
         headerTitleAlign: "left",
       }}
@@ -36,7 +39,7 @@ export default function Layout() {
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={{ marginRight: 12 }}
+                style={{ marginRight: 16 }}
                 onPress={() => router.push("/auth/login")}
               >
                 <Image
