@@ -24,13 +24,8 @@ export default function Consulta() {
       title: "𝓒𝓸𝓷𝓼𝓾𝓵𝓽𝓪",
       headerRight: () => (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <TouchableOpacity
-            style={{ marginRight: 14 }}
-            onPress={() => router.push("/")}
-          >
-            <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
-              Início
-            </Text>
+          <TouchableOpacity style={{ marginRight: 14 }} onPress={() => router.push("/")}>
+            <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>Início</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => router.push("/auth/login")}>
@@ -42,9 +37,7 @@ export default function Consulta() {
           </TouchableOpacity>
         </View>
       ),
-
       headerStyle: { backgroundColor: "#1B02A8" },
-
       headerTitleStyle: {
         color: "#fff",
         fontFamily: "Garamond",
@@ -73,20 +66,25 @@ export default function Consulta() {
       especiePet: especie.toLowerCase(),
       racaPet: raca.trim(),
       nomeProprietario: nomeProprietario.trim(),
-      nascpet: new Date(nascPet).toISOString(),
+      nascpet: new Date(nascPet).toISOString(), 
       emailProprietario: email.trim(),
-      dados: dados.trim(),
+      dados: dados.trim() || "Sem observações",
     };
 
-    try {
-      const response = await fetch("https://back-end-tcc-gamma.vercel.app/consultas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(petData),
-      });
+    console.log("📤 Enviando dados para o servidor:", petData);
 
-      const resultText = await response.text();
-      console.log("📡 Resposta do servidor:", response.status, resultText);
+    try {
+      const response = await fetch(
+        "https://backend-tcc-petshop-petgato-2025.vercel.app/consultas",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(petData),
+        }
+      );
+
+      const text = await response.text();
+      console.log("📡 Resposta do servidor:", response.status, text);
 
       if (response.ok) {
         Alert.alert("Sucesso", "Consulta agendada com sucesso!");
@@ -98,11 +96,14 @@ export default function Consulta() {
         setEmail("");
         setDados("");
       } else {
-        Alert.alert("Erro", `Falha ao enviar consulta. Código: ${response.status}`);
+        Alert.alert(
+          "Erro",
+          `Falha ao enviar consulta.\nCódigo: ${response.status}\nDetalhes: ${text}`
+        );
       }
     } catch (error) {
       console.error("🚨 Erro de rede:", error);
-      Alert.alert("Erro", "Não foi possível conectar ao servidor.");
+      Alert.alert("Erro", "Não foi possível conectar ao servidor. Verifique sua internet.");
     } finally {
       setIsSubmitting(false);
     }
