@@ -1,96 +1,184 @@
 import React from "react";
-import { View, Text, Image, ScrollView, TouchableOpacity, Linking, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { router } from "expo-router";
 
 export default function Blog1() {
   return (
     <ScrollView style={styles.container}>
+      
+      {/* BOTÃO DE VOLTAR */}
+      <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
+        <Text style={styles.backBtnTxt}>◀ Voltar</Text>
+      </TouchableOpacity>
 
-      <View style={styles.section}>
-        <Text style={styles.headline}>Cuidados Essenciais para Filhotes</Text>
-        <Text style={styles.lead}>
-          O que você precisa saber para cuidar bem do seu filhote e garantir um crescimento feliz e saudável:
+      {/* TÍTULO */}
+      <Text style={styles.title}>Cuidados Essenciais para Filhotes</Text>
+      <Text style={styles.meta}>
+        Por <Text style={styles.bold}>Equipe Pet Gatô</Text> — 15 de agosto de 2025 • 09:15
+      </Text>
+
+      {/* IMAGEM PRINCIPAL */}
+      <Image
+        source={require("../../assets/images/banner2.jpg")}
+        style={styles.mainImg}
+      />
+
+      {/* CONTEÚDO */}
+      <Text style={styles.paragraph}>
+        <Text style={styles.bold}>Alimentação adequada:</Text> Nos primeiros meses de vida,
+        o filhote precisa de ração própria para a idade para garantir um crescimento
+        saudável e cheio de energia.
+      </Text>
+
+      <Text style={styles.paragraph}>
+        <Text style={styles.bold}>Vacinação e vermifugação:</Text> A vacinação é essencial
+        para evitar doenças graves. Consulte sempre um veterinário para manter tudo em dia!
+      </Text>
+
+      <Text style={styles.paragraph}>
+        <Text style={styles.bold}>Socialização:</Text> O contato com pessoas, outros animais
+        e ambientes diferentes desenvolve confiança e boa convivência.
+      </Text>
+
+      <Image
+        source={require("../../assets/images/petcomoutropet.jpg")}
+        style={styles.secondaryImg}
+      />
+
+      <Text style={styles.paragraph}>
+        <Text style={styles.bold}>Treinamento básico:</Text> Ensine comandos simples desde
+        cedo. O aprendizado aos poucos faz toda a diferença na convivência.
+      </Text>
+
+      <Text style={styles.paragraph}>
+        <Text style={styles.bold}>Higiene e cuidados diários:</Text> Banhos, escovação e
+        limpeza das orelhas previnem problemas de pele e infecções.
+      </Text>
+
+      <Image
+        source={require("../../assets/images/banhopet.jpg")}
+        style={styles.secondaryImg}
+      />
+
+      <Text style={styles.paragraph}>
+        <Text style={styles.bold}>⚠️ Cuidados adicionais:</Text> Evite quedas, brincadeiras
+        perigosas e contato com animais sem vacinação.
+      </Text>
+
+      <Text style={styles.paragraph}>
+        <Text style={styles.bold}>💖 Amor e paciência:</Text> Filhotes aprendem com carinho,
+        rotina e reforços positivos!
+      </Text>
+
+      {/* OUTROS ARTIGOS */}
+      <Text style={styles.otherArticles}>Outros Artigos:</Text>
+
+      <TouchableOpacity onPress={() => router.push("/blog/blog2")}>
+        <Text style={styles.link}>O Que Fazer Se O Seu Pet Estiver Vesgo</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => router.push("/blog/blog3")}>
+        <Text style={styles.link}>Como Proteger Seu Pet Durante o Verão</Text>
+      </TouchableOpacity>
+
+      {/* COMENTÁRIOS */}
+      <Text style={styles.commentsTitle}>Comentários:</Text>
+
+      <View style={styles.commentBox}>
+        <Text style={styles.comment}>
+          <Text style={styles.bold}>Myrella:</Text> Muito interessante, estou aprendendo com meu filhote!
         </Text>
-
-        <Image
-          source={require("../../assets/images/banner2.jpg")}
-          style={styles.image}
-        />
-
-        <Text style={styles.text}>
-          <Text style={styles.bold}>Alimentação adequada:</Text> Nos primeiros meses de vida, o filhote precisa de uma dieta balanceada e rica em nutrientes...
-        </Text>
-
-        <Text style={styles.text}>
-          <Text style={styles.bold}>Vacinação e vermifugação:</Text> A vacinação é fundamental para proteger o animal contra doenças graves...
-        </Text>
-
-        <Text style={styles.text}>
-          <Text style={styles.bold}>Socialização:</Text> O contato com pessoas, outros animais e diferentes ambientes é essencial...
-        </Text>
-
-        <Image
-          source={require("../../assets/images/petcomoutropet.jpg")}
-          style={styles.image}
-        />
-
-        <Text style={styles.text}>
-          <Text style={styles.bold}>Treinamento básico:</Text> Ensinar comandos simples como “sentar”, “ficar” e “vir aqui” desde cedo é importante...
-        </Text>
-
-        <Text style={styles.text}>
-          <Text style={styles.bold}>Higiene e cuidados diários:</Text> Banhos, escovação dos pelos e limpeza das orelhas devem ser feitos...
-        </Text>
-
-        <Image
-          source={require("../../assets/images/banhopet.jpg")}
-          style={styles.image}
-        />
-
-        <Text style={styles.text}>
-          <Text style={styles.bold}>⚠️ Cuidados adicionais:</Text> Evite brincadeiras perigosas, quedas de escadas e contato com animais não vacinados...
-        </Text>
-
-        <Text style={styles.text}>
-          <Text style={styles.bold}>✅ Dica importante:</Text> Crie um ambiente seguro e aconchegante para o descanso do filhote...
-        </Text>
-
-        <Text style={styles.text}>
-          <Text style={styles.bold}>💖 Amor e paciência:</Text> Filhotes aprendem aos poucos. O carinho e a constância nos cuidados diários...
+      </View>
+      <View style={styles.commentBox}>
+        <Text style={styles.comment}>
+          <Text style={styles.bold}>Cleitinho:</Text> Estou gostando, está me ajudando muito!
         </Text>
       </View>
 
-      <View style={styles.section}>
-        <Text style={styles.subTitle}>Outros Artigos:</Text>
-
-        <TouchableOpacity onPress={() => Linking.openURL("blog2.tsx")}>
-          <Text style={styles.link}>O Que Fazer Se O Seu Pet Estiver Vesgo</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => Linking.openURL("blog3.tsx")}>
-          <Text style={styles.link}>Como Proteger Seu Pet Durante o Verão</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.comments}>
-        <Text style={styles.commentTitle}>Comentários</Text>
-        <Text style={styles.comment}><Text style={styles.bold}>Myrella:</Text> Muito interessante, estou praticando com meu animalzinho!</Text>
-        <Text style={styles.comment}><Text style={styles.bold}>Cleitinho:</Text> Estou gostando do contato, está me ajudando muito.</Text>
-      </View>
     </ScrollView>
   );
 }
 
+/* ===== STYLES ===== */
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff", padding: 16 },
-  section: { marginVertical: 16 },
-  headline: { fontSize: 20, fontWeight: "bold", marginBottom: 8 },
-  lead: { fontSize: 14, color: "#555", marginBottom: 10 },
-  text: { fontSize: 14, marginBottom: 10, textAlign: "justify" },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 15,
+  },
+  backBtn: {
+    alignSelf: "flex-start",
+    marginBottom: 10,
+  },
+  backBtnTxt: {
+    fontSize: 16,
+    color: "#1B02A8",
+    fontWeight: "bold",
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#1B02A8",
+  },
+  meta: {
+    fontSize: 12,
+    marginTop: 4,
+    color: "#555",
+  },
   bold: { fontWeight: "bold" },
-  image: { width: "100%", height: 200, borderRadius: 10, marginVertical: 10 },
-  subTitle: { fontSize: 18, fontWeight: "600", marginBottom: 6 },
-  link: { color: "#007AFF", marginBottom: 5 },
-  comments: { marginTop: 20, padding: 10, backgroundColor: "#f9f9f9", borderRadius: 8 },
-  commentTitle: { fontSize: 18, fontWeight: "bold", marginBottom: 8 },
-  comment: { fontSize: 14, marginBottom: 6 },
+  mainImg: {
+    width: "100%",
+    height: 200,
+    borderRadius: 12,
+    resizeMode: "cover",
+    marginVertical: 15,
+  },
+  paragraph: {
+    fontSize: 14,
+    color: "#333",
+    textAlign: "justify",
+    marginBottom: 10,
+  },
+  secondaryImg: {
+    width: "100%",
+    height: 220,
+    marginVertical: 18,
+    borderRadius: 12,
+  },
+  otherArticles: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 30,
+    marginBottom: 10,
+    color: "#1B02A8",
+  },
+  link: {
+    fontSize: 15,
+    color: "#007BFF",
+    fontWeight: "600",
+    marginBottom: 8,
+  },
+  commentsTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 25,
+    color: "#1B02A8",
+  },
+  commentBox: {
+    backgroundColor: "#E8F6FF",
+    borderRadius: 8,
+    padding: 10,
+    marginTop: 8,
+  },
+  comment: {
+    fontSize: 14,
+    color: "#222",
+  },
 });

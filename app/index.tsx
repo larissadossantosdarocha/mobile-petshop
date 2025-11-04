@@ -1,15 +1,28 @@
+import React, { useEffect, useState, useRef } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+  useWindowDimensions,
+  Linking,
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React, { useState, useEffect } from "react";
-import { View,Text,Image,ScrollView,StyleSheet,TouchableOpacity,Dimensions,useWindowDimensions,} from "react-native";
 
 export default function Index() {
+  const { width } = useWindowDimensions();
   const [bannerIndex, setBannerIndex] = useState(0);
   const [carouselIndex, setCarouselIndex] = useState(0);
-  const { width } = useWindowDimensions();
+  const [scrollX, setScrollX] = useState(0);
+  const scrollRef = useRef<ScrollView>(null);
+  const blogRef = useRef<ScrollView>(null);
 
   const banners = [
-    { text: "Frete fixo de R$10,00 para todo o Brasil", color: "#1E90FF" },
-    { text: "Compras acima de R$100,00 ganham um brinde", color: "#5e6effff" },
+    { text: "Frete fixo de R$10,00 para todo o Brasil", color: "#0303fffb" },
+    { text: "Compras acima de R$100,00 ganham um brinde", color: "#00a6f3f6" },
   ];
 
   const carouselImages = [
@@ -18,184 +31,338 @@ export default function Index() {
     require("../assets/images/tosa.gif"),
   ];
 
-  const produtos = [
-    { id: 1, nome: "Ração Premium", imagem: require("../assets/images/premium.jpeg") },
-    { id: 2, nome: "Petisco Saudável", imagem: require("../assets/images/petiscos.jpeg") },
-    { id: 3, nome: "Kit Higiene", imagem: require("../assets/images/banho.jpeg") },
-  ];
-
   useEffect(() => {
-    const interval = setInterval(() => {
-      setBannerIndex((prev) => (prev + 1) % banners.length);
-    }, 4000);
+    const interval = setInterval(
+      () => setBannerIndex((prev) => (prev + 1) % banners.length),
+      4000
+    );
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCarouselIndex((prev) => (prev + 1) % carouselImages.length);
-    }, 4000);
+    const interval = setInterval(
+      () => setCarouselIndex((prev) => (prev + 1) % carouselImages.length),
+      4000
+    );
     return () => clearInterval(interval);
-  }, [carouselImages.length]);
+  }, []);
 
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView style={styles.container}>
-        <View style={styles.secondHeader}>
-          <HeaderButton
-            label="Consulta"
-            image={require("../assets/images/veterinario.gif")}
-            route="/consulta/consulta"
-          />
-          <HeaderButton
-            label="Adoção"
-            image={require("../assets/images/salve-os-animais.gif")}
-            route="/adocao/adocao"
-          />
-          <HeaderButton
-            label="Doações"
-            image={require("../assets/images/doacao.gif")}
-            route="/doacao/doacao"
-          />
-          <HeaderButton
-            label="Cadastrar"
-            image={require("../assets/images/cadastro.gif")}
-            route="/auth/cadastrar"
-          />
+    <ScrollView style={styles.container}>
+      {/* SUBHEADER */}
+      <View style={styles.subHeader}>
+        <HeaderButton
+          image={require("../assets/images/veterinario.gif")}
+          label="Consulta"
+          route="/consulta/consulta"
+        />
+        <HeaderButton
+          image={require("../assets/images/salve-os-animais.gif")}
+          label="Adoção"
+          route="/adocao/adocao"
+        />
+        <HeaderButton
+          image={require("../assets/images/doacao.gif")}
+          label="Doações"
+          route="/doacao/doacao"
+        />
+        <HeaderButton
+          image={require("../assets/images/noticias.gif")}
+          label="Cadastrar"
+          route="/auth/cadastrar"
+          
+        />
+        <HeaderButton
+          image={require("../assets/images/blog.gif")}
+          label="Blog"
+          route="/blog/blog1"
+        />
+      </View>
+
+      {/* ANÚNCIOS */}
+      <View style={styles.anuncios}>
+        <AnuncioCard
+          image={require("../assets/images/doacao.gif")}
+          title="Brinquedos que fazem a diferença!"
+          text="Doe e ajude a levar felicidade para quem mais precisa."
+        />
+        <AnuncioCard
+          image={require("../assets/images/veterinario.gif")}
+          title="Consulta para pets:"
+          text="Amor e saúde em cada ponto!"
+        />
+        <AnuncioCard
+          image={require("../assets/images/salve-os-animais.gif")}
+          title="Amor e cuidado!"
+          text="Faça a vida de um animalzinho feliz hoje, Adote um pet!"
+        />
+      </View>
+
+      {/* BANNER */}
+      <View
+        style={[styles.banner, { backgroundColor: banners[bannerIndex].color }]}
+      >
+        <Text style={styles.bannerText}>{banners[bannerIndex].text}</Text>
+      </View>
+
+      {/* CARROSSEL */}
+      <View style={styles.carouselContainer}>
+        <Image
+          source={carouselImages[carouselIndex]}
+          style={[styles.carouselImg, { width: width * 0.85 }]}
+        />
+        <View style={styles.dotsContainer}>
+          {carouselImages.map((_, i) => (
+            <TouchableOpacity
+              key={i}
+              style={[styles.dot, carouselIndex === i && styles.activeDot]}
+              onPress={() => setCarouselIndex(i)}
+            />
+          ))}
         </View>
+      </View>
 
-        <View style={styles.anuncios}>
-          <AnuncioCard
-            image={require("../assets/images/doacao.gif")}
-            title="Brinquedos que fazem a diferença!"
-            text="Doe e ajude a levar felicidade para quem mais precisa."
-          />
-          <AnuncioCard
-            image={require("../assets/images/veterinario.gif")}
-            title="Consulta para pets:"
-            text="Amor e saúde em cada ponto!"
-          />
-          <AnuncioCard
-            image={require("../assets/images/salve-os-animais.gif")}
-            title="Amor e cuidado para seu pet!"
-            text="Faça a vida de um animalzinho feliz hoje! Adote um pet!"
-          />
-        </View>
+      {/* CARDINFO */}
+      <View style={styles.juros}>
+        <CardInfo
+          image={require("../assets/images/relogio.png")}
+          title="Receba em algumas horas!"
+          text="Clique e confira"
+        />
+        <CardInfo
+          image={require("../assets/images/cartao.png")}
+          title="Parcele em até 3x"
+          text="Clique e confira"
+        />
+        <CardInfo
+          image={require("../assets/images/entrega-rapida.png")}
+          title="Frete Grátis"
+          text="Clique e confira"
+        />
+        <CardInfo
+          image={require("../assets/images/petshop.png")}
+          title="Retire na loja"
+          text="Clique e confira"
+        />
+      </View>
 
-        <View style={[styles.banner, { backgroundColor: banners[bannerIndex].color }]}>
-          <Text style={styles.bannerText}>{banners[bannerIndex].text}</Text>
-        </View>
+      {/* CUIDADOS BÁSICOS */}
+      <View style={styles.cuidadosSection}>
+        <Text style={styles.cuidadosTitle}>Cuidados Básicos:</Text>
 
-        <View style={styles.carouselWrapper}>
-          <Image
-            source={carouselImages[carouselIndex]}
-            style={[styles.carouselImage, { width: width * 0.8 }]}
-          />
-
-          <View style={styles.dotsContainer}>
-            {carouselImages.map((_, i) => (
-              <TouchableOpacity
-                key={i}
-                style={[styles.dot, carouselIndex === i && styles.activeDot]}
-                onPress={() => setCarouselIndex(i)}
-              />
-            ))}
+        {/* Banho & Tosa */}
+        <View style={styles.cuidadosBox}>
+          <View style={styles.cuidadoTextContainer}>
+            <Text style={styles.cuidadoSubTitle}>Banho {"&"} Tosa</Text>
+            <Text style={styles.cuidadoDesc}>
+              Higiene e Conforto para o seu melhor amigo!
+            </Text>
           </View>
-        </View>
-
-        <View style={styles.juros}>
-          <CardInfo
-            image={require("../assets/images/relogio.png")}
-            title="Receba em algumas horas!"
-            text="Confira as regras ->"
-          />
-          <CardInfo
-            image={require("../assets/images/cartao.png")}
-            title="Parcele em 3x sem juros!"
-            text="Confira as regras ->"
-          />
-          <CardInfo
-            image={require("../assets/images/entrega-rapida.png")}
-            title="Frete Grátis!"
-            text="Confira as regras ->"
-          />
-          <CardInfo
-            image={require("../assets/images/petshop.png")}
-            title="Retire e troque na loja!"
-            text="Confira as regras ->"
+          <Image
+            source={require("../assets/images/banho-tosa-pet-shop.jpg")}
+            style={styles.cuidadoImage}
           />
         </View>
 
-        <View style={styles.produtosSection}>
-          <Text style={styles.produtosTitle}>Produtos Recomendados:</Text>
+        {/* Veterinário */}
+        <TouchableOpacity
+          style={styles.cuidadosBox}
+          onPress={() => router.push("/consulta/consulta")}
+        >
+          <View style={styles.cuidadoTextContainer}>
+            <Text style={styles.cuidadoSubTitle}>Veterinário</Text>
+            <Text style={styles.cuidadoDesc}>
+              A saúde de seu pet, a sua prioridade
+            </Text>
+          </View>
+          <Image
+            source={require("../assets/images/veterinario.png")}
+            style={styles.cuidadoImage}
+          />
+        </TouchableOpacity>
+
+        {/* GIF */}
+    
+
+        {/* Texto abaixo */}
+        <View style={styles.petgatoContainer}>
+          <Image
+            source={require("../assets/images/favorito.png")}
+            style={styles.favoritoIcon}
+          />
+          <Text style={styles.petgatoText}>
+            Aqui no Pet Gatô, você encontra tudo o que o seu pet precisa.
+          </Text>
+        </View>
+
+        {/* CARROSSEL DE PROMOÇÕES */}
+        <View style={styles.promosContainer}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {[
+              { img: require("../assets/images/dois.png"), title: "Cuidadora de animais!" },
+              { img: require("../assets/images/tres.png"), title: "Tudo que você precisa!" },
+              { img: require("../assets/images/cinco.png"), title: "Vacinação do seu animal preferido!" },
+              { img: require("../assets/images/seis.png"), title: "Promoções Imperdíveis" },
+              { img: require("../assets/images/sete.png"), title: "Higiene Básica!" },
+              { img: require("../assets/images/quatro.png"), title: "Cuidador de animais!" },
+            ].map((item, index) => (
+              <View key={index} style={styles.promoCard}>
+                <Image source={item.img} style={styles.promoImage} />
+                <Text style={styles.promoText}>{item.title}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      </View>
+
+      {/* BLOG */}
+      <View style={styles.blogSection}>
+        <Text style={styles.sectionTitle}>Blog Pet Gatô:</Text>
+        <View style={styles.arrowWrapper}>
+          <TouchableOpacity
+            onPress={() =>
+              blogRef.current?.scrollTo({ x: scrollX - 250, animated: true })
+            }
+            style={styles.arrowCircle}
+          >
+            <FontAwesome name="chevron-left" size={18} color="#1B02A8" />
+          </TouchableOpacity>
+
           <ScrollView
             horizontal
+            ref={blogRef}
             showsHorizontalScrollIndicator={false}
-            style={styles.produtosScroll}
+            onScroll={(e) => setScrollX(e.nativeEvent.contentOffset.x)}
+            scrollEventThrottle={16}
           >
-            {produtos.map((p) => (
-              <View key={p.id} style={[styles.produtoCard, { width: width > 500 ? 160 : 140 }]}>
-                <Image source={p.imagem} style={styles.produtoImg} />
-                <Text style={styles.produtoNome}>{p.nome}</Text>
-                <TouchableOpacity style={styles.produtoBtn}>
-                  <Text style={styles.produtoBtnText}>Ver Detalhes</Text>
+            <BlogCard
+              image={require("../assets/images/blog1.jpg")}
+              title="Cuidados Essenciais para Filhotes"
+              route="/blog/blog1"
+              
+            />
+            <BlogCard
+              image={require("../assets/images/download.avif")}
+              title="O que fazer se o seu pet estiver vesgo"
+              route="/blog/blog2"
+            />
+            <BlogCard
+              image={require("../assets/images/blog3.jpg")}
+              title="Como proteger seu pet durante o verão"
+              route="/blog/blog3"
+            />
+          </ScrollView>
+
+          <TouchableOpacity
+            onPress={() =>
+              blogRef.current?.scrollTo({ x: scrollX + 250, animated: true })
+            }
+            style={styles.arrowCircle}
+          >
+            <FontAwesome name="chevron-right" size={18} color="#1B02A8" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* DESAPARECIDOS */}
+      <View style={styles.desapSection}>
+        <Text style={styles.sectionTitle}>Animais Desaparecidos:</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {[require("../assets/images/desaparecido1.png"),
+            require("../assets/images/desaparecido4.png"),
+            require("../assets/images/desaparecido5.png"),
+            require("../assets/images/desaparecido6.png")].map((img, index) => (
+            <View key={index} style={styles.desapCard}>
+              <Image source={img} style={styles.desapImg} />
+            </View>
+          ))}
+        </ScrollView>
+      </View>
+
+      {/* INDICAÇÕES */}
+      <View style={styles.indicacoesSection}>
+        <Text style={styles.sectionTitleWhite}>
+          Indicações de quem entende: 🌍😺🐶
+        </Text>
+        <View style={styles.indicacoesWrapper}>
+          <ScrollView
+            horizontal
+            ref={scrollRef}
+            showsHorizontalScrollIndicator={false}
+          >
+            {indicacoes.map((item, i) => (
+              <View key={i} style={styles.indCard}>
+                <Image source={item.image} style={styles.indImg} />
+                <Text style={styles.indTitle}>{item.title}</Text>
+                <Text style={styles.indDesc}>{item.desc}</Text>
+                <TouchableOpacity
+                  style={styles.vejamaisBtn}
+                  onPress={() => Linking.openURL(item.link)}
+                >
+                  <Text style={styles.vejamaisTxt}>Veja mais</Text>
+                  <Image
+                    source={require("../assets/images/seta.gif")}
+                    style={styles.setaIcon}
+                  />
                 </TouchableOpacity>
               </View>
             ))}
           </ScrollView>
         </View>
+      </View>
 
-        <View style={styles.categoriasSection}>
-  <Text style={styles.sectionTitle}>Categorias:</Text>
-  <View style={styles.categoriasRow}>
-    <CategoriaButton
-      label="Cachorros"
-      image={require("../assets/images/cachorro.gif")}
-    />
-    <CategoriaButton
-      label="Gatos"
-      image={require("../assets/images/gato.gif")}
-    />
-    <CategoriaButton
-      label="Outros Pets"
-      image={require("../assets/images/peixe-palhaco.gif")}
-    />
-    <CategoriaButton
-      label="Farmacia"
-      image={require("../assets/images/farmacia.gif")}
-    />
-  </View>
-</View>
-
-        <View style={styles.cuidados}>
-          <View style={styles.cuidadoCard}>
-            <Text style={styles.cuidadoTitle}>Banho & Tosa</Text>
-            <Text style={styles.cuidadoText}>
-              Higiene e Conforto para o seu melhor amigo!
-            </Text>
-            <Image
-              source={require("../assets/images/banho-tosa-pet-shop.jpg")}
-              style={styles.cuidadoImg}
-            />
-          </View>
-
-          <View style={styles.cuidadoCard}>
-            <Text style={styles.cuidadoTitle}>Veterinário</Text>
-            <Text style={styles.cuidadoText}>
-              A saúde de seu pet, a sua prioridade
-            </Text>
-            <Image
-              source={require("../assets/images/veterinario.png")}
-              style={styles.cuidadoImg}
-            />
-          </View>
-        </View>
-      </ScrollView>
-    </View>
+      {/* RODAPÉ */}
+      <View style={styles.footer}>
+        <Text style={styles.footerTxt}>Pet Gatô © 2025</Text>
+        <Text style={styles.footerTxt}>Telefone: (00) 0000-0000</Text>
+        <Text style={styles.footerTxt}>petgato@gmail.com</Text>
+      </View>
+    </ScrollView>
   );
 }
 
-function HeaderButton({ label, image, route }: any) {
+/* LISTA DAS INDICAÇÕES */
+const indicacoes = [
+  {
+    image: require("../assets/images/viajar.jpg"),
+    title: "Viajar com quem mais ama",
+    desc: "Proporcione uma viagem inesquecível com seu pet!",
+    link: "https://www.petworktravel.com.br/pt/",
+  },
+  {
+    image: require("../assets/images/sitter.jpg"),
+    title: "Pet Sitter!",
+    desc: "Serviço de babá de animais de estimação.",
+    link: "https://www.doghero.com.br/",
+  },
+  {
+    image: require("../assets/images/creche.jpg"),
+    title: "Um lugar para socializar!",
+    desc: "Onde seu pet pode ficar enquanto você trabalha.",
+    link: "https://www.dogresort.com.br/",
+  },
+  {
+    image: require("../assets/images/spa.jpg"),
+    title: "Relaxar é um privilégio!",
+    desc: "Proporcione uma experiência única para seu pet.",
+    link: "https://daycarepet.com.br/pet-spa",
+  },
+  {
+    image: require("../assets/images/bolsinha.jpg"),
+    title: "Hospedagem de elite!",
+    desc: "Hotel e creche sob medida para seu companheiro.",
+    link: "https://alfdogpetcreche.com.br/",
+  },
+  {
+    image: require("../assets/images/lama.jpg"),
+    title: "Conheça passeios com seu pet!",
+    desc: "Passear com o seu pet é essencial — conheça lugares incríveis!",
+    link: "https://passeios.petsturistas.com.br/",
+  },
+];
+
+/* COMPONENTES */
+function HeaderButton({ image, label, route }: any) {
   return (
     <TouchableOpacity onPress={() => router.push(route)} style={styles.headerBtn}>
       <Image source={image} style={styles.headerBtnImage} />
@@ -214,13 +381,24 @@ function AnuncioCard({ image, title, text }: any) {
   );
 }
 
+function BlogCard({ image, title, route }: any) {
+  return (
+    <TouchableOpacity onPress={() => router.push(route)}>
+      <View style={styles.blogCard}>
+        <Image source={image} style={styles.blogImg} />
+        <Text style={styles.blogTxt}>{title}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+}
+
+
 function CardInfo({ image, title, text }: any) {
   return (
     <View style={styles.cardInfo}>
-      <Image source={image} style={{ width: 28, height: 28 }} />
+      <Image source={image} style={styles.cardIcon} />
       <View style={styles.cardTextContainer}>
         <Text style={styles.cardInfoTitle}>{title}</Text>
-
         <TouchableOpacity onPress={() => router.push("/consulta/confira")}>
           <Text style={styles.cardInfoTextLink}>{text}</Text>
         </TouchableOpacity>
@@ -228,34 +406,23 @@ function CardInfo({ image, title, text }: any) {
     </View>
   );
 }
-function CategoriaButton({ label, image, route }: any) {
-  return (
-    <TouchableOpacity
-      style={styles.categoriaBtn}
-    >
-      <Image source={image} style={styles.categoriaImg} />
-      <Text style={styles.categoriaText}>{label}</Text>
-    </TouchableOpacity>
-  );
-}
 
-
-
+/* ESTILOS */
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
-  secondHeader: {
+  subHeader: {
     flexDirection: "row",
     justifyContent: "space-around",
-    backgroundColor: "#b0e9ffff",
+    backgroundColor: "#B4E3F1",
     paddingVertical: 10,
   },
-  headerBtn: { alignItems: "center", width: 60 },
-  headerBtnImage: { width: 30, height: 30, marginBottom: 6, borderRadius: 15 },
-  headerBtnText: { fontSize: 12, color: "#444", textAlign: "center" },
+  headerBtn: { alignItems: "center" },
+  headerBtnImage: { width: 35, height: 35, borderRadius: 10 },
+  headerBtnText: { fontSize: 12, color: "#1B02A8", fontWeight: "600" },
   anuncios: {
     flexDirection: "row",
-    justifyContent: "space-around",
     flexWrap: "wrap",
+    justifyContent: "center",
     marginVertical: 16,
   },
   anuncioCard: {
@@ -264,148 +431,245 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 6,
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: "#B4E3F1",
     borderRadius: 10,
     alignItems: "center",
     backgroundColor: "#fff",
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
   },
   anuncioImg: { width: 40, height: 40, marginBottom: 6 },
-  anuncioTitle: {
-    fontWeight: "bold",
-    color: "#4BC5EB",
-    fontSize: 14,
-    textAlign: "center",
-  },
-  anuncioText: { fontSize: 12, textAlign: "center", color: "#555" },
+  anuncioTitle: { color: "#4BC5EB", fontWeight: "bold", fontSize: 13 },
+  anuncioText: { color: "#353638", textAlign: "center", fontSize: 11 },
   banner: {
-    padding: 15,
-    borderRadius: 10,
+    margin: 14,
+    borderRadius: 60,
+    padding: 14,
     alignItems: "center",
-    marginHorizontal: 10,
-    marginVertical: 12,
   },
-  bannerText: { fontSize: 16, fontWeight: "bold", color: "#fff" },
-  carouselWrapper: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 20,
-    width: "100%",
-  },
-  carouselImage: {
-    height: 200,
-    borderRadius: 10,
-    resizeMode: "cover",
-    width: "100%",
-  },
-  dotsContainer: {
-    flexDirection: "row",
-    marginTop: 10,
-    justifyContent: "center",
-  },
+  bannerText: { color: "#fff", fontWeight: "bold" },
+  carouselContainer: { alignItems: "center", marginVertical: 20 },
+  carouselImg: { height: 200, borderRadius: 15, resizeMode: "cover" },
+  dotsContainer: { flexDirection: "row", marginTop: 10 },
   dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+    width: 8,
+    height: 8,
+    marginHorizontal: 4,
+    borderRadius: 4,
     backgroundColor: "#ccc",
-    marginHorizontal: 5,
   },
-  activeDot: { backgroundColor: "#1E90FF" },
-  produtosSection: { marginVertical: 20, paddingHorizontal: 10 },
-  produtosTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#2c80ffff",
-    marginBottom: 10,
-  },
-  produtosScroll: { flexDirection: "row" },
-  produtoCard: {
-    marginRight: 12,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 10,
-    backgroundColor: "#fff",
-    alignItems: "center",
-  },
-  produtoImg: { width: 100, height: 100, borderRadius: 8, marginBottom: 8 },
-  produtoNome: { fontSize: 14, fontWeight: "600", marginBottom: 6, textAlign: "center" },
-  produtoBtn: {
-    backgroundColor: "#2c80ffff",
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 6,
-  },
-  produtoBtnText: { color: "#fff", fontSize: 12, fontWeight: "bold" },
-  categoriasSection: { marginVertical: 20, paddingHorizontal: 10 },
-  sectionTitle: { fontSize: 20, fontWeight: "bold", marginVertical: 10, color: "#2c80ffff" },
-  categoriasRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-evenly",
-    gap: 12,
-    marginVertical: 10,
-  },
-  categoriaBtn: {
-    width: "30%",
-    minWidth: 100,
-    margin: 6,
-    padding: 10,
-    alignItems: "center",
-    borderRadius: 8,
-    backgroundColor: "#4BC5EB",
-  },
-  categoriaImg: { width: 40, height: 40, marginBottom: 6 },
-  categoriaText: { fontSize: 12, fontWeight: "600", textAlign: "center" },
-
-  cuidados: {
-    marginVertical: 20,
-    paddingHorizontal: 10,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    flexWrap: "wrap",
-    gap: 12,
-  },
-  cuidadoCard: {
-    width: 180,
-    padding: 15,
-    borderRadius: 10,
-    backgroundColor: "#eef7fb",
-    alignItems: "center",
-  },
-  cuidadoTitle: { fontSize: 22, fontWeight: "bold", marginBottom: 8 },
-  cuidadoText: { fontSize: 14, marginBottom: 10, textAlign: "center" },
-  cuidadoImg: { width: "100%", height: 160, borderRadius: 10 },
+  activeDot: { backgroundColor: "#1B02A8" },
   juros: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginVertical: 24,
-    paddingHorizontal: 10,
+    padding: 10,
+    marginBottom: 20,
   },
   cardInfo: {
-    width: "45%",
-    padding: 12,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#ddd",
+    width: "48%",
+    padding: 14,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: "#4BC5EB",
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
-    marginVertical: 8,
     backgroundColor: "#fff",
-    elevation: 2,
-    marginBottom: 16,
   },
-  cardTextContainer: { flex: 1, flexWrap: "wrap" },
-  cardInfoTitle: { fontWeight: "bold", color: "#444", fontSize: 14 },
+  cardIcon: { width: 36, height: 36, tintColor: "#1B02A8" },
+  cardTextContainer: { flex: 1 },
+  cardInfoTitle: { fontWeight: "bold", color: "#1B02A8", fontSize: 14 },
   cardInfoTextLink: {
     color: "#4BC5EB",
     fontSize: 12,
     fontWeight: "bold",
     marginTop: 2,
   },
+
+  cuidadosSection: {
+    marginVertical: 30,
+    alignItems: "center",
+  },
+  cuidadosTitle: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#1B02A8",
+    marginBottom: 20,
+  },
+  cuidadosBox: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#4BC5EB",
+    borderRadius: 15,
+    padding: 12,
+    marginVertical: 10,
+    width: "90%",
+    backgroundColor: "#fff",
+  },
+  cuidadoTextContainer: { flex: 1, paddingRight: 10 },
+  cuidadoSubTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#1B02A8",
+  },
+  cuidadoDesc: {
+    fontSize: 14,
+    color: "#333",
+    marginTop: 4,
+  },
+  cuidadoImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 12,
+    resizeMode: "cover",
+  },
+  gifImage: {
+    width: "90%",
+    height: 200,
+    resizeMode: "contain",
+    marginVertical: 20,
+  },
+  petgatoContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 30,
+    width: "85%",
+  },
+  favoritoIcon: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+    resizeMode: "contain",
+  },
+  petgatoText: {
+    fontSize: 14,
+    color: "#0011FF",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  promosContainer: {
+    marginTop: 10,
+  },
+ promoCard: {
+    alignItems: "center",
+    marginHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "#4BC5EB",
+    borderRadius: 12,
+    padding: 10,
+    backgroundColor: "#fff",
+    width: 160, // fixa larg
+  },
+  promoImage: {
+    width: 120,
+    height: 120,
+    resizeMode: "cover",
+    borderRadius: 10,
+  },
+  promoText: {
+    fontSize: 14,
+    color: "#1B02A8",
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 8,
+  },
+
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#1B02A8",
+    marginLeft: 10,
+    marginVertical: 10,
+  },
+  sectionTitleWhite: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#fff",
+    marginLeft: 10,
+    marginVertical: 10,
+  },
+  blogSection: { marginBottom: 30 },
+  blogCard: {
+    width: 200,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#4BC5EB",
+    borderRadius: 12,
+    marginHorizontal: 10,
+    elevation: 3,
+  },
+  blogImg: {
+    width: "100%",
+    height: 120,
+    borderRadius: 12,
+    resizeMode: "cover",
+  },
+  blogTxt: {
+    fontWeight: "bold",
+    color: "#1B02A8",
+    textAlign: "center",
+    paddingVertical: 8,
+  },
+  arrowWrapper: { flexDirection: "row", alignItems: "center" },
+  arrowCircle: {
+    backgroundColor: "#B4E3F1",
+    padding: 8,
+    borderRadius: 20,
+    marginHorizontal: 5,
+  },
+  desapSection: { marginVertical: 20 },
+  desapCard: {
+    width: 130,
+    height: 130,
+    borderRadius: 10,
+    marginHorizontal: 6,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  desapImg: {
+    width: "95%",
+    height: "95%",
+    resizeMode: "contain",
+    borderRadius: 8,
+  },
+  indicacoesSection: {
+    marginVertical: 30,
+    backgroundColor: "#1B02A8",
+    paddingVertical: 20,
+  },
+  indicacoesWrapper: { flexDirection: "row", alignItems: "center" },
+  indCard: {
+    width: 220,
+    marginHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "#4BC5EB",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 10,
+    alignItems: "center",
+  },
+  indImg: { width: "100%", height: 120, borderRadius: 12, resizeMode: "cover" },
+  indTitle: { fontWeight: "bold", fontSize: 16, color: "#1B02A8", marginTop: 5 },
+  indDesc: { fontSize: 12, textAlign: "center", color: "#333", marginTop: 3 },
+  vejamaisBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#E8F6FF",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 20,
+    marginTop: 6,
+  },
+  vejamaisTxt: { color: "#007BFF", fontWeight: "bold", fontSize: 13 },
+  setaIcon: { width: 18, height: 18, marginLeft: 5 },
+  footer: {
+    backgroundColor: "#1B02A8",
+    paddingVertical: 20,
+    alignItems: "center",
+    marginTop: 40,
+  },
+  footerTxt: { color: "#fff", fontSize: 14, fontWeight: "600" },
 });
