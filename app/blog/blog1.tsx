@@ -1,36 +1,55 @@
-import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
-import { router } from "expo-router";
+import React, { useEffect } from "react";
+import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity,} from "react-native";
+import { useNavigation, useRouter } from "expo-router";
 
 export default function Blog1() {
+  const navigation = useNavigation();
+  const router = useRouter();
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: "𝓑𝓵𝓸𝓰",
+      headerRight: () => (
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <TouchableOpacity
+            style={{ marginRight: 10 }}
+            onPress={() => router.push("/")}
+          >
+            <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
+              Início
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push("/auth/login")}>
+            <Image
+              source={require("../../assets/images/pessoa.png")}
+              style={{ width: 40, height: 28, resizeMode: "contain" }}
+            />
+          </TouchableOpacity>
+        </View>
+      ),
+      headerStyle: { backgroundColor: "#1B02A8" },
+      headerTitleStyle: {
+        color: "#fff",
+        fontFamily: "Garamond",
+        fontSize: 28,
+        fontWeight: "bold",
+      },
+      headerTitleAlign: "left",
+    });
+  }, []);
+
   return (
     <ScrollView style={styles.container}>
-      
-      {/* BOTÃO DE VOLTAR */}
-      <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-        <Text style={styles.backBtnTxt}>◀ Voltar</Text>
-      </TouchableOpacity>
-
-      {/* TÍTULO */}
       <Text style={styles.title}>Cuidados Essenciais para Filhotes</Text>
       <Text style={styles.meta}>
         Por <Text style={styles.bold}>Equipe Pet Gatô</Text> — 15 de agosto de 2025 • 09:15
       </Text>
 
-      {/* IMAGEM PRINCIPAL */}
       <Image
         source={require("../../assets/images/banner2.jpg")}
         style={styles.mainImg}
       />
 
-      {/* CONTEÚDO */}
       <Text style={styles.paragraph}>
         <Text style={styles.bold}>Alimentação adequada:</Text> Nos primeiros meses de vida,
         o filhote precisa de ração própria para a idade para garantir um crescimento
@@ -77,7 +96,6 @@ export default function Blog1() {
         rotina e reforços positivos!
       </Text>
 
-      {/* OUTROS ARTIGOS */}
       <Text style={styles.otherArticles}>Outros Artigos:</Text>
 
       <TouchableOpacity onPress={() => router.push("/blog/blog2")}>
@@ -88,7 +106,6 @@ export default function Blog1() {
         <Text style={styles.link}>Como Proteger Seu Pet Durante o Verão</Text>
       </TouchableOpacity>
 
-      {/* COMENTÁRIOS */}
       <Text style={styles.commentsTitle}>Comentários:</Text>
 
       <View style={styles.commentBox}>
@@ -101,26 +118,15 @@ export default function Blog1() {
           <Text style={styles.bold}>Cleitinho:</Text> Estou gostando, está me ajudando muito!
         </Text>
       </View>
-
     </ScrollView>
   );
 }
 
-/* ===== STYLES ===== */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
     padding: 15,
-  },
-  backBtn: {
-    alignSelf: "flex-start",
-    marginBottom: 10,
-  },
-  backBtnTxt: {
-    fontSize: 16,
-    color: "#1B02A8",
-    fontWeight: "bold",
   },
   title: {
     fontSize: 22,

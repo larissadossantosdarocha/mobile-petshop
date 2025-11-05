@@ -1,14 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-  useWindowDimensions,
-  Linking,
-} from "react-native";
+import {View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, useWindowDimensions, Linking,} from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
 
@@ -49,7 +40,7 @@ export default function Index() {
 
   return (
     <ScrollView style={styles.container}>
-      {/* SUBHEADER */}
+
       <View style={styles.subHeader}>
         <HeaderButton
           image={require("../assets/images/veterinario.gif")}
@@ -79,7 +70,6 @@ export default function Index() {
         />
       </View>
 
-      {/* ANÚNCIOS */}
       <View style={styles.anuncios}>
         <AnuncioCard
           image={require("../assets/images/doacao.gif")}
@@ -98,14 +88,12 @@ export default function Index() {
         />
       </View>
 
-      {/* BANNER */}
       <View
         style={[styles.banner, { backgroundColor: banners[bannerIndex].color }]}
       >
         <Text style={styles.bannerText}>{banners[bannerIndex].text}</Text>
       </View>
 
-      {/* CARROSSEL */}
       <View style={styles.carouselContainer}>
         <Image
           source={carouselImages[carouselIndex]}
@@ -122,7 +110,6 @@ export default function Index() {
         </View>
       </View>
 
-      {/* CARDINFO */}
       <View style={styles.juros}>
         <CardInfo
           image={require("../assets/images/relogio.png")}
@@ -146,11 +133,9 @@ export default function Index() {
         />
       </View>
 
-      {/* CUIDADOS BÁSICOS */}
       <View style={styles.cuidadosSection}>
         <Text style={styles.cuidadosTitle}>Cuidados Básicos:</Text>
 
-        {/* Banho & Tosa */}
         <View style={styles.cuidadosBox}>
           <View style={styles.cuidadoTextContainer}>
             <Text style={styles.cuidadoSubTitle}>Banho {"&"} Tosa</Text>
@@ -164,7 +149,6 @@ export default function Index() {
           />
         </View>
 
-        {/* Veterinário */}
         <TouchableOpacity
           style={styles.cuidadosBox}
           onPress={() => router.push("/consulta/consulta")}
@@ -181,10 +165,6 @@ export default function Index() {
           />
         </TouchableOpacity>
 
-        {/* GIF */}
-    
-
-        {/* Texto abaixo */}
         <View style={styles.petgatoContainer}>
           <Image
             source={require("../assets/images/favorito.png")}
@@ -195,7 +175,6 @@ export default function Index() {
           </Text>
         </View>
 
-        {/* CARROSSEL DE PROMOÇÕES */}
         <View style={styles.promosContainer}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {[
@@ -215,7 +194,6 @@ export default function Index() {
         </View>
       </View>
 
-      {/* BLOG */}
       <View style={styles.blogSection}>
         <Text style={styles.sectionTitle}>Blog Pet Gatô:</Text>
         <View style={styles.arrowWrapper}>
@@ -264,7 +242,6 @@ export default function Index() {
         </View>
       </View>
 
-      {/* DESAPARECIDOS */}
       <View style={styles.desapSection}>
         <Text style={styles.sectionTitle}>Animais Desaparecidos:</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -279,7 +256,6 @@ export default function Index() {
         </ScrollView>
       </View>
 
-      {/* INDICAÇÕES */}
       <View style={styles.indicacoesSection}>
         <Text style={styles.sectionTitleWhite}>
           Indicações de quem entende: 🌍😺🐶
@@ -311,7 +287,6 @@ export default function Index() {
         </View>
       </View>
 
-      {/* RODAPÉ */}
       <View style={styles.footer}>
         <Text style={styles.footerTxt}>Pet Gatô © 2025</Text>
         <Text style={styles.footerTxt}>Telefone: (00) 0000-0000</Text>
@@ -321,7 +296,6 @@ export default function Index() {
   );
 }
 
-/* LISTA DAS INDICAÇÕES */
 const indicacoes = [
   {
     image: require("../assets/images/viajar.jpg"),
@@ -361,7 +335,6 @@ const indicacoes = [
   },
 ];
 
-/* COMPONENTES */
 function HeaderButton({ image, label, route }: any) {
   return (
     <TouchableOpacity onPress={() => router.push(route)} style={styles.headerBtn}>
@@ -407,7 +380,6 @@ function CardInfo({ image, title, text }: any) {
   );
 }
 
-/* ESTILOS */
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
   subHeader: {
