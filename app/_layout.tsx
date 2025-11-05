@@ -1,5 +1,5 @@
 import { Stack, router } from "expo-router";
-import { Image, TouchableOpacity, Text, View } from "react-native";
+import { Image, TouchableOpacity, View } from "react-native";
 
 export default function Layout() {
   return (
@@ -9,10 +9,10 @@ export default function Layout() {
           backgroundColor: "#1B02A8",
         },
         headerTitleStyle: {
-          color: "#fff",       
-          fontSize: 30,        
+          color: "#fff",
+          fontSize: 30,
           fontWeight: "bold",
-          fontFamily: "Garamond", 
+          fontFamily: "Garamond",
         },
         headerTitleAlign: "left",
       }}
@@ -21,21 +21,23 @@ export default function Layout() {
         name="index"
         options={{
           title: "𝓟𝓮𝓽 𝓖𝓪𝓽𝓸",
+          headerBackVisible: false, 
           headerRight: () => (
             <View style={{ flexDirection: "row", alignItems: "center" }}>
+    
               <TouchableOpacity
                 style={{ marginRight: 16 }}
-                onPress={() => router.push("/")}
+                onPress={() => router.push("/auth/carrinho")}
               >
-                <Text
+                <Image
+                  source={require("../assets/images/adicionar-ao-carrinho.png")}
                   style={{
-                    color: "#fff",
-                    fontSize: 20,
-                    fontWeight: "600",
+                    width: 26,
+                    height: 26,
+                    marginRight: 6,
+                    resizeMode: "contain",
                   }}
-                >
-                  Início
-                </Text>
+                />
               </TouchableOpacity>
 
               <TouchableOpacity
