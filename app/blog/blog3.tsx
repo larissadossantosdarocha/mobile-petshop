@@ -1,41 +1,60 @@
-import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
-import { router } from "expo-router";
+import React, { useEffect } from "react";
+import {View, Text, Image, ScrollView, StyleSheet, TouchableOpacity,} from "react-native";
+import { useNavigation, useRouter } from "expo-router";
 
 export default function Blog3() {
+  const navigation = useNavigation();
+  const router = useRouter();
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: "𝓑𝓵𝓸𝓰",
+      headerRight: () => (
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <TouchableOpacity
+            style={{ marginRight: 10 }}
+            onPress={() => router.push("/")}
+          >
+            <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
+              Início
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push("/auth/login")}>
+            <Image
+              source={require("../../assets/images/pessoa.png")}
+              style={{ width: 40, height: 28, resizeMode: "contain" }}
+            />
+          </TouchableOpacity>
+        </View>
+      ),
+      headerStyle: { backgroundColor: "#1B02A8" },
+      headerTitleStyle: {
+        color: "#fff",
+        fontFamily: "Garamond",
+        fontSize: 28,
+        fontWeight: "bold",
+      },
+      headerTitleAlign: "left",
+    });
+  }, []);
+
   return (
     <ScrollView style={styles.container}>
-
-      {/* BOTÃO DE VOLTAR */}
-      <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-        <Text style={styles.backBtnTxt}>◀ Voltar</Text>
-      </TouchableOpacity>
-
-      {/* TÍTULO */}
+  
       <Text style={styles.title}>Como Proteger Seu Pet Durante o Verão</Text>
       <Text style={styles.meta}>
         Por <Text style={styles.bold}>Larissa Santos</Text> — 17 de setembro de 2025 • 08:30
       </Text>
 
-      {/* SUBTÍTULO */}
       <Text style={styles.lead}>
         Dicas essenciais para manter seu pet saudável e seguro nos dias quentes.
       </Text>
 
-      {/* IMAGEM PRINCIPAL */}
       <Image
         source={require("../../assets/images/petagua.jpg")}
         style={styles.mainImg}
       />
 
-      {/* TEXTO PRINCIPAL */}
       <Text style={styles.paragraph}>
         <Text style={styles.bold}>Hidratação é essencial:</Text> Durante o verão, os pets precisam de água fresca
         constantemente. Tenha sempre tigelas disponíveis e incentive a hidratação.
@@ -86,7 +105,6 @@ export default function Blog3() {
         com água para refrescar!
       </Text>
 
-      {/* OUTROS ARTIGOS */}
       <Text style={styles.otherArticles}>Outros Artigos:</Text>
 
       <TouchableOpacity onPress={() => router.push("/blog/blog2")}>
@@ -97,7 +115,6 @@ export default function Blog3() {
         <Text style={styles.link}>Cuidados Essenciais para Filhotes</Text>
       </TouchableOpacity>
 
-      {/* COMENTÁRIOS */}
       <Text style={styles.commentsTitle}>Comentários:</Text>
 
       <View style={styles.commentBox}>
@@ -110,26 +127,15 @@ export default function Blog3() {
           <Text style={styles.bold}>Carlos:</Text> Estou acompanhando e tendo resultados!
         </Text>
       </View>
-
     </ScrollView>
   );
 }
 
-/* ===== STYLES ===== */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
     padding: 15,
-  },
-  backBtn: {
-    alignSelf: "flex-start",
-    marginBottom: 10,
-  },
-  backBtnTxt: {
-    fontSize: 16,
-    color: "#1B02A8",
-    fontWeight: "bold",
   },
   title: {
     fontSize: 22,
