@@ -1,24 +1,45 @@
-import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
-import { router } from "expo-router";
+import React, { useEffect } from "react";
+import {View, Text, Image, ScrollView, StyleSheet, TouchableOpacity,} from "react-native";
+import { useNavigation, useRouter } from "expo-router";
 
 export default function Blog2() {
+  const navigation = useNavigation();
+  const router = useRouter();
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: "𝓑𝓵𝓸𝓰",
+      headerRight: () => (
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <TouchableOpacity
+            style={{ marginRight: 10 }}
+            onPress={() => router.push("/")}
+          >
+            <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
+              Início
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push("/auth/login")}>
+            <Image
+              source={require("../../assets/images/pessoa.png")}
+              style={{ width: 40, height: 28, resizeMode: "contain" }}
+            />
+          </TouchableOpacity>
+        </View>
+      ),
+      headerStyle: { backgroundColor: "#1B02A8" },
+      headerTitleStyle: {
+        color: "#fff",
+        fontFamily: "Garamond",
+        fontSize: 28,
+        fontWeight: "bold",
+      },
+      headerTitleAlign: "left",
+    });
+  }, []);
+
   return (
     <ScrollView style={styles.container}>
-      
-      {/* BOTÃO DE VOLTAR */}
-      <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-        <Text style={styles.backBtnTxt}>◀ Voltar</Text>
-      </TouchableOpacity>
-
-      {/* TÍTULO */}
       <Text style={styles.title}>Manchete: O Que Fazer Se O Seu Pet Estiver Vesgo</Text>
       <Text style={styles.meta}>
         Por <Text style={styles.bold}>Larissa Santos</Text> — 17 de setembro de 2025 • 08:30
@@ -26,13 +47,11 @@ export default function Blog2() {
 
       <Text style={styles.lead}>Possíveis causas de um pet com olhos vesgos:</Text>
 
-      {/* IMAGEM PRINCIPAL */}
       <Image
         source={require("../../assets/images/download.avif")}
         style={styles.mainImg}
       />
 
-      {/* TEXTO DO POST */}
       <Text style={styles.paragraph}>
         {"\n"}
         <Text style={styles.bold}>Problemas neurológicos:</Text> alteração nos nervos que
@@ -60,7 +79,6 @@ export default function Blog2() {
         orientais, podendo não causar prejuízos à visão.
       </Text>
 
-      {/* IMAGEM 2 */}
       <Image
         source={require("../../assets/images/veterinariopet.jpg")}
         style={styles.secondaryImg}
@@ -79,9 +97,11 @@ export default function Blog2() {
           "Cabeça torta ou movimentos involuntários dos olhos",
           "Vômitos ou perda de apetite",
           "Pupilas de tamanhos diferentes",
-          "Alteração de comportamento"
+          "Alteração de comportamento",
         ].map((item, index) => (
-          <Text key={index} style={styles.listItem}>• {item}</Text>
+          <Text key={index} style={styles.listItem}>
+            • {item}
+          </Text>
         ))}
       </View>
 
@@ -95,13 +115,11 @@ export default function Blog2() {
         Gravar vídeos pode ajudar o veterinário no diagnóstico.
       </Text>
 
-      {/* IMAGEM 3 */}
       <Image
         source={require("../../assets/images/petdescanso.jpg")}
         style={styles.secondaryImg}
       />
 
-      {/* OUTROS ARTIGOS */}
       <Text style={styles.otherArticles}>Outros Artigos:</Text>
 
       <TouchableOpacity onPress={() => router.push("/blog/blog3")}>
@@ -112,7 +130,6 @@ export default function Blog2() {
         <Text style={styles.link}>Cuidados Essenciais para Filhotes</Text>
       </TouchableOpacity>
 
-      {/* COMENTÁRIOS */}
       <Text style={styles.commentsTitle}>Comentários:</Text>
 
       <View style={styles.commentBox}>
@@ -125,26 +142,15 @@ export default function Blog2() {
           <Text style={styles.bold}>Pedro:</Text> Estou acompanhando de perto esse caso.
         </Text>
       </View>
-
     </ScrollView>
   );
 }
 
-/* ===== STYLES ===== */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
     padding: 15,
-  },
-  backBtn: {
-    alignSelf: "flex-start",
-    marginBottom: 10,
-  },
-  backBtnTxt: {
-    fontSize: 16,
-    color: "#1B02A8",
-    fontWeight: "bold",
   },
   title: {
     fontSize: 22,
