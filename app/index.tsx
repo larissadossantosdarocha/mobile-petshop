@@ -402,7 +402,7 @@ const styles = StyleSheet.create({
   subHeader: {
     flexDirection: "row",
     justifyContent: "space-around",
-    backgroundColor: "#B4E3F1",
+    backgroundColor: "#c0ccf3ff",
     paddingVertical: 10,
   },
   headerBtn: { alignItems: "center" },
