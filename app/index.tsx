@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import {View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, useWindowDimensions, Linking,} from "react-native";
+import {  View,  Text,  Image,  TouchableOpacity,  ScrollView,  StyleSheet, useWindowDimensions, Linking,} from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
 
@@ -40,7 +40,6 @@ export default function Index() {
 
   return (
     <ScrollView style={styles.container}>
-
       <View style={styles.subHeader}>
         <HeaderButton
           image={require("../assets/images/veterinario.gif")}
@@ -197,15 +196,7 @@ export default function Index() {
       <View style={styles.blogSection}>
         <Text style={styles.sectionTitle}>Blog Pet Gatô:</Text>
         <View style={styles.arrowWrapper}>
-          <TouchableOpacity
-            onPress={() =>
-              blogRef.current?.scrollTo({ x: scrollX - 250, animated: true })
-            }
-            style={styles.arrowCircle}
-          >
-            <FontAwesome name="chevron-left" size={18} color="#1B02A8" />
-          </TouchableOpacity>
-
+         
           <ScrollView
             horizontal
             ref={blogRef}
@@ -217,7 +208,6 @@ export default function Index() {
               image={require("../assets/images/blog1.jpg")}
               title="Cuidados Essenciais para Filhotes"
               route="/blog/blog1"
-              
             />
             <BlogCard
               image={require("../assets/images/download.avif")}
@@ -230,15 +220,7 @@ export default function Index() {
               route="/blog/blog3"
             />
           </ScrollView>
-
-          <TouchableOpacity
-            onPress={() =>
-              blogRef.current?.scrollTo({ x: scrollX + 250, animated: true })
-            }
-            style={styles.arrowCircle}
-          >
-            <FontAwesome name="chevron-right" size={18} color="#1B02A8" />
-          </TouchableOpacity>
+        
         </View>
       </View>
 
@@ -258,7 +240,7 @@ export default function Index() {
 
       <View style={styles.indicacoesSection}>
         <Text style={styles.sectionTitleWhite}>
-          Indicações de quem entende: 🌍😺🐶
+          Indicações de quem entende: 
         </Text>
         <View style={styles.indicacoesWrapper}>
           <ScrollView
@@ -287,13 +269,49 @@ export default function Index() {
         </View>
       </View>
 
-      <View style={styles.footer}>
-        <Text style={styles.footerTxt}>Pet Gatô © 2025</Text>
-        <Text style={styles.footerTxt}>Telefone: (00) 0000-0000</Text>
-        <Text style={styles.footerTxt}>petgato@gmail.com</Text>
+<View style={styles.footerContainer}>
+  <View style={styles.footerSectionsWrapper}>
+
+    <View style={styles.footerSection}>
+      <Text style={styles.footerTitle}>Sobre o PetShop</Text>
+      <Text style={styles.footerText}>
+        Somos uma loja dedicada ao bem-estar dos seus pets. Aqui você encontra
+        os melhores produtos e serviços personalizados.
+      </Text>
+
+      <View style={styles.socialLinks}>
+        <TouchableOpacity>
+          <FontAwesome name="facebook" size={24} color="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <FontAwesome name="instagram" size={24} color="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <FontAwesome name="whatsapp" size={24} color="#fff" />
+        </TouchableOpacity>
       </View>
+    </View>
+
+    <View style={styles.footerSection}>
+      <Text style={styles.footerTitle}>Contato</Text>
+      <Text style={styles.footerText}>📍 Rua das Flores, 123 - São Paulo - SP</Text>
+      <Text style={styles.footerText}>📞 (11) 99999-9999</Text>
+      <Text style={styles.footerText}>✉️ contato@petshop.com.br</Text>
+      <Text style={styles.footerText}>🕘 Seg-Sex: 9h às 18h | Sáb: 9h às 14h</Text>
+    </View>
+   
+  </View>
+
+  <View style={styles.footerBottom}>
+    <Text style={styles.footerBottomText}>
+      © 2025 PetShop. Todos os direitos reservados. ❤️🐾
+    </Text>
+  </View>
+</View>
+
     </ScrollView>
   );
+  
 }
 
 const indicacoes = [
@@ -365,7 +383,6 @@ function BlogCard({ image, title, route }: any) {
   );
 }
 
-
 function CardInfo({ image, title, text }: any) {
   return (
     <View style={styles.cardInfo}>
@@ -390,7 +407,7 @@ const styles = StyleSheet.create({
   },
   headerBtn: { alignItems: "center" },
   headerBtnImage: { width: 35, height: 35, borderRadius: 10 },
-  headerBtnText: { fontSize: 12, color: "#1B02A8", fontWeight: "600" },
+  headerBtnText: { fontSize: 12, color: "#1B02A8", fontWeight: "600", textAlign: "center" },
   anuncios: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -409,7 +426,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   anuncioImg: { width: 40, height: 40, marginBottom: 6 },
-  anuncioTitle: { color: "#4BC5EB", fontWeight: "bold", fontSize: 13 },
+  anuncioTitle: { color: "#4BC5EB", fontWeight: "bold", fontSize: 13, textAlign: "center" },
   anuncioText: { color: "#353638", textAlign: "center", fontSize: 11 },
   banner: {
     margin: 14,
@@ -417,7 +434,7 @@ const styles = StyleSheet.create({
     padding: 14,
     alignItems: "center",
   },
-  bannerText: { color: "#fff", fontWeight: "bold" },
+  bannerText: { color: "#fff", fontWeight: "bold", textAlign: "center" },
   carouselContainer: { alignItems: "center", marginVertical: 20 },
   carouselImg: { height: 200, borderRadius: 15, resizeMode: "cover" },
   dotsContainer: { flexDirection: "row", marginTop: 10 },
@@ -449,14 +466,14 @@ const styles = StyleSheet.create({
   },
   cardIcon: { width: 36, height: 36, tintColor: "#1B02A8" },
   cardTextContainer: { flex: 1 },
-  cardInfoTitle: { fontWeight: "bold", color: "#1B02A8", fontSize: 14 },
+  cardInfoTitle: { fontWeight: "bold", color: "#1B02A8", fontSize: 14, textAlign: "center" },
   cardInfoTextLink: {
     color: "#4BC5EB",
     fontSize: 12,
     fontWeight: "bold",
     marginTop: 2,
+    textAlign: "center",
   },
-
   cuidadosSection: {
     marginVertical: 30,
     alignItems: "center",
@@ -466,6 +483,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#1B02A8",
     marginBottom: 20,
+    textAlign: "center",
   },
   cuidadosBox: {
     flexDirection: "row",
@@ -484,11 +502,13 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     color: "#1B02A8",
+    textAlign: "center",
   },
   cuidadoDesc: {
     fontSize: 14,
     color: "#333",
     marginTop: 4,
+    textAlign: "center",
   },
   cuidadoImage: {
     width: 100,
@@ -524,7 +544,7 @@ const styles = StyleSheet.create({
   promosContainer: {
     marginTop: 10,
   },
- promoCard: {
+  promoCard: {
     alignItems: "center",
     marginHorizontal: 10,
     borderWidth: 1,
@@ -532,7 +552,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 10,
     backgroundColor: "#fff",
-    width: 160, // fixa larg
+    width: 160,
   },
   promoImage: {
     width: 120,
@@ -547,13 +567,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 8,
   },
-
   sectionTitle: {
     fontSize: 22,
     fontWeight: "bold",
     color: "#1B02A8",
     marginLeft: 10,
     marginVertical: 10,
+    textAlign: "center",
   },
   sectionTitleWhite: {
     fontSize: 22,
@@ -561,6 +581,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginLeft: 10,
     marginVertical: 10,
+    textAlign: "center",
   },
   blogSection: { marginBottom: 30 },
   blogCard: {
@@ -583,6 +604,7 @@ const styles = StyleSheet.create({
     color: "#1B02A8",
     textAlign: "center",
     paddingVertical: 8,
+    alignItems: "center",
   },
   arrowWrapper: { flexDirection: "row", alignItems: "center" },
   arrowCircle: {
@@ -593,10 +615,10 @@ const styles = StyleSheet.create({
   },
   desapSection: { marginVertical: 20 },
   desapCard: {
-    width: 130,
-    height: 130,
+    width: 150,
+    height: 230,
     borderRadius: 10,
-    marginHorizontal: 6,
+    marginHorizontal: 8,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
@@ -624,7 +646,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   indImg: { width: "100%", height: 120, borderRadius: 12, resizeMode: "cover" },
-  indTitle: { fontWeight: "bold", fontSize: 16, color: "#1B02A8", marginTop: 5 },
+  indTitle: { fontWeight: "bold", fontSize: 16, color: "#1B02A8", marginTop: 5, textAlign: "center" },
   indDesc: { fontSize: 12, textAlign: "center", color: "#333", marginTop: 3 },
   vejamaisBtn: {
     flexDirection: "row",
@@ -635,7 +657,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 6,
   },
-  vejamaisTxt: { color: "#007BFF", fontWeight: "bold", fontSize: 13 },
+  vejamaisTxt: { color: "#007BFF", fontWeight: "bold", fontSize: 13, textAlign: "center" },
   setaIcon: { width: 18, height: 18, marginLeft: 5 },
   footer: {
     backgroundColor: "#1B02A8",
@@ -643,5 +665,89 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 40,
   },
-  footerTxt: { color: "#fff", fontSize: 14, fontWeight: "600" },
+  footerTxt: { color: "#fff", fontSize: 14, fontWeight: "600", textAlign: "center" },
+  footerContainer: {
+    backgroundColor: "#1B02A8",
+    paddingVertical: 30,
+    paddingHorizontal: 16,
+  },
+  footerSectionsWrapper: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+  },
+  footerSection: {
+    width: "100%",
+    maxWidth: 350,
+    marginBottom: 26,
+    alignItems: "center",
+  },
+  footerTitle: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 18,
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  footerText: {
+    color: "#eee",
+    fontSize: 14,
+    textAlign: "center",
+    marginBottom: 6,
+  },
+  footerLink: {
+    color: "#B4E3F1",
+    fontSize: 14,
+    marginBottom: 4,
+    textDecorationLine: "underline",
+    textAlign: "center",
+  },
+  socialLinks: {
+    flexDirection: "row",
+    gap: 20,
+    marginTop: 10,
+  },
+  newsletterForm: {
+    width: "100%",
+    alignItems: "center",
+  },
+  emailInput: {
+    width: "90%",
+    backgroundColor: "#ffffff20",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginBottom: 10,
+    alignItems: "center",
+  },
+  inputPlaceholder: {
+    color: "#ddd",
+    fontSize: 14,
+    textAlign: "center",
+  },
+  newsletterButton: {
+    backgroundColor: "#4BC5EB",
+    paddingVertical: 10,
+    width: "90%",
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  newsletterButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 15,
+    textAlign: "center",
+  },
+  footerBottom: {
+    borderTopWidth: 1,
+    borderTopColor: "#4BC5EB50",
+    marginTop: 20,
+    paddingTop: 12,
+    alignItems: "center",
+  },
+  footerBottomText: {
+    color: "#eee",
+    fontSize: 12,
+    textAlign: "center",
+  },
 });
