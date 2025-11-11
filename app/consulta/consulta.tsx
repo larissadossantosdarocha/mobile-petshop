@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView, Image, KeyboardAvoidingView, Platform,} from "react-native";
+import {View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView,  Image, KeyboardAvoidingView, Platform,} from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -61,12 +61,17 @@ export default function Consulta() {
 
     setIsSubmitting(true);
 
+    const especieNormalizada = especie
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+
     const petData = {
       nomePet: nomePet.trim(),
-      especiePet: especie.toLowerCase(),
+      especiePet: especieNormalizada, 
       racaPet: raca.trim(),
       nomeProprietario: nomeProprietario.trim(),
-      nascpet: new Date(nascPet).toISOString(), 
+      nascpet: new Date(nascPet).toISOString(),
       emailProprietario: email.trim(),
       dados: dados.trim() || "Sem observações",
     };
@@ -96,10 +101,7 @@ export default function Consulta() {
         setEmail("");
         setDados("");
       } else {
-        Alert.alert(
-          "Erro",
-          `Falha ao enviar consulta.\nCódigo: ${response.status}\nDetalhes: ${text}`
-        );
+        Alert.alert("Erro", `Falha ao enviar consulta.\nCódigo: ${response.status}\n${text}`);
       }
     } catch (error) {
       console.error("🚨 Erro de rede:", error);
@@ -162,7 +164,6 @@ export default function Consulta() {
           />
 
           <Text style={styles.label}>Data de Nascimento do Pet:</Text>
-
           {Platform.OS === "web" ? (
             <input
               type="date"
