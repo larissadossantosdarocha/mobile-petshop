@@ -10,6 +10,7 @@ export default function Index() {
   const [scrollX, setScrollX] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
   const blogRef = useRef<ScrollView>(null);
+
   const banners = [
     { text: "Frete fixo de R$10,00 para todo o Brasil", color: "#0303fffb" },
     { text: "Compras acima de R$100,00 ganham um brinde", color: "#00a6f3f6" },
@@ -27,7 +28,7 @@ export default function Index() {
     );
     return () => clearInterval(interval);
   }, []);
-  
+
   useEffect(() => {
     const interval = setInterval(
       () => setCarouselIndex((prev) => (prev + 1) % carouselImages.length),
@@ -58,7 +59,6 @@ export default function Index() {
           image={require("../assets/images/noticias.gif")}
           label="Cadastrar"
           route="/auth/cadastrar"
-          
         />
         <HeaderButton
           image={require("../assets/images/blog.gif")}
@@ -107,6 +107,7 @@ export default function Index() {
         </View>
       </View>
 
+
       <View style={styles.juros}>
         <CardInfo
           image={require("../assets/images/relogio.png")}
@@ -129,6 +130,21 @@ export default function Index() {
           text="Clique e confira"
         />
       </View>
+
+      
+            {/* Botão para todos os produtos */}
+      <TouchableOpacity
+        style={styles.todosProdutosBtn}
+        onPress={() => router.push("/auth/produtos")}
+      >
+        <Image
+          source={require("../assets/images/produtos.png")}
+          style={styles.todosProdutosIcon}
+        />
+        <Text style={styles.todosProdutosTxt}>Ver Todos os Produtos</Text>
+      </TouchableOpacity>
+
+
 
       <View style={styles.cuidadosSection}>
         <Text style={styles.cuidadosTitle}>Cuidados Básicos:</Text>
@@ -161,34 +177,6 @@ export default function Index() {
             style={styles.cuidadoImage}
           />
         </TouchableOpacity>
-
-        <View style={styles.petgatoContainer}>
-          <Image
-            source={require("../assets/images/favorito.png")}
-            style={styles.favoritoIcon}
-          />
-          <Text style={styles.petgatoText}>
-            Aqui no Pet Gatô, você encontra tudo o que o seu pet precisa.
-          </Text>
-        </View>
-
-        <View style={styles.promosContainer}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {[
-              { img: require("../assets/images/dois.png"), title: "Cuidadora de animais!" },
-              { img: require("../assets/images/tres.png"), title: "Tudo que você precisa!" },
-              { img: require("../assets/images/cinco.png"), title: "Vacinação do seu animal preferido!" },
-              { img: require("../assets/images/seis.png"), title: "Promoções Imperdíveis" },
-              { img: require("../assets/images/sete.png"), title: "Higiene Básica!" },
-              { img: require("../assets/images/quatro.png"), title: "Cuidador de animais!" },
-            ].map((item, index) => (
-              <View key={index} style={styles.promoCard}>
-                <Image source={item.img} style={styles.promoImage} />
-                <Text style={styles.promoText}>{item.title}</Text>
-              </View>
-            ))}
-          </ScrollView>
-        </View>
       </View>
 
       <View style={styles.blogSection}>
@@ -232,7 +220,7 @@ export default function Index() {
             <View key={index} style={styles.desapCard}>
               <Image source={img} style={styles.desapImg} />
             </View>
-          ))}
+          ))} 
         </ScrollView>
       </View>
 
@@ -297,7 +285,6 @@ export default function Index() {
       <Text style={styles.footerText}>✉️ contato@petshop.com.br</Text>
       <Text style={styles.footerText}>🕘 Seg-Sex: 9h às 18h | Sáb: 9h às 14h</Text>
     </View>
-   
   </View>
 
   <View style={styles.footerBottom}>
@@ -738,9 +725,9 @@ const styles = StyleSheet.create({
   },
   footerBottom: {
     borderTopWidth: 1,
-    borderTopColor: "#4BC5EB50",
-    marginTop: 20,
-    paddingTop: 12,
+    borderTopColor: "#0faada50",
+    marginTop: 0,
+    paddingTop: 18,
     alignItems: "center",
   },
   footerBottomText: {
@@ -748,4 +735,37 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: "center",
   },
+      todosProdutosBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffffffff",
+    borderWidth: 2,
+    borderColor: "hsla(244, 85%, 62%, 1.00)",
+    borderRadius: 15,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    marginVertical: 20,
+    alignSelf: "center",
+    width: "85%",
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  todosProdutosIcon: {
+    width: 45,
+    height: 36,
+    tintColor: "#1B02A8",
+    marginRight: 10,
+  },
+  todosProdutosTxt: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#1B02A8",
+    textAlign: "center",
+  },
+
+
 });
