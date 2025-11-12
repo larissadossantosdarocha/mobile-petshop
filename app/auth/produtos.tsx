@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity, Alert, Modal, Pressable,} from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity, Alert, Modal, Pressable } from 'react-native';
 import { useNavigation, useRouter } from 'expo-router';
 
 export default function Produto() {
@@ -65,24 +65,27 @@ export default function Produto() {
   };
 
   const filtrarPorCategoria = (categoria: string) => {
+    // Normalizando a categoria selecionada
+    const categoriaFormatada = categoria.toLowerCase().trim();
+
     setCategoriaSelecionada(categoria);
-    if (categoria === 'Todos') {
+
+    if (categoriaFormatada === 'todos') {
       setProdutosFiltrados(produtos);
     } else {
+      // Filtrando produtos pela categoria
       const filtrados = produtos.filter(
-        (item) =>
-          item.categoria?.toLowerCase().trim() === categoria.toLowerCase().trim()
+        (item) => item.categoria?.toLowerCase().trim() === categoriaFormatada
       );
       setProdutosFiltrados(filtrados);
     }
-    setModalVisible(false); 
+
+    setModalVisible(false);
   };
 
   const renderItem = ({ item }: { item: any }) => (
     <View style={styles.card}>
-      {item.imagem && (
-        <Image source={{ uri: item.imagem }} style={styles.imagem} />
-      )}
+      {item.imagem && <Image source={{ uri: item.imagem }} style={styles.imagem} />}
       <View style={styles.info}>
         <Text style={styles.nome}>{item.nome}</Text>
         <Text style={styles.descricao}>{item.descricao}</Text>
@@ -103,7 +106,6 @@ export default function Produto() {
 
   return (
     <View style={styles.container}>
-     
       <TouchableOpacity style={styles.filterButton} onPress={() => setModalVisible(true)}>
         <Text style={styles.filterButtonText}>Filtrar por Categoria</Text>
       </TouchableOpacity>
@@ -156,7 +158,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f8f9fa',
-    paddingTop: 20, 
+    paddingTop: 20,
   },
   filterButton: {
     backgroundColor: '#1B02A8',
