@@ -280,12 +280,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#1dacff",
+    color: "#1B02A8",
     textAlign: "center",
     marginBottom: 20,
   },
   label: {
-    color: "#1dacff",
+    color: "#1B02A8",
     fontSize: 16,
     marginBottom: 5,
   },
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   button: {
-    backgroundColor: "#1dacff",
+    backgroundColor: "#1B02A8",
     borderRadius: 8,
     paddingVertical: 15,
     marginVertical: 10,
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   backButton: {
-    backgroundColor: "#1dacff",
+    backgroundColor: "#1B02A8",
   },
   radioContainer: {
     flexDirection: "row",
@@ -328,11 +328,11 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: "#29acff",
+    borderColor: "#1B02A8",
     marginRight: 10,
   },
   radioSelected: {
-    backgroundColor: "#29acff",
+    backgroundColor: "#1B02A8",
   },
   radioLabel: {
     fontSize: 16,
