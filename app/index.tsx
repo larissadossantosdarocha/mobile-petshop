@@ -10,12 +10,10 @@ export default function Index() {
   const [scrollX, setScrollX] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
   const blogRef = useRef<ScrollView>(null);
-
   const banners = [
     { text: "Frete fixo de R$10,00 para todo o Brasil", color: "#0303fffb" },
     { text: "Compras acima de R$100,00 ganham um brinde", color: "#00a6f3f6" },
   ];
-
   const carouselImages = [
     require("../assets/images/racao.gif"),
     require("../assets/images/petisco.gif"),
@@ -29,7 +27,7 @@ export default function Index() {
     );
     return () => clearInterval(interval);
   }, []);
-
+  
   useEffect(() => {
     const interval = setInterval(
       () => setCarouselIndex((prev) => (prev + 1) % carouselImages.length),
