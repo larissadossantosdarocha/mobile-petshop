@@ -10,7 +10,6 @@ export default function Index() {
   const [scrollX, setScrollX] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
   const blogRef = useRef<ScrollView>(null);
-
   const banners = [
     { text: "Frete fixo de R$10,00 para todo o Brasil", color: "#0303fffb" },
     { text: "Compras acima de R$100,00 ganham um brinde", color: "#00a6f3f6" },
@@ -107,7 +106,6 @@ export default function Index() {
         </View>
       </View>
 
-
       <View style={styles.juros}>
         <CardInfo
           image={require("../assets/images/relogio.png")}
@@ -131,8 +129,6 @@ export default function Index() {
         />
       </View>
 
-      
-            {/* Botão para todos os produtos */}
       <TouchableOpacity
         style={styles.todosProdutosBtn}
         onPress={() => router.push("/auth/produtos")}
@@ -143,8 +139,6 @@ export default function Index() {
         />
         <Text style={styles.todosProdutosTxt}>Ver Todos os Produtos</Text>
       </TouchableOpacity>
-
-
 
       <View style={styles.cuidadosSection}>
         <Text style={styles.cuidadosTitle}>Cuidados Básicos:</Text>
@@ -206,7 +200,6 @@ export default function Index() {
               route="/blog/blog3"
             />
           </ScrollView>
-        
         </View>
       </View>
 
@@ -766,6 +759,4 @@ const styles = StyleSheet.create({
     color: "#1B02A8",
     textAlign: "center",
   },
-
-
 });
