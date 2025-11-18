@@ -141,20 +141,22 @@ export default function Index() {
       </TouchableOpacity>
 
       <View style={styles.cuidadosSection}>
-        <Text style={styles.cuidadosTitle}>Cuidados Básicos:</Text>
+        <TouchableOpacity
+  style={styles.banhoTosaBox}
+  onPress={() => Linking.openURL("https://daycarepet.com.br/banho-tosa")}
+>
+  <View style={styles.cuidadoTextContainer}>
+    <Text style={styles.cuidadoSubTitle}>Banho & Tosa</Text>
+    <Text style={styles.cuidadoDesc}>
+      Higiene e Conforto para o seu melhor amigo!
+    </Text>
+  </View>
 
-        <View style={styles.cuidadosBox}>
-          <View style={styles.cuidadoTextContainer}>
-            <Text style={styles.cuidadoSubTitle}>Banho {"&"} Tosa</Text>
-            <Text style={styles.cuidadoDesc}>
-              Higiene e Conforto para o seu melhor amigo!
-            </Text>
-          </View>
-          <Image
-            source={require("../assets/images/banho-tosa-pet-shop.jpg")}
-            style={styles.cuidadoImage}
-          />
-        </View>
+  <Image
+    source={require("../assets/images/banho-tosa-pet-shop.jpg")}
+    style={styles.cuidadoImage}
+  />
+</TouchableOpacity>
 
         <TouchableOpacity
           style={styles.cuidadosBox}
@@ -494,6 +496,19 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     resizeMode: "cover",
   },
+  banhoTosaBox: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  borderWidth: 2,
+  borderColor: "#4BC5EB",
+  borderRadius: 15,
+  padding: 12,
+  marginVertical: 10,
+  width: "90%",
+  backgroundColor: "#fff",
+},
+
   gifImage: {
     width: "90%",
     height: 200,
