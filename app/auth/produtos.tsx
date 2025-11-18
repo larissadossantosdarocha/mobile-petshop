@@ -21,6 +21,7 @@ export default function Produto() {
   ];
 
   useEffect(() => {
+
     navigation.setOptions({
       title: '𝓟𝓻𝓸𝓭𝓾𝓽𝓸𝓼',
       headerStyle: { backgroundColor: '#1B02A8' },
@@ -31,6 +32,20 @@ export default function Produto() {
         fontWeight: 'bold',
         fontFamily: 'Garamond',
       },
+      headerRight: () => (
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity style={{ marginRight: 16 }} onPress={() => router.push('/')}>
+            <Text style={{ color: '#fff', fontSize: 18, fontWeight: '600' }}>Início</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.push('/auth/login')}>
+            <Image
+              source={require('../../assets/images/pessoa.png')}
+              style={{ width: 40, height: 28, resizeMode: 'contain' }}
+            />
+          </TouchableOpacity>
+        </View>
+      ),
     });
   }, []);
 
@@ -38,6 +53,7 @@ export default function Produto() {
     try {
       const response = await fetch('https://backend-tcc-petshop-petgato-2025.vercel.app/produto');
       if (!response.ok) throw new Error('Erro ao buscar produtos');
+
       const data = await response.json();
 
       setProdutos(data);
@@ -76,7 +92,7 @@ export default function Produto() {
 
   const renderItem = ({ item }: { item: any }) => (
     <View style={styles.card}>
-      <Image source={{ uri: item.imagem }} style={styles.imagem} />
+      {item.imagem && <Image source={{ uri: item.imagem }} style={styles.imagem} />}
 
       <View style={styles.info}>
         <Text style={styles.nome}>{item.nome}</Text>
@@ -98,11 +114,11 @@ export default function Produto() {
 
   return (
     <View style={styles.container}>
-
+      
       <TouchableOpacity style={styles.filterButton} onPress={() => setModalVisible(true)}>
         <Text style={styles.filterButtonText}>
-          {categoriaSelecionada === "Todos"
-            ? "Filtrar por Categoria"
+          {categoriaSelecionada === 'Todos'
+            ? 'Filtrar por Categoria'
             : `Categoria: ${categoriaSelecionada}`}
         </Text>
       </TouchableOpacity>
@@ -111,7 +127,11 @@ export default function Produto() {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             {categorias.map((item) => (
-              <Pressable key={item.value} onPress={() => filtrarPorCategoria(item.value)} style={styles.modalOption}>
+              <Pressable
+                key={item.value}
+                onPress={() => filtrarPorCategoria(item.value)}
+                style={styles.modalOption}
+              >
                 <Text style={styles.modalOptionText}>{item.label}</Text>
               </Pressable>
             ))}
@@ -178,14 +198,13 @@ const styles = StyleSheet.create({
     paddingVertical: 15, 
     width: '100%',
     borderBottomWidth: 1, 
-    borderColor: '#ddd',
+    borderColor: '#ddd', 
     alignItems: 'center'
   },
   modalOptionText: { 
     fontSize: 18, 
     fontWeight: 'bold', 
-    color: '#1B02A8' 
-  },
+    color: '#1B02A8' },
   closeButton: {
     marginTop: 15, 
     backgroundColor: '#1B02A8',
@@ -200,7 +219,7 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#fff', 
-    borderRadius: 12, 
+    borderRadius: 12,
     marginBottom: 15,
     overflow: 'hidden', 
     elevation: 3, 
@@ -215,13 +234,13 @@ const styles = StyleSheet.create({
     padding: 10 
   },
   nome: { 
-    fontSize: 18, 
+    fontSize: 18,
     fontWeight: 'bold', 
     color: '#1B02A8' 
   },
   descricao: { 
     fontSize: 14, 
-    color: '#555'
+    color: '#555' 
   },
   preco: { 
     fontSize: 16, 
@@ -230,8 +249,8 @@ const styles = StyleSheet.create({
   },
   categoria: { 
     fontSize: 13, 
-    color: '#888'
-   },
+    color: '#888' 
+  },
   loading: { 
     flex: 1, 
     alignItems: 'center', 
