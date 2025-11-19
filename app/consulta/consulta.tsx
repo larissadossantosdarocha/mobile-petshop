@@ -15,7 +15,6 @@ export default function Consulta() {
   const [dados, setDados] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
-
   const navigation = useNavigation();
   const router = useRouter();
 
@@ -193,13 +192,14 @@ export default function Consulta() {
           <Text style={styles.label}>Problemas de saúde ou alergias:</Text>
           <TextInput style={styles.input} value={dados} onChangeText={setDados} placeholder="Informe se houver" />
 
-          <TouchableOpacity style={styles.button} onPress={handleConsulta} disabled={isSubmitting}>
-            <Text style={styles.buttonText}>{isSubmitting ? "Cadastrando..." : "Cadastrar"}</Text>
-          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, styles.buttonCommon]} onPress={handleConsulta} disabled={isSubmitting}>
+         <Text style={styles.buttonText}>{isSubmitting ? "Cadastrando..." : "Cadastrar"}</Text>
+       </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={() => router.push("/")}>
-            <Text style={styles.buttonText}>Voltar</Text>
-          </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, styles.buttonCommon]} onPress={() => router.push("/")}>
+        <Text style={styles.buttonText}>Voltar</Text>
+      </TouchableOpacity>
+
         </View>
       </ScrollView>
 
@@ -250,11 +250,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#1B02A8",
     borderRadius: 14,
     paddingVertical: 18,
-    width: "80%",
-    maxWidth: 300,
     alignItems: "center",
     alignSelf: "center",
     marginVertical: 10,
+  },
+  buttonCommon: {
+    width: "80%",
+    maxWidth: 300, 
   },
   buttonText: {
     color: "#fff",
