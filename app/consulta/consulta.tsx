@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView, Image, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView, Image,  KeyboardAvoidingView, Platform,} from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -75,8 +75,6 @@ export default function Consulta() {
       dados: dados.trim() || "Sem observações",
     };
 
-    console.log("📤 Enviando dados para o servidor:", petData);
-
     try {
       const response = await fetch(
         "https://backend-tcc-petshop-petgato-2025.vercel.app/consultas",
@@ -86,9 +84,6 @@ export default function Consulta() {
           body: JSON.stringify(petData),
         }
       );
-
-      const text = await response.text();
-      console.log("📡 Resposta do servidor:", response.status, text);
 
       if (response.ok) {
         Alert.alert("Sucesso", "Consulta agendada com sucesso!");
@@ -100,37 +95,58 @@ export default function Consulta() {
         setEmail("");
         setDados("");
       } else {
-        Alert.alert("Erro", `Falha ao enviar consulta.\nCódigo: ${response.status}\n${text}`);
+        Alert.alert("Erro", "Não foi possível enviar consulta.");
       }
     } catch (error) {
-      console.error("🚨 Erro de rede:", error);
-      Alert.alert("Erro", "Não foi possível conectar ao servidor. Verifique sua internet.");
+      Alert.alert("Erro", "Falha na conexão com o servidor.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.containerForm}>
           <Text style={styles.title}>Cadastro do Pet para Consulta</Text>
 
           <Text style={styles.label}>Nome do Pet:</Text>
-          <TextInput style={styles.input} value={nomePet} onChangeText={setNomePet} placeholder="Digite o nome do pet" />
+          <TextInput
+            style={styles.input}
+            value={nomePet}
+            onChangeText={setNomePet}
+            placeholder="Digite o nome do pet"
+          />
 
           <Text style={styles.label}>Espécie:</Text>
           <View style={styles.radioContainer}>
             {["Cachorro", "Gato", "Peixe", "Pássaro"].map((item) => (
-              <TouchableOpacity key={item} style={styles.radioButton} onPress={() => setEspecie(item)}>
-                <View style={[styles.radioCircle, especie === item && styles.radioSelected]} />
+              <TouchableOpacity
+                key={item}
+                style={styles.radioButton}
+                onPress={() => setEspecie(item)}
+              >
+                <View
+                  style={[
+                    styles.radioCircle,
+                    especie === item && styles.radioSelected,
+                  ]}
+                />
                 <Text style={styles.radioLabel}>{item}</Text>
               </TouchableOpacity>
             ))}
           </View>
 
           <Text style={styles.label}>Raça:</Text>
-          <TextInput style={styles.input} value={raca} onChangeText={setRaca} placeholder="Digite a raça" />
+          <TextInput
+            style={styles.input}
+            value={raca}
+            onChangeText={setRaca}
+            placeholder="Digite a raça"
+          />
 
           <Text style={styles.label}>Nome do Proprietário:</Text>
           <TextInput
@@ -158,8 +174,13 @@ export default function Consulta() {
             />
           ) : (
             <>
-              <TouchableOpacity style={[styles.input, { justifyContent: "center" }]} onPress={() => setShowDatePicker(true)}>
-                <Text style={{ color: nascPet ? "#000" : "#888" }}>{nascPet ? nascPet : "Selecionar data"}</Text>
+              <TouchableOpacity
+                style={[styles.input, { justifyContent: "center" }]}
+                onPress={() => setShowDatePicker(true)}
+              >
+                <Text style={{ color: nascPet ? "#000" : "#888" }}>
+                  {nascPet ? nascPet : "Selecionar data"}
+                </Text>
               </TouchableOpacity>
 
               {showDatePicker && (
@@ -190,20 +211,38 @@ export default function Consulta() {
           />
 
           <Text style={styles.label}>Problemas de saúde ou alergias:</Text>
-          <TextInput style={styles.input} value={dados} onChangeText={setDados} placeholder="Informe se houver" />
+          <TextInput
+            style={styles.input}
+            value={dados}
+            onChangeText={setDados}
+            placeholder="Informe se houver"
+          />
 
-          <TouchableOpacity style={[styles.button, styles.buttonCommon]} onPress={handleConsulta} disabled={isSubmitting}>
-         <Text style={styles.buttonText}>{isSubmitting ? "Cadastrando..." : "Cadastrar"}</Text>
-       </TouchableOpacity>
+          <View style={styles.buttonRow}>
+            <TouchableOpacity
+              style={[styles.button, styles.actionButton]}
+              onPress={handleConsulta}
+              disabled={isSubmitting}
+            >
+              <Text style={styles.buttonText}>
+                {isSubmitting ? "Cadastrando..." : "Cadastrar"}
+              </Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.button, styles.buttonCommon]} onPress={() => router.push("/")}>
-        <Text style={styles.buttonText}>Voltar</Text>
-      </TouchableOpacity>
-
+            <TouchableOpacity
+              style={[styles.button, styles.actionButton]}
+              onPress={() => router.push("/")}
+            >
+              <Text style={styles.buttonText}>Voltar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
 
-      <TouchableOpacity style={styles.whatsappButton} onPress={() => Linking.openURL("https://wa.me/19995601381")}>
+      <TouchableOpacity
+        style={styles.whatsappButton}
+        onPress={() => Linking.openURL("https://wa.me/19995601381")}
+      >
         <FontAwesome name="whatsapp" size={32} color="#fff" />
       </TouchableOpacity>
     </KeyboardAvoidingView>
@@ -224,6 +263,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 20,
     borderRadius: 15,
+    ...(Platform.OS === "web"
+      ? { boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.3)" }
+      : {
+          shadowColor: "#000",
+          shadowOpacity: 0.3,
+          shadowRadius: 8,
+          shadowOffset: { width: 0, height: 2 },
+        }),
   },
   title: {
     fontSize: 22,
@@ -246,21 +293,24 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
   },
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 10,
+  },
+  actionButton: {
+    width: "48%", 
+  },
   button: {
     backgroundColor: "#1B02A8",
-    borderRadius: 14,
-    paddingVertical: 18,
+    borderRadius: 8,
+    paddingVertical: 15,
     alignItems: "center",
-    alignSelf: "center",
-    marginVertical: 10,
-  },
-  buttonCommon: {
-    width: "80%",
-    maxWidth: 300, 
   },
   buttonText: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "600",
   },
   radioContainer: {
@@ -278,7 +328,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: "#1B02A8",
-    marginRight: 1,
+    marginRight: 10,
   },
   radioSelected: {
     backgroundColor: "#1B02A8",
