@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {View, Text, Image, ScrollView, StyleSheet, TouchableOpacity,} from "react-native";
+import {View, Text, Image, ScrollView, StyleSheet, TouchableOpacity} from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 
 export default function Blog3() {
@@ -39,8 +39,10 @@ export default function Blog3() {
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
-  
+    <ScrollView 
+      style={styles.container} 
+      contentContainerStyle={{ paddingBottom: 60 }}   
+    >
       <Text style={styles.title}>Como Proteger Seu Pet Durante o Verão</Text>
       <Text style={styles.meta}>
         Por <Text style={styles.bold}>Larissa Santos</Text> — 17 de setembro de 2025 • 08:30
@@ -122,6 +124,7 @@ export default function Blog3() {
           <Text style={styles.bold}>Mônica:</Text> Estava precisando desse artigo!
         </Text>
       </View>
+
       <View style={styles.commentBox}>
         <Text style={styles.comment}>
           <Text style={styles.bold}>Carlos:</Text> Estou acompanhando e tendo resultados!

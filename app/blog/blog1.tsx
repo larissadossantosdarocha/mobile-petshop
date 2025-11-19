@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity,} from "react-native";
+import {View, Text, Image, ScrollView, StyleSheet, TouchableOpacity,} from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 
 export default function Blog1() {
@@ -39,7 +39,7 @@ export default function Blog1() {
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollContent}>
       <Text style={styles.title}>Cuidados Essenciais para Filhotes</Text>
       <Text style={styles.meta}>
         Por <Text style={styles.bold}>Equipe Pet Gatô</Text> — 15 de agosto de 2025 • 09:15
@@ -123,10 +123,13 @@ export default function Blog1() {
 }
 
 const styles = StyleSheet.create({
+  scrollContent: {
+    padding: 15,
+    paddingBottom: 40, 
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 15,
   },
   title: {
     fontSize: 22,

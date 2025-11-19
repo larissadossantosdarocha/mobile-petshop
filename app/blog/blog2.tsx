@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {View, Text, Image, ScrollView, StyleSheet, TouchableOpacity,} from "react-native";
+import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity,} from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 
 export default function Blog2() {
@@ -39,7 +39,7 @@ export default function Blog2() {
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollContent}>
       <Text style={styles.title}>Manchete: O Que Fazer Se O Seu Pet Estiver Vesgo</Text>
       <Text style={styles.meta}>
         Por <Text style={styles.bold}>Larissa Santos</Text> — 17 de setembro de 2025 • 08:30
@@ -147,10 +147,10 @@ export default function Blog2() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
+  scrollContent: {
     padding: 15,
+    paddingBottom: 40, 
+    backgroundColor: "#fff",
   },
   title: {
     fontSize: 22,
