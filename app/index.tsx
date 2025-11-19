@@ -369,6 +369,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginVertical: 10,
     textAlign: "center",
+    height: 30,
+    width: "100%",
   },
   sectionTitleWhite: {
     fontSize: 22,
@@ -377,6 +379,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginVertical: 10,
     textAlign: "center",
+    width: "100%",
+    marginBottom: 20,
   },
 
   blogSection: { marginBottom: 30 },
