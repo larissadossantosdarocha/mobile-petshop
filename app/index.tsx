@@ -119,34 +119,6 @@ export default function Index() {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.blogSection}>
-        <Text style={styles.sectionTitle}>Blog Pet Gatô:</Text>
-        <View style={styles.arrowWrapper}>
-          <ScrollView
-            horizontal
-            ref={blogRef}
-            showsHorizontalScrollIndicator={false}
-            onScroll={(e) => setScrollX(e.nativeEvent.contentOffset.x)}
-            scrollEventThrottle={16}
-          >
-            <BlogCard
-              image={require("../assets/images/blog1.jpg")}
-              title="Cuidados Essenciais para Filhotes"
-              route="/blog/blog1"
-            />
-            <BlogCard
-              image={require("../assets/images/download.avif")}
-              title="O que fazer se o seu pet estiver vesgo"
-              route="/blog/blog2"
-            />
-            <BlogCard
-              image={require("../assets/images/blog3.jpg")}
-              title="Como proteger seu pet durante o verão"
-              route="/blog/blog3"
-            />
-          </ScrollView>
-        </View>
-      </View>
 
       <View style={styles.indicacoesSection}>
         <Text style={styles.sectionTitleWhite}>
@@ -435,9 +407,9 @@ const styles = StyleSheet.create({
   arrowWrapper: { flexDirection: "row", alignItems: "center" },
 
   indicacoesSection: {
-    marginVertical: 30,
-    backgroundColor: "#1B02A8",
-    paddingVertical: 20,
+    marginVertical: 20,
+    backgroundColor: "#ffffffff",
+    paddingVertical: 0,
   },
   indicacoesWrapper: { flexDirection: "row", alignItems: "center" },
 
