@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity, Alert, Modal, Pressable} from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity, Alert, Modal, Pressable } from 'react-native';
 import { useNavigation, useRouter } from 'expo-router';
 
 export default function Produto() {
@@ -9,6 +9,7 @@ export default function Produto() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [carrinho, setCarrinho] = useState<any[]>([]);
   const navigation = useNavigation();
   const router = useRouter();
 
@@ -17,11 +18,10 @@ export default function Produto() {
     { label: 'Cachorro', value: 'cachorro' },
     { label: 'Gato', value: 'gato' },
     { label: 'Peixe', value: 'peixe' },
-    { label: 'Pássaro', value: 'passaro' } 
+    { label: 'Pássaro', value: 'passaro' }
   ];
 
   useEffect(() => {
-
     navigation.setOptions({
       title: '𝓟𝓻𝓸𝓭𝓾𝓽𝓸𝓼',
       headerStyle: { backgroundColor: '#1B02A8' },
@@ -37,12 +37,8 @@ export default function Produto() {
           <TouchableOpacity style={{ marginRight: 16 }} onPress={() => router.push('/')}>
             <Text style={{ color: '#fff', fontSize: 18, fontWeight: '600' }}>Início</Text>
           </TouchableOpacity>
-
           <TouchableOpacity onPress={() => router.push('/auth/login')}>
-            <Image
-              source={require('../../assets/images/pessoa.png')}
-              style={{ width: 40, height: 28, resizeMode: 'contain' }}
-            />
+            <Image source={require('../../assets/images/pessoa.png')} style={{ width: 40, height: 28, resizeMode: 'contain' }} />
           </TouchableOpacity>
         </View>
       ),
@@ -53,9 +49,7 @@ export default function Produto() {
     try {
       const response = await fetch('https://backend-tcc-petshop-petgato-2025.vercel.app/produto');
       if (!response.ok) throw new Error('Erro ao buscar produtos');
-
       const data = await response.json();
-
       setProdutos(data);
       setProdutosFiltrados(data);
     } catch (error: any) {
@@ -81,24 +75,40 @@ export default function Produto() {
     if (categoria === 'Todos') {
       setProdutosFiltrados(produtos);
     } else {
-      const filtrados = produtos.filter(
-        (item) => item.categoria?.toLowerCase() === categoria.toLowerCase()
-      );
+      const filtrados = produtos.filter((item) => item.categoria?.toLowerCase() === categoria.toLowerCase());
       setProdutosFiltrados(filtrados);
     }
 
     setModalVisible(false);
   };
 
+  const adicionarAoCarrinho = (produto: any) => {
+    setCarrinho((prevCarrinho) => [...prevCarrinho, produto]);
+    Alert.alert('Produto Adicionado', `${produto.nome} foi adicionado ao carrinho.`);
+  };
+
+  const handleFinalizarCompra = () => {
+    if (carrinho.length === 0) {
+      Alert.alert('Carrinho Vazio', 'Adicione itens ao carrinho antes de finalizar.');
+      return;
+    }
+    router.push({
+      pathname: '/auth/carrinho',
+      params: { carrinho }, 
+    });
+  };
+
   const renderItem = ({ item }: { item: any }) => (
     <View style={styles.card}>
       {item.imagem && <Image source={{ uri: item.imagem }} style={styles.imagem} />}
-
       <View style={styles.info}>
         <Text style={styles.nome}>{item.nome}</Text>
         <Text style={styles.descricao}>{item.descricao}</Text>
         <Text style={styles.preco}>R$ {parseFloat(item.preco).toFixed(2)}</Text>
         <Text style={styles.categoria}>Categoria: {item.categoria}</Text>
+        <TouchableOpacity style={styles.buyButton} onPress={() => adicionarAoCarrinho(item)}>
+          <Text style={styles.buyButtonText}>Comprar</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -114,12 +124,9 @@ export default function Produto() {
 
   return (
     <View style={styles.container}>
-      
       <TouchableOpacity style={styles.filterButton} onPress={() => setModalVisible(true)}>
         <Text style={styles.filterButtonText}>
-          {categoriaSelecionada === 'Todos'
-            ? 'Filtrar por Categoria'
-            : `Categoria: ${categoriaSelecionada}`}
+          {categoriaSelecionada === 'Todos' ? 'Filtrar por Categoria' : `Categoria: ${categoriaSelecionada}`}
         </Text>
       </TouchableOpacity>
 
@@ -127,15 +134,10 @@ export default function Produto() {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             {categorias.map((item) => (
-              <Pressable
-                key={item.value}
-                onPress={() => filtrarPorCategoria(item.value)}
-                style={styles.modalOption}
-              >
+              <Pressable key={item.value} onPress={() => filtrarPorCategoria(item.value)} style={styles.modalOption}>
                 <Text style={styles.modalOptionText}>{item.label}</Text>
               </Pressable>
             ))}
-
             <Pressable onPress={() => setModalVisible(false)} style={styles.closeButton}>
               <Text style={styles.closeButtonText}>Fechar</Text>
             </Pressable>
@@ -159,6 +161,10 @@ export default function Produto() {
           onRefresh={handleRefresh}
         />
       )}
+
+      <TouchableOpacity style={styles.finalizarButton} onPress={handleFinalizarCompra}>
+        <Text style={styles.finalizarButtonText}>Finalizar Compra</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -260,5 +266,29 @@ const styles = StyleSheet.create({
     flex: 1, 
     alignItems: 'center', 
     justifyContent: 'center' 
+  },
+  buyButton: {
+    backgroundColor: '#1B02A8',
+    paddingVertical: 10,
+    borderRadius: 25,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  buyButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  finalizarButton: {
+    backgroundColor: '#28a745',
+    paddingVertical: 10,
+    borderRadius: 25,
+    margin: 15,
+    alignItems: 'center',
+  },
+  finalizarButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });

@@ -19,7 +19,7 @@ export default function Carrinho() {
     }
     Alert.alert('Finalizar Compra', 'Sua compra foi finalizada com sucesso!');
     // Aqui você pode navegar para uma tela de confirmação ou pagamento, por exemplo
-    router.push('/');
+    router.push('/auth/carrinho');
   };
 
   useEffect(() => {
