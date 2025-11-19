@@ -5,8 +5,6 @@ import { useNavigation, useRouter } from 'expo-router';
 export default function Carrinho() {
   const navigation = useNavigation();
   const router = useRouter();
-
-  // Exemplo de itens no carrinho (pode ser substituído com dados reais)
   const [itensCarrinho, setItensCarrinho] = useState([
     { id: 1, nome: 'Ração para Gato', preco: 50 },
     { id: 2, nome: 'Brinquedo para Cão', preco: 30 },
@@ -18,7 +16,6 @@ export default function Carrinho() {
       return;
     }
     Alert.alert('Finalizar Compra', 'Sua compra foi finalizada com sucesso!');
-    // Aqui você pode navegar para uma tela de confirmação ou pagamento, por exemplo
     router.push('/auth/carrinho');
   };
 

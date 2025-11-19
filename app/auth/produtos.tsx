@@ -85,16 +85,10 @@ export default function Produto() {
   const adicionarAoCarrinho = (produto: any) => {
     setCarrinho((prevCarrinho) => [...prevCarrinho, produto]);
     Alert.alert('Produto Adicionado', `${produto.nome} foi adicionado ao carrinho.`);
-  };
 
-  const handleFinalizarCompra = () => {
-    if (carrinho.length === 0) {
-      Alert.alert('Carrinho Vazio', 'Adicione itens ao carrinho antes de finalizar.');
-      return;
-    }
     router.push({
       pathname: '/auth/carrinho',
-      params: { carrinho }, 
+      params: { carrinho: [...carrinho, produto] }, 
     });
   };
 
@@ -147,9 +141,7 @@ export default function Produto() {
 
       {produtosFiltrados.length === 0 ? (
         <View style={styles.semProdutos}>
-          <Text style={{ color: '#555', fontSize: 18 }}>
-            Nenhum produto encontrado para "{categoriaSelecionada}".
-          </Text>
+          <Text style={{ color: '#555', fontSize: 18 }}>Nenhum produto encontrado para "{categoriaSelecionada}".</Text>
         </View>
       ) : (
         <FlatList
@@ -161,20 +153,12 @@ export default function Produto() {
           onRefresh={handleRefresh}
         />
       )}
-
-      <TouchableOpacity style={styles.finalizarButton} onPress={handleFinalizarCompra}>
-        <Text style={styles.finalizarButtonText}>Finalizar Compra</Text>
-      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    backgroundColor: '#f8f9fa', 
-    paddingTop: 20 
-  },
+  container: { flex: 1, backgroundColor: '#f8f9fa', paddingTop: 20 },
   filterButton: {
     backgroundColor: '#1B02A8',
     paddingVertical: 10,
@@ -182,91 +166,28 @@ const styles = StyleSheet.create({
     margin: 15,
     alignItems: 'center',
   },
-  filterButtonText: { 
-    color: '#fff', 
-    fontSize: 18, 
-    fontWeight: 'bold' 
-  },
-  modalOverlay: {
-    flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)'
-  },
-  modalContent: {
-    backgroundColor: '#fff', 
-    padding: 20, 
-    borderRadius: 10,
-    width: '80%', 
-    alignItems: 'center',
-  },
-  modalOption: {
-    paddingVertical: 15, 
-    width: '100%',
-    borderBottomWidth: 1, 
-    borderColor: '#ddd', 
-    alignItems: 'center'
-  },
-  modalOptionText: { 
-    fontSize: 18, 
-    fontWeight: 'bold', 
-    color: '#1B02A8' },
+  filterButtonText: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
+  modalOverlay: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' },
+  modalContent: { backgroundColor: '#fff', padding: 20, borderRadius: 10, width: '80%', alignItems: 'center' },
+  modalOption: { paddingVertical: 15, width: '100%', borderBottomWidth: 1, borderColor: '#ddd', alignItems: 'center' },
+  modalOptionText: { fontSize: 18, fontWeight: 'bold', color: '#1B02A8' },
   closeButton: {
-    marginTop: 15, 
+    marginTop: 15,
     backgroundColor: '#1B02A8',
-    paddingVertical: 10, 
-    paddingHorizontal: 20, 
-    borderRadius: 25
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 25,
   },
-  closeButtonText: { 
-    color: '#fff', 
-    fontSize: 16, 
-    fontWeight: 'bold' 
-  },
-  card: {
-    backgroundColor: '#fff', 
-    borderRadius: 12,
-    marginBottom: 15,
-    overflow: 'hidden', 
-    elevation: 3, 
-    flexDirection: 'row'
-  },
-  imagem: { 
-    width: 100, 
-    height: 100 
-  },
-  info: { 
-    flex: 1, 
-    padding: 10 
-  },
-  nome: { 
-    fontSize: 18,
-    fontWeight: 'bold', 
-    color: '#1B02A8' 
-  },
-  descricao: { 
-    fontSize: 14, 
-    color: '#555' 
-  },
-  preco: { 
-    fontSize: 16, 
-    fontWeight: 'bold', 
-    color: '#28a745' 
-  },
-  categoria: { 
-    fontSize: 13, 
-    color: '#888' 
-  },
-  loading: { 
-    flex: 1, 
-    alignItems: 'center', 
-    justifyContent: 'center' 
-  },
-  semProdutos: { 
-    flex: 1, 
-    alignItems: 'center', 
-    justifyContent: 'center' 
-  },
+  closeButtonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
+  card: { backgroundColor: '#fff', borderRadius: 12, marginBottom: 15, overflow: 'hidden', elevation: 3, flexDirection: 'row' },
+  imagem: { width: 100, height: 100 },
+  info: { flex: 1, padding: 10 },
+  nome: { fontSize: 18, fontWeight: 'bold', color: '#1B02A8' },
+  descricao: { fontSize: 14, color: '#555' },
+  preco: { fontSize: 16, fontWeight: 'bold', color: '#28a745' },
+  categoria: { fontSize: 13, color: '#888' },
+  loading: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  semProdutos: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   buyButton: {
     backgroundColor: '#1B02A8',
     paddingVertical: 10,
@@ -274,21 +195,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
-  buyButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  finalizarButton: {
-    backgroundColor: '#28a745',
-    paddingVertical: 10,
-    borderRadius: 25,
-    margin: 15,
-    alignItems: 'center',
-  },
-  finalizarButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
+  buyButtonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
 });
