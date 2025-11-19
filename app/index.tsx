@@ -362,7 +362,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     resizeMode: "cover",
   },
-
   sectionTitle: {
     fontSize: 22,
     fontWeight: "bold",
@@ -374,7 +373,7 @@ const styles = StyleSheet.create({
   sectionTitleWhite: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#1B02A8",
     marginLeft: 10,
     marginVertical: 10,
     textAlign: "center",
@@ -529,4 +528,4 @@ const styles = StyleSheet.create({
     color: "#1B02A8",
     textAlign: "center",
   },
-});
+}); 
