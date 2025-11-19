@@ -12,8 +12,6 @@ export default function Blog1() {
       headerRight: () => (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity
-            style={{ marginRight: 10 }}
-            onPress={() => router.push("/")}
           >
             <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
               Início

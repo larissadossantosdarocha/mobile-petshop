@@ -6,19 +6,18 @@ export default function Index() {
   const [bannerIndex, setBannerIndex] = useState(0);
   const [scrollX, setScrollX] = useState(0);
   const blogRef = useRef<ScrollView>(null);
-
   const banners = [
     { text: "Frete fixo de R$10,00 para todo o Brasil", color: "#0303fffb" },
     { text: "Compras acima de R$100,00 ganham um brinde", color: "#00a6f3f6" },
   ];
 
   useEffect(() => {
-    const interval = setInterval(
-      () => setBannerIndex((prev) => (prev + 1) % banners.length),
-      4000
-    );
-    return () => clearInterval(interval);
-  }, []);
+  const interval = setInterval(
+    () => setBannerIndex((prev) => (prev + 1) % banners.length),
+    4000
+  );
+  return () => clearInterval(interval);
+}, []);
 
   return (
     <ScrollView style={styles.container}>
