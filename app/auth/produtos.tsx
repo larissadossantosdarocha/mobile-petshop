@@ -1,156 +1,161 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity, Alert, Modal, Pressable } from 'react-native';
-import { useNavigation, useRouter } from 'expo-router';
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation, useRouter } from "expo-router";
 
-export default function Produto() {
+const urlVercel = "https://backend-tcc-petshop-petgato-2025.vercel.app/produto";
+
+export default function Produtos() {
   const [produtos, setProdutos] = useState<any[]>([]);
   const [produtosFiltrados, setProdutosFiltrados] = useState<any[]>([]);
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState('Todos');
+  const [categoria, setCategoria] = useState("todos");
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [carrinho, setCarrinho] = useState<any[]>([]);
+
   const navigation = useNavigation();
   const router = useRouter();
 
-  const categorias = [
-    { label: 'Todos', value: 'Todos' },
-    { label: 'Cachorro', value: 'cachorro' },
-    { label: 'Gato', value: 'gato' },
-    { label: 'Peixe', value: 'peixe' },
-    { label: 'Pássaro', value: 'passaro' }
-  ];
-
+  // HEADER IGUAL AO DA TELA DE CONSULTA
   useEffect(() => {
     navigation.setOptions({
-      title: '𝓟𝓻𝓸𝓭𝓾𝓽𝓸𝓼',
-      headerStyle: { backgroundColor: '#1B02A8' },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        color: '#fff',
-        fontSize: 28,
-        fontWeight: 'bold',
-        fontFamily: 'Garamond',
-      },
+      title: "𝓟𝓻𝓸𝓭𝓾𝓽𝓸𝓼",
       headerRight: () => (
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <TouchableOpacity style={{ marginRight: 16 }} onPress={() => router.push('/')}>
-            <Text style={{ color: '#fff', fontSize: 18, fontWeight: '600' }}>Início</Text>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <TouchableOpacity
+            style={{ marginRight: 14 }}
+            onPress={() => router.push("/")}
+          >
+            <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
+              Início
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push('/auth/login')}>
-            <Image source={require('../../assets/images/pessoa.png')} style={{ width: 40, height: 28, resizeMode: 'contain' }} />
+
+          <TouchableOpacity onPress={() => router.push("/auth/login")}>
+            <Image
+              source={require("../../assets/images/pessoa.png")}
+              style={{ width: 40, height: 28 }}
+              resizeMode="contain"
+            />
           </TouchableOpacity>
         </View>
       ),
+      headerStyle: { backgroundColor: "#1B02A8" },
+      headerTitleStyle: {
+        color: "#fff",
+        fontFamily: "Garamond",
+        fontSize: 28,
+        fontWeight: "bold",
+      },
     });
   }, []);
 
-  const carregarProdutos = async () => {
+  const buscarTodosProdutos = async () => {
     try {
-      const response = await fetch('https://backend-tcc-petshop-petgato-2025.vercel.app/produto');
-      if (!response.ok) throw new Error('Erro ao buscar produtos');
-      const data = await response.json();
-      setProdutos(data);
-      setProdutosFiltrados(data);
-    } catch (error: any) {
-      Alert.alert('Erro', error.message || 'Falha ao carregar produtos.');
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
+      const res = await fetch(urlVercel);
+      const dados = res.ok ? await res.json() : [];
+      return dados;
+    } catch (e) {
+      console.error("Erro ao buscar produtos:", e);
+      return [];
     }
+  };
+
+  const exibirProdutos = async (cat: string = "todos") => {
+    const todosProdutos = await buscarTodosProdutos();
+
+    let filtrados = todosProdutos;
+
+    if (cat !== "todos") {
+      filtrados = todosProdutos.filter((p: any) => p.categoria === cat);
+    }
+
+    setProdutos(todosProdutos);
+    setProdutosFiltrados(filtrados);
+    setLoading(false);
   };
 
   useEffect(() => {
-    carregarProdutos();
+    exibirProdutos("todos");
   }, []);
 
-  const handleRefresh = () => {
-    setRefreshing(true);
-    carregarProdutos();
-  };
+  const adicionarAoCarrinho = async (produto: any) => {
+    try {
+      const carrinhoAtual = await AsyncStorage.getItem("carrinho");
+      let carrinho = carrinhoAtual ? JSON.parse(carrinhoAtual) : [];
 
-  const filtrarPorCategoria = (categoria: string) => {
-    setCategoriaSelecionada(categoria);
+      carrinho.push(produto);
 
-    if (categoria === 'Todos') {
-      setProdutosFiltrados(produtos);
-    } else {
-      const filtrados = produtos.filter((item) => item.categoria?.toLowerCase() === categoria.toLowerCase());
-      setProdutosFiltrados(filtrados);
+      await AsyncStorage.setItem("carrinho", JSON.stringify(carrinho));
+
+      Alert.alert("Sucesso", `Produto "${produto.nome}" adicionado ao carrinho!`);
+    } catch (e) {
+      console.log(e);
     }
-
-    setModalVisible(false);
-  };
-
-  const adicionarAoCarrinho = (produto: any) => {
-    setCarrinho((prevCarrinho) => [...prevCarrinho, produto]);
-    Alert.alert('Produto Adicionado', `${produto.nome} foi adicionado ao carrinho.`);
-
-    router.push({
-      pathname: '/auth/carrinho',
-      params: { carrinho: [...carrinho, produto] }, 
-    });
   };
 
   const renderItem = ({ item }: { item: any }) => (
     <View style={styles.card}>
-      {item.imagem && <Image source={{ uri: item.imagem }} style={styles.imagem} />}
+      <Image source={{ uri: item.imagem }} style={styles.imagem} />
+
       <View style={styles.info}>
         <Text style={styles.nome}>{item.nome}</Text>
-        <Text style={styles.descricao}>{item.descricao}</Text>
-        <Text style={styles.preco}>R$ {parseFloat(item.preco).toFixed(2)}</Text>
-        <Text style={styles.categoria}>Categoria: {item.categoria}</Text>
-        <TouchableOpacity style={styles.buyButton} onPress={() => adicionarAoCarrinho(item)}>
-          <Text style={styles.buyButtonText}>Comprar</Text>
+        <Text style={styles.descricao}>{item.descricao || ""}</Text>
+        <Text style={styles.preco}>R$ {item.preco}</Text>
+
+        <TouchableOpacity
+          style={styles.btnComprar}
+          onPress={() => adicionarAoCarrinho(item)}
+        >
+          <Text style={styles.btnComprarTexto}>Comprar</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 
-  if (loading) {
-    return (
-      <View style={styles.loading}>
-        <ActivityIndicator size="large" color="#1B02A8" />
-        <Text style={{ marginTop: 10, color: '#1B02A8' }}>Carregando produtos...</Text>
-      </View>
-    );
-  }
-
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.filterButton} onPress={() => setModalVisible(true)}>
-        <Text style={styles.filterButtonText}>
-          {categoriaSelecionada === 'Todos' ? 'Filtrar por Categoria' : `Categoria: ${categoriaSelecionada}`}
-        </Text>
-      </TouchableOpacity>
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      {/* SELECT DA CATEGORIA */}
+      <View style={styles.selectBox}>
+        <Picker
+          selectedValue={categoria}
+          onValueChange={(value) => {
+            setCategoria(value);
+            exibirProdutos(value);
+          }}
+        >
+          <Picker.Item label="Todos os Produtos" value="todos" />
+          <Picker.Item label="Cachorro" value="cachorro" />
+          <Picker.Item label="Gato" value="gato" />
+          <Picker.Item label="Peixe" value="peixe" />
+          <Picker.Item label="Pássaro" value="passaro" />
+        </Picker>
+      </View>
 
-      <Modal animationType="slide" transparent={true} visible={modalVisible}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            {categorias.map((item) => (
-              <Pressable key={item.value} onPress={() => filtrarPorCategoria(item.value)} style={styles.modalOption}>
-                <Text style={styles.modalOptionText}>{item.label}</Text>
-              </Pressable>
-            ))}
-            <Pressable onPress={() => setModalVisible(false)} style={styles.closeButton}>
-              <Text style={styles.closeButtonText}>Fechar</Text>
-            </Pressable>
-          </View>
+      {loading ? (
+        <View style={styles.loading}>
+          <ActivityIndicator size="large" color="#1B02A8" />
         </View>
-      </Modal>
-
-      {produtosFiltrados.length === 0 ? (
+      ) : produtosFiltrados.length === 0 ? (
         <View style={styles.semProdutos}>
-          <Text style={{ color: '#555', fontSize: 18 }}>Nenhum produto encontrado para "{categoriaSelecionada}".</Text>
+          <Text style={styles.semProdutosTexto}>
+            Nenhum produto encontrado para "{categoria}".
+          </Text>
         </View>
       ) : (
         <FlatList
           data={produtosFiltrados}
           keyExtractor={(item) => item.id.toString()}
           renderItem={renderItem}
-          contentContainerStyle={{ padding: 15 }}
-          refreshing={refreshing}
-          onRefresh={handleRefresh}
+          contentContainerStyle={{ padding: 10 }}
         />
       )}
     </View>
@@ -158,42 +163,43 @@ export default function Produto() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f8f9fa', paddingTop: 20 },
-  filterButton: {
-    backgroundColor: '#1B02A8',
-    paddingVertical: 10,
-    borderRadius: 25,
-    margin: 15,
-    alignItems: 'center',
+  selectBox: {
+    backgroundColor: "#fff",
+    width: "90%",
+    borderRadius: 5,
+    alignSelf: "center",
+    marginVertical: 15,
+    borderWidth: 1,
+    borderColor: "#ccc",
   },
-  filterButtonText: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
-  modalOverlay: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' },
-  modalContent: { backgroundColor: '#fff', padding: 20, borderRadius: 10, width: '80%', alignItems: 'center' },
-  modalOption: { paddingVertical: 15, width: '100%', borderBottomWidth: 1, borderColor: '#ddd', alignItems: 'center' },
-  modalOptionText: { fontSize: 18, fontWeight: 'bold', color: '#1B02A8' },
-  closeButton: {
-    marginTop: 15,
-    backgroundColor: '#1B02A8',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 25,
+
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    marginBottom: 15,
+    elevation: 4,
+    flexDirection: "row",
+    padding: 10,
   },
-  closeButtonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
-  card: { backgroundColor: '#fff', borderRadius: 12, marginBottom: 15, overflow: 'hidden', elevation: 3, flexDirection: 'row' },
-  imagem: { width: 100, height: 100 },
-  info: { flex: 1, padding: 10 },
-  nome: { fontSize: 18, fontWeight: 'bold', color: '#1B02A8' },
-  descricao: { fontSize: 14, color: '#555' },
-  preco: { fontSize: 16, fontWeight: 'bold', color: '#28a745' },
-  categoria: { fontSize: 13, color: '#888' },
-  loading: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  semProdutos: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  buyButton: {
-    backgroundColor: '#1B02A8',
-    paddingVertical: 10,
-    borderRadius: 25,
-    alignItems: 'center',
+  imagem: {
+    width: 100,
+    height: 100,
+    borderRadius: 5,
+  },
+  info: { flex: 1, marginLeft: 10 },
+  nome: { fontSize: 18, fontWeight: "bold" },
+  descricao: { color: "#666" },
+  preco: { marginTop: 5, fontSize: 18, fontWeight: "bold" },
+  btnComprar: {
     marginTop: 10,
+    backgroundColor: "#28a745",
+    borderRadius: 5,
+    padding: 8,
+    alignItems: "center",
   },
-  buyButtonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
+  btnComprarTexto: { color: "#fff", fontWeight: "bold" },
+
+  loading: { flex: 1, justifyContent: "center", alignItems: "center" },
+  semProdutos: { padding: 20, alignItems: "center" },
+  semProdutosTexto: { color: "#444", fontSize: 16 },
 });
