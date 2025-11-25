@@ -13,7 +13,7 @@ npm install
 ```
 3. Execute o aplicativo:
 ```bash
-npm start
+npx expo start
 
 - Pressione "w" para rodar no navegador (modo web).
 - Pressione "a" para rodar no Android.
