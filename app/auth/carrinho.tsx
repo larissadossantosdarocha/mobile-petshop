@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold" 
   },
   btnFinalizar: { 
-    backgroundColor: "green", 
+    backgroundColor: "blue", 
     padding: 15, 
     borderRadius: 5, 
     marginTop: 20, 

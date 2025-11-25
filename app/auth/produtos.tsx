@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
   },
   btnComprar: {
     marginTop: 10,
-    backgroundColor: "#28a745",
+    backgroundColor: "#1d4ce6ff",
     borderRadius: 5,
     padding: 8,
     alignItems: "center",
