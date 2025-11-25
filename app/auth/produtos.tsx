@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  StyleSheet,
-  ActivityIndicator,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import {View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity, Alert,} from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useRouter } from "expo-router";
@@ -24,7 +15,6 @@ export default function Produtos() {
   const navigation = useNavigation();
   const router = useRouter();
 
-  // HEADER IGUAL AO DA TELA DE CONSULTA
   useEffect(() => {
     navigation.setOptions({
       title: "𝓟𝓻𝓸𝓭𝓾𝓽𝓸𝓼",
@@ -123,7 +113,7 @@ export default function Produtos() {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
-      {/* SELECT DA CATEGORIA */}
+
       <View style={styles.selectBox}>
         <Picker
           selectedValue={categoria}
