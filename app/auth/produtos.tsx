@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity, Alert,} from "react-native";
+import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity, Alert } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useRouter } from "expo-router";
@@ -113,7 +113,6 @@ export default function Produtos() {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
-
       <View style={styles.selectBox}>
         <Picker
           selectedValue={categoria}
@@ -141,12 +140,20 @@ export default function Produtos() {
           </Text>
         </View>
       ) : (
-        <FlatList
-          data={produtosFiltrados}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-          contentContainerStyle={{ padding: 10 }}
-        />
+        <>
+          <FlatList
+            data={produtosFiltrados}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={renderItem}
+            contentContainerStyle={{ padding: 10, paddingBottom: 100 }}
+          />
+          <TouchableOpacity
+            style={styles.btnCarrinho}
+            onPress={() => router.push("/auth/carrinho")}
+          >
+            <Text style={styles.btnCarrinhoTexto}>🛒 Ir para o carrinho</Text>
+          </TouchableOpacity>
+        </>
       )}
     </View>
   );
@@ -176,10 +183,22 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 5,
   },
-  info: { flex: 1, marginLeft: 10 },
-  nome: { fontSize: 18, fontWeight: "bold" },
-  descricao: { color: "#666" },
-  preco: { marginTop: 5, fontSize: 18, fontWeight: "bold" },
+  info: { 
+    flex: 1, 
+    marginLeft: 10 
+  },
+  nome: { 
+    fontSize: 18, 
+    fontWeight: "bold" 
+  },
+  descricao: {
+     color: "#666" 
+    },
+  preco: { 
+    marginTop: 5, 
+    fontSize: 18, 
+    fontWeight: "bold" 
+  },
   btnComprar: {
     marginTop: 10,
     backgroundColor: "#28a745",
@@ -187,9 +206,39 @@ const styles = StyleSheet.create({
     padding: 8,
     alignItems: "center",
   },
-  btnComprarTexto: { color: "#fff", fontWeight: "bold" },
+  btnComprarTexto: { 
+    color: "#fff", 
+    fontWeight: "bold" 
+  },
 
-  loading: { flex: 1, justifyContent: "center", alignItems: "center" },
-  semProdutos: { padding: 20, alignItems: "center" },
-  semProdutosTexto: { color: "#444", fontSize: 16 },
+  loading: { 
+    flex: 1, 
+    justifyContent: "center", 
+    alignItems: "center"
+   },
+  semProdutos: { 
+    padding: 20, 
+    alignItems: "center" 
+  },
+  semProdutosTexto: { 
+    color: "#444", 
+    fontSize: 16 
+  },
+  btnCarrinho: {
+    backgroundColor: "#1B02A8",
+    padding: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    marginHorizontal: 20,
+    marginBottom: 20,
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  btnCarrinhoTexto: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
 });
