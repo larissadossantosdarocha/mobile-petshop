@@ -32,10 +32,11 @@ export default function Carrinho() {
       headerStyle: { backgroundColor: "#1B02A8" },
       headerTitleStyle: { color: "#fff", fontSize: 22, fontWeight: "bold" },
       headerRight: () => (
-        <TouchableOpacity onPress={() => router.push("/")}>
-          <Text style={{ color: "#fff", fontSize: 18 }}>Início</Text>
-        </TouchableOpacity>
-      ),
+      <TouchableOpacity onPress={() => router.push("/")}>
+      <Text style={{ color: "#fff", fontSize: 20, marginRight: 15 }}>Início</Text>
+      </TouchableOpacity>
+),
+
     });
     carregarCarrinho();
   }, []);
