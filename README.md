@@ -18,7 +18,10 @@ npx expo start
 - Pressione "w" para rodar no navegador (modo web).
 - Pressione "a" para rodar no Android.
 ```
- 
+ 4. Execute o comando para rodar no celular e depois aponte para o QR Code usando o app expo go:
+```bash
+npx expo start -c --tunnel
+```
 O app oferece uma experiência completa para tutores e amantes de animais, com funcionalidades de **cadastro, login, agendamento de consultas, doações e muito mais.**
 
 ---
