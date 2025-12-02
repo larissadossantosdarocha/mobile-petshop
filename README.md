@@ -20,7 +20,7 @@ npx expo start
 - Pressione "w" para rodar no navegador (modo web).
 - Pressione "a" para rodar no Android.
 ```
- 4. Execute o comando para rodar no celular e depois aponte para o QR Code usando o app expo go:
+ 4. Execute o comando para rodar no celular caso não esteja na mesma rede e depois aponte para o QR Code usando o app expo go:
 ```bash
 npx expo start -c --tunnel
 ```
