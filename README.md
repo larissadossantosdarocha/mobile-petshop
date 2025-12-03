@@ -24,6 +24,12 @@ npx expo start
 ```bash
 npx expo start -c --tunnel
 ```
+ 5. Execute o comando para installar no celular:
+```bash
+npx expo start -c
+
+eas build -p android --profile preview
+```
 O app oferece uma experiência completa para tutores e amantes de animais, com funcionalidades de **cadastro, login, agendamento de consultas, doações e muito mais.**
 
 ---
@@ -32,7 +38,6 @@ O app oferece uma experiência completa para tutores e amantes de animais, com f
 
 ###  **Página Inicial**
 - Exibe **banners promocionais** automáticos (frete fixo, brindes, etc).
-- Possui um **carrossel de imagens** animado com produtos e serviços.
 - Inclui **atalhos rápidos** no cabeçalho:
   - Consulta Veterinária  
   - Adoção  
